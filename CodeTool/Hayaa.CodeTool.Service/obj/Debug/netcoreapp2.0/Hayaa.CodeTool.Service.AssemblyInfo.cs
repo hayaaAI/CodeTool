@@ -11,13 +11,13 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("CodeTool")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Hayaa.CodeTool.Service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Package Description")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("CodeTool")]
-[assembly: System.Reflection.AssemblyTitleAttribute("CodeTool")]
+[assembly: System.Reflection.AssemblyProductAttribute("Hayaa.CodeTool.Service")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Hayaa.CodeTool.Service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。

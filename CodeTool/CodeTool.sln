@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTool", "CodeTool\CodeTool.csproj", "{08B89AE9-31D7-4B31-AF52-C3B69392F4F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTool.Service", "Hayaa.CodeTool.Service\Hayaa.CodeTool.Service.csproj", "{016AEE39-92BC-4F5A-8142-6887307D957E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTool.Service.Core", "Hayaa.CodeTool.Service.Core\Hayaa.CodeTool.Service.Core.csproj", "{CA3656CB-A9AA-45B2-B7FC-B26DC0229E3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{08B89AE9-31D7-4B31-AF52-C3B69392F4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08B89AE9-31D7-4B31-AF52-C3B69392F4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08B89AE9-31D7-4B31-AF52-C3B69392F4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08B89AE9-31D7-4B31-AF52-C3B69392F4F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016AEE39-92BC-4F5A-8142-6887307D957E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016AEE39-92BC-4F5A-8142-6887307D957E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016AEE39-92BC-4F5A-8142-6887307D957E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016AEE39-92BC-4F5A-8142-6887307D957E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA3656CB-A9AA-45B2-B7FC-B26DC0229E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA3656CB-A9AA-45B2-B7FC-B26DC0229E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA3656CB-A9AA-45B2-B7FC-B26DC0229E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA3656CB-A9AA-45B2-B7FC-B26DC0229E3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

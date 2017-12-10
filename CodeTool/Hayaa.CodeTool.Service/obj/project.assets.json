@@ -1527,11 +1527,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "F:\\Projects\\HayaaAI\\CodeTool\\CodeTool\\CodeTool\\CodeTool.csproj",
-      "projectName": "CodeTool",
-      "projectPath": "F:\\Projects\\HayaaAI\\CodeTool\\CodeTool\\CodeTool\\CodeTool.csproj",
+      "projectUniqueName": "F:\\Projects\\HayaaAI\\CodeTool\\CodeTool\\Hayaa.CodeTool.Service\\Hayaa.CodeTool.Service.csproj",
+      "projectName": "Hayaa.CodeTool.Service",
+      "projectPath": "F:\\Projects\\HayaaAI\\CodeTool\\CodeTool\\Hayaa.CodeTool.Service\\Hayaa.CodeTool.Service.csproj",
       "packagesPath": "C:\\Users\\hsieh\\.nuget\\packages\\",
-      "outputPath": "F:\\Projects\\HayaaAI\\CodeTool\\CodeTool\\CodeTool\\obj\\",
+      "outputPath": "F:\\Projects\\HayaaAI\\CodeTool\\CodeTool\\Hayaa.CodeTool.Service\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hsieh\\AppData\\Roaming\\NuGet\\NuGet.Config",
