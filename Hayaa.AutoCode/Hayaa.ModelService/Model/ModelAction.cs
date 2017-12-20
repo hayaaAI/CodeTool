@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hayaa.CodeTool.Service
+namespace Hayaa.ModelService
 {
     /// <summary>
     /// 模型行为
@@ -23,5 +23,13 @@ namespace Hayaa.CodeTool.Service
         /// 不违反编程语言命名规则即可
         /// </summary>
         public String Code_ActionName { set; get; }
+        /// <summary>
+        /// 行为入口的模型以及相关模型属性数据
+        /// </summary>
+        public List<BussinessModel> InputPamarater { set; get; }
+        /// <summary>
+        /// 行为产出模型以及相关模型属性数据
+        /// </summary>
+        public List<BussinessModel> OutPutData { set; get; }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hayaa.CodeTool.Service
+namespace Hayaa.ModelService
 {
   public  class ModelGridPagerSearch
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hayaa.CodeTool.Service
+namespace Hayaa.ModelService
 {
     /// <summary>
     /// 业务模型数据属性
