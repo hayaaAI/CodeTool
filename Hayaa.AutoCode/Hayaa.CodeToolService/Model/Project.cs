@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hayaa.ModelService;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,9 +11,18 @@ namespace Hayaa.CodeToolService
     /// </summary>
    public class Project
     {
+        
         /// <summary>
-        /// 编程语言
+        /// 项目名称
         /// </summary>
-        public CodeLanaguage Language { set; get; }
+        public String Name { set; get; }
+        /// <summary>
+        /// 项目使用的逻辑模型
+        /// </summary>
+        public List<BussinessModel> ProjectModelData { set; get; }
+        /// <summary>
+        /// 代码输出目录
+        /// </summary>
+        public String CodeOutputPath { set; get; }
     }
 }

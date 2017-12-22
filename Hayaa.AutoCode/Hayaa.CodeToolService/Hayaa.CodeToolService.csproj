@@ -8,4 +8,8 @@
     <Folder Include="Model\Paramater\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hayaa.ModelService\Hayaa.ModelService.csproj" />
+  </ItemGroup>
+
 </Project>

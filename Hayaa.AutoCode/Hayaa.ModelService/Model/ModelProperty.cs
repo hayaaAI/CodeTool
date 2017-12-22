@@ -24,5 +24,9 @@ namespace Hayaa.ModelService
         /// 不违反编程语言命名规则即可
         /// </summary>
         public String CodePropertyName { set; get; }
+        /// <summary>
+        /// 数据约束规则
+        /// </summary>
+        public ModelPropeprtyRule CheckRule { set; get; }
     }
 }

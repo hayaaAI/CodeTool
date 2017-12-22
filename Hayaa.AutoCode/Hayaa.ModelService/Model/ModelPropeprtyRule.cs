@@ -7,35 +7,35 @@ namespace Hayaa.ModelService
     /// <summary>
     /// 数据属性约束规则属性类
     /// </summary>
-  public  class ModelPropeprtyRuleAttribute: Attribute
+  public  class ModelPropeprtyRule
     {
         private ModelPropeprtyRuleType g_ruleType;
         private String g_regRule=null;
         private DataRang<int> g_intRang;
-        public ModelPropeprtyRuleAttribute(DataRang<int> rang)
+        public ModelPropeprtyRule(DataRang<int> rang)
         {
             g_ruleType = ModelPropeprtyRuleType.Rang;
             g_intRang = rang;
         }
         private DataRang<long> g_longRang;
-        public ModelPropeprtyRuleAttribute(DataRang<long> rang)
+        public ModelPropeprtyRule(DataRang<long> rang)
         {
             g_ruleType = ModelPropeprtyRuleType.Rang; 
             g_longRang = rang;
         }
         private DataRang<decimal> g_decimalRang;
-        public ModelPropeprtyRuleAttribute(DataRang<decimal> rang)
+        public ModelPropeprtyRule(DataRang<decimal> rang)
         {
             g_ruleType = ModelPropeprtyRuleType.Rang;
             g_decimalRang = rang;
         }
         private DataRang<double> g_doublelRang;
-        public ModelPropeprtyRuleAttribute( DataRang<double> rang)
+        public ModelPropeprtyRule( DataRang<double> rang)
         {
             g_ruleType = ModelPropeprtyRuleType.Rang;
             g_doublelRang = rang;
         }
-        public ModelPropeprtyRuleAttribute(String reg)
+        public ModelPropeprtyRule(String reg)
         {
             g_ruleType = ModelPropeprtyRuleType.Regex;
             g_regRule = reg;
@@ -50,7 +50,7 @@ namespace Hayaa.ModelService
                 return g_regRule;
             }
         }
-        public ModelPropeprtyRuleAttribute()
+        public ModelPropeprtyRule()
         {
             g_ruleType = ModelPropeprtyRuleType.NullOrEmpty;          
         }
