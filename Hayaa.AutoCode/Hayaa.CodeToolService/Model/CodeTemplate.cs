@@ -10,6 +10,9 @@ namespace Hayaa.CodeToolService
         /// 模板名字
         /// </summary>
         public String Name { set; get; }
-        public CodeTemplateType TemplateType { set; get; }
+        /// <summary>
+        /// 模板内容
+        /// </summary>
+       public String Content { set; get; }
     }
 }
