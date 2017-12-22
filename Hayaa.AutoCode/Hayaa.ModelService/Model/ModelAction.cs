@@ -26,10 +26,10 @@ namespace Hayaa.ModelService
         /// <summary>
         /// 行为入口的模型以及相关模型属性数据
         /// </summary>
-        public List<BussinessModel> InputPamarater { set; get; }
+        public List<ActionInput> InputPamarater { set; get; }
         /// <summary>
         /// 行为产出模型以及相关模型属性数据
         /// </summary>
-        public List<BussinessModel> OutPutData { set; get; }
+        public List<ActionOutput> OutPutData { set; get; }
     }
 }

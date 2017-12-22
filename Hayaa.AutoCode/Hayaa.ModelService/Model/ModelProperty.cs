@@ -20,6 +20,7 @@ namespace Hayaa.ModelService
         public String PropertyName { set; get; }
         /// <summary>
         /// 属性编程名称
+        /// 展示为英文名称
         /// 不违反编程语言命名规则即可
         /// </summary>
         public String CodePropertyName { set; get; }
