@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.ModelService", "Hayaa.ModelService\Hayaa.ModelService.csproj", "{E5D1A2DB-54D1-4601-9E5C-CB4EB8CBBBDC}"
 EndProject
@@ -16,9 +16,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hayaa.BussinessModelService
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hayaa.CodeTool", "Hayaa.CodeTool", "{361B6FA7-E638-4A9E-A2E5-D86ED9895751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeToolService", "Hayaa.CodeToolService\Hayaa.CodeToolService.csproj", "{C75911A1-DCC2-4FFF-8A44-0B82EF9C2402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeToolService", "Hayaa.CodeToolService\Hayaa.CodeToolService.csproj", "{C75911A1-DCC2-4FFF-8A44-0B82EF9C2402}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeToolService.Core", "Hayaa.CodeToolService.Core\Hayaa.CodeToolService.Core.csproj", "{906CC715-B036-4672-9901-D58CF45E3F66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeToolService.Core", "Hayaa.CodeToolService.Core\Hayaa.CodeToolService.Core.csproj", "{906CC715-B036-4672-9901-D58CF45E3F66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTemplateEngine", "Hayaa.CodeTemplateEngine\Hayaa.CodeTemplateEngine.csproj", "{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{53FE97EF-1B2A-49E1-9D2D-540E8E943372}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTemplateENgine.UnitTest", "Hayaa.CodeTemplateENgine.UnitTest\Hayaa.CodeTemplateENgine.UnitTest.csproj", "{BE017763-9C43-4B9B-897C-FD3817FB9A7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +48,14 @@ Global
 		{906CC715-B036-4672-9901-D58CF45E3F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{906CC715-B036-4672-9901-D58CF45E3F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{906CC715-B036-4672-9901-D58CF45E3F66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE017763-9C43-4B9B-897C-FD3817FB9A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE017763-9C43-4B9B-897C-FD3817FB9A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE017763-9C43-4B9B-897C-FD3817FB9A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE017763-9C43-4B9B-897C-FD3817FB9A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +65,8 @@ Global
 		{CB0B2EC8-90BD-4F8D-98A4-43702D4A019B} = {0A0B7934-AE73-4538-AC72-4D8B285B6F9E}
 		{C75911A1-DCC2-4FFF-8A44-0B82EF9C2402} = {361B6FA7-E638-4A9E-A2E5-D86ED9895751}
 		{906CC715-B036-4672-9901-D58CF45E3F66} = {361B6FA7-E638-4A9E-A2E5-D86ED9895751}
+		{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6} = {361B6FA7-E638-4A9E-A2E5-D86ED9895751}
+		{BE017763-9C43-4B9B-897C-FD3817FB9A7E} = {53FE97EF-1B2A-49E1-9D2D-540E8E943372}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {372A6428-6F11-4D99-B8E9-AA7A062F9FDF}
