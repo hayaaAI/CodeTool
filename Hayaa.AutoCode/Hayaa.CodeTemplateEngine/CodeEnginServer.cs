@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NVelocity.App;
+using System;
+using System.Collections.Generic;
 using System.IO;
 
 
@@ -9,6 +11,11 @@ namespace Hayaa.CodeTemplateEngine
     /// </summary>
     public class CodeEnginServer
     {
-        
+        private static VelocityEngine vltEngine = new VelocityEngine();
+        public static String GenerateCode<T>(String codeTemplate, List<T> model)
+        {
+            return null;
+        }
+
     }
 }
