@@ -20,7 +20,6 @@ namespace Hayaa.CodeToolService
        public String Content { set; get; }
         /// <summary>
         /// 编程语言
-        /// 
         /// </summary>
         public CodeLanaguage Language { set; get; }
     }
