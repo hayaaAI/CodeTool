@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.ModelService", "Hayaa.ModelService\Hayaa.ModelService.csproj", "{E5D1A2DB-54D1-4601-9E5C-CB4EB8CBBBDC}"
 EndProject
@@ -20,11 +20,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeToolService", "Ha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeToolService.Core", "Hayaa.CodeToolService.Core\Hayaa.CodeToolService.Core.csproj", "{906CC715-B036-4672-9901-D58CF45E3F66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTemplateEngine", "Hayaa.CodeTemplateEngine\Hayaa.CodeTemplateEngine.csproj", "{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeTemplateEngine", "Hayaa.CodeTemplateEngine\Hayaa.CodeTemplateEngine.csproj", "{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{53FE97EF-1B2A-49E1-9D2D-540E8E943372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTemplateENgine.UnitTest", "Hayaa.CodeTemplateENgine.UnitTest\Hayaa.CodeTemplateENgine.UnitTest.csproj", "{BE017763-9C43-4B9B-897C-FD3817FB9A7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeTemplateENgine.UnitTest", "Hayaa.CodeTemplateENgine.UnitTest\Hayaa.CodeTemplateENgine.UnitTest.csproj", "{BE017763-9C43-4B9B-897C-FD3817FB9A7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hayaa.CodeTool.Framework", "Hayaa.CodeTool.Framework", "{197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeToll.FrameworkService", "Hayaa.CodeToll.FrameworkService\Hayaa.CodeToll.FrameworkService.csproj", "{FBEA211E-CB2A-41FD-A8FF-D3EC35367352}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeToll.FrameworkService.MultiStorey", "Hayaa.CodeToll.FrameworkService.MultiStorey\Hayaa.CodeToll.FrameworkService.MultiStorey.csproj", "{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +62,14 @@ Global
 		{BE017763-9C43-4B9B-897C-FD3817FB9A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE017763-9C43-4B9B-897C-FD3817FB9A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE017763-9C43-4B9B-897C-FD3817FB9A7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBEA211E-CB2A-41FD-A8FF-D3EC35367352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBEA211E-CB2A-41FD-A8FF-D3EC35367352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBEA211E-CB2A-41FD-A8FF-D3EC35367352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBEA211E-CB2A-41FD-A8FF-D3EC35367352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +81,8 @@ Global
 		{906CC715-B036-4672-9901-D58CF45E3F66} = {361B6FA7-E638-4A9E-A2E5-D86ED9895751}
 		{DE88A3C3-2EC7-4894-AAFE-8C7CB2547DE6} = {361B6FA7-E638-4A9E-A2E5-D86ED9895751}
 		{BE017763-9C43-4B9B-897C-FD3817FB9A7E} = {53FE97EF-1B2A-49E1-9D2D-540E8E943372}
+		{FBEA211E-CB2A-41FD-A8FF-D3EC35367352} = {197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}
+		{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6} = {197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {372A6428-6F11-4D99-B8E9-AA7A062F9FDF}
