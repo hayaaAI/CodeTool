@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Hayaa.BaseModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hayaa.CodeToolService.FrameworkService
+namespace Hayaa.CodeToolService
 {
     /// <summary>
     /// 解决方案架构
     /// </summary>
-   public class SolutionFramework
+   public class SolutionFramework : BaseData
     {
         /// <summary>
         /// 展示名称

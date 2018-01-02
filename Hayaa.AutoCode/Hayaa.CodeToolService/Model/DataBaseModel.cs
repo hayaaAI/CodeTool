@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hayaa.CodeToolService.Model
+namespace Hayaa.CodeToolService
 {
     /// <summary>
     /// 数据库模型

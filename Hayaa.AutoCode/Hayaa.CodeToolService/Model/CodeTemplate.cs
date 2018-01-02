@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Hayaa.BaseModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Hayaa.CodeToolService
 {
-   public class CodeTemplate
+   public class CodeTemplate : BaseData
     {
         /// <summary>
         /// 模板ID
@@ -22,5 +23,9 @@ namespace Hayaa.CodeToolService
         /// 编程语言
         /// </summary>
         public CodeLanaguage Language { set; get; }
+        /// <summary>
+        /// 模板生成代码类型
+        /// </summary>
+        public CodeType GenCodeType { set; get; }
     }
 }

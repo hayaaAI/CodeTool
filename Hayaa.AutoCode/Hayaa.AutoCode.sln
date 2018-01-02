@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.ModelService", "Hayaa.ModelService\Hayaa.ModelService.csproj", "{E5D1A2DB-54D1-4601-9E5C-CB4EB8CBBBDC}"
 EndProject
@@ -28,9 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeTemplateENgine.Un
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hayaa.CodeTool.Framework", "Hayaa.CodeTool.Framework", "{197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeToll.FrameworkService", "Hayaa.CodeToll.FrameworkService\Hayaa.CodeToll.FrameworkService.csproj", "{FBEA211E-CB2A-41FD-A8FF-D3EC35367352}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeTool.FrameworkService", "Hayaa.CodeToll.FrameworkService\Hayaa.CodeTool.FrameworkService.csproj", "{FBEA211E-CB2A-41FD-A8FF-D3EC35367352}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeToll.FrameworkService.MultiStorey", "Hayaa.CodeToll.FrameworkService.MultiStorey\Hayaa.CodeToll.FrameworkService.MultiStorey.csproj", "{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeToll.FrameworkService.MultiStorey", "Hayaa.CodeToll.FrameworkService.MultiStorey\Hayaa.CodeToll.FrameworkService.MultiStorey.csproj", "{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

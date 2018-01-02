@@ -1,4 +1,6 @@
-﻿namespace Hayaa.CodeToolService.Model
+﻿using Hayaa.ModelService;
+
+namespace Hayaa.CodeToolService
 {
     /// <summary>
     /// 数据库模型字段
@@ -21,5 +23,9 @@
         /// 字段说明
         /// </summary>
         public string Remark { set; get; }
+        /// <summary>
+        /// 数据约束规则
+        /// </summary>
+        public ModelPropeprtyRule CheckRule { set; get; }
     }
 }
