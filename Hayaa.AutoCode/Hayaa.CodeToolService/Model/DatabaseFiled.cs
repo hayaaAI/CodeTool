@@ -18,7 +18,7 @@ namespace Hayaa.CodeToolService
         /// <summary>
         /// 字段基础数据类型
         /// </summary>
-        public string DataType { set; get; }
+        public DatabaseDataType DataType { set; get; }
         /// <summary>
         /// 字段说明
         /// </summary>

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hayaa.BaseModel" Version="1.0.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Hayaa.CodeToll.FrameworkService\Hayaa.CodeTool.FrameworkService.csproj" />
   </ItemGroup>
 

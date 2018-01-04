@@ -25,5 +25,9 @@ namespace Hayaa.CodeToolService
         /// 模型说明
         /// </summary>
         public String Remark { set; get; }
+        /// <summary>
+        /// 数据库类型
+        /// </summary>
+        public DatabaseType DatabaseType { set; get; }
     }
 }
