@@ -58,11 +58,29 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                                 case DatabaseDataType.NvarChar:
                                 case DatabaseDataType.Text:
                                 case DatabaseDataType.VarChar:
-                                    code.Append(string.Format("AssertHelper.AssertStringNullorEmpty()"));
-                                    break;
+                                    code.Append(string.Format("AssertHelper.AssertStringNullorEmpty(var{0}.{1})",model.Name,f.Name));
+                                    break;                                    
                             }
                             break;
                         case ModelPropeprtyRuleType.Rang:
+                            switch (f.DataType)
+                            {
+                                case DatabaseDataType.BigInt:
+                                    //code.Append(string.Format("AssertHelper.AssertRangLong(var{0}.{1},{2},{3})", model.Name, f.Name,f.CheckRule.));
+                                    break;
+                                case DatabaseDataType.Date:
+                                case DatabaseDataType.Datetime:
+                                case DatabaseDataType.Decimal:
+                                case DatabaseDataType.Double:
+                                case DatabaseDataType.Float:
+                                case DatabaseDataType.Int:
+                                case DatabaseDataType.Money:
+                                case DatabaseDataType.Time:
+                                case DatabaseDataType.Timestamp:
+                                case DatabaseDataType.TinyInt:
+                                case DatabaseDataType.Year:
+                                    break;
+                            }
                             break;
                         case ModelPropeprtyRuleType.Regex:
                             break;
