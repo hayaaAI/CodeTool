@@ -7,7 +7,7 @@ namespace Hayaa.CodeToolService
     /// <summary>
     /// 数据库模型
     /// </summary>
-  public  class DatabaseModel
+  public  class DatabaseTable
     {
         /// <summary>
         /// 模型展示名

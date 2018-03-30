@@ -1,4 +1,5 @@
 ﻿using Hayaa.BaseModel;
+using Hayaa.CodeToll.FrameworkService.MultiStorey.Dao;
 using Hayaa.CodeTool.FrameworkService;
 using Hayaa.CodeToolService;
 using Hayaa.ModelService;
@@ -10,8 +11,17 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
 {
     public class SolutionFrameworkServer : SolutionFrameworkService
     {
-       
-        public FunctionResult<Solution> MakeCodeSolution(List<DatabaseModel> model, SolutinTemplate codeTemplate)
+        public FunctionResult<Solution> MakeCodeForDao(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, String databaseName)
+        {
+            var result = new FunctionResult<Solution>();
+            //返回数据模型
+            List<DatabaseTable> list = MariadbDao.GetTables(tables, databaseConnection,databaseName);
+            //生成代码
+
+            return result;
+        }
+
+        public FunctionResult<Solution> MakeCodeSolution(List<DatabaseTable> model, SolutinTemplate codeTemplate)
         {
             FunctionResult<Solution> result = new FunctionResult<Solution>();
             if (codeTemplate.SolutinTemplates != null)
@@ -30,7 +40,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private string CreateAssertCode(DatabaseModel model)
+        private string CreateAssertCode(DatabaseTable model)
         {
             StringBuilder code = new StringBuilder();
             if (model.Fileds != null)
@@ -43,10 +53,10 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                             switch (f.DataType)
                             {
                                 case DatabaseDataType.Char:
-                                case DatabaseDataType.LongText:
-                                case DatabaseDataType.Nchar:
-                                case DatabaseDataType.Ntext:
-                                case DatabaseDataType.NvarChar:
+                                case DatabaseDataType.LongText_Mariadb:
+                                case DatabaseDataType.Nchar_MsSql:
+                                case DatabaseDataType.Ntext_MsSql:
+                                case DatabaseDataType.NvarChar_MsSql:
                                 case DatabaseDataType.Text:
                                 case DatabaseDataType.VarChar:
                                 default:
@@ -78,7 +88,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                                 case DatabaseDataType.Decimal:
                                     code.Append(string.Format("AssertHelper.AssertRangDecimal(var{0}.{1},{2},{3});\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal));
                                     break;
-                                case DatabaseDataType.Money:
+                                case DatabaseDataType.Money_MsSql:
                                     code.Append(string.Format("AssertHelper.AssertRangDecimal(var{0}.{1},{2},{3});\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal));
                                     break;
                                 case DatabaseDataType.Double:
@@ -115,7 +125,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         /// <param name="model"></param>
         /// <param name="resultResultCode">需要返回的结果类型对象代码</param>
         /// <returns></returns>
-        private string CreateCheckCode(DatabaseModel model,String returnTypeCode)
+        private string CreateCheckCode(DatabaseTable model,String returnTypeCode)
         {
             StringBuilder code = new StringBuilder();
             if (model.Fileds != null)
@@ -128,10 +138,10 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                             switch (f.DataType)
                             {
                                 case DatabaseDataType.Char:
-                                case DatabaseDataType.LongText:
-                                case DatabaseDataType.Nchar:
-                                case DatabaseDataType.Ntext:
-                                case DatabaseDataType.NvarChar:
+                                case DatabaseDataType.LongText_Mariadb:
+                                case DatabaseDataType.Nchar_MsSql:
+                                case DatabaseDataType.Ntext_MsSql:
+                                case DatabaseDataType.NvarChar_MsSql:
                                 case DatabaseDataType.Text:
                                 case DatabaseDataType.VarChar:
                                 default:
@@ -163,7 +173,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                                 case DatabaseDataType.Decimal:
                                     code.Append(string.Format("if(!CheckHelper.IsRangDecimal(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal, returnTypeCode));
                                     break;
-                                case DatabaseDataType.Money:
+                                case DatabaseDataType.Money_MsSql:
                                     code.Append(string.Format("if(!CheckHelper.IsRangDecimal(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Double:
