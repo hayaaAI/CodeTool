@@ -5,21 +5,15 @@ using Hayaa.CodeToolService;
 using Hayaa.ModelService;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Hayaa.CodeToll.FrameworkService.MultiStorey
 {
     public class SolutionFrameworkServer : SolutionFrameworkService
     {
-        public FunctionResult<Solution> MakeCodeForDao(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, String databaseName)
-        {
-            var result = new FunctionResult<Solution>();
-            //返回数据模型
-            List<DatabaseTable> list = MariadbDao.GetTables(tables, databaseConnection,databaseName);
-            //生成代码
 
-            return result;
-        }
 
         public FunctionResult<Solution> MakeCodeSolution(List<DatabaseTable> model, SolutinTemplate codeTemplate)
         {
@@ -32,7 +26,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                     //替换检查与断言标签
                     //数据业务实现
                 });
-            } 
+            }
             return result;
         }
         /// <summary>
@@ -125,7 +119,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         /// <param name="model"></param>
         /// <param name="resultResultCode">需要返回的结果类型对象代码</param>
         /// <returns></returns>
-        private string CreateCheckCode(DatabaseTable model,String returnTypeCode)
+        private string CreateCheckCode(DatabaseTable model, String returnTypeCode)
         {
             StringBuilder code = new StringBuilder();
             if (model.Fileds != null)
@@ -146,7 +140,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                                 case DatabaseDataType.VarChar:
                                 default:
                                     code.Append(string.Format("if(CheckHelper.IsStringNullorEmpty(var{0}.{1})){ return {2}; }\n", model.Name, f.Name, returnTypeCode));
-                                    break;                                    
+                                    break;
                             }
                             break;
                         case ModelPropeprtyRuleType.Rang:
@@ -156,7 +150,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                                 case DatabaseDataType.Year:
                                     code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
                                     break;
-                                case DatabaseDataType.Time:                                  
+                                case DatabaseDataType.Time:
                                     code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Timestamp:
@@ -181,7 +175,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                                     break;
                                 case DatabaseDataType.Float:
                                     code.Append(string.Format("if(!CheckHelper.IsRangFloat(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getFloatRang().MinVal, f.CheckRule.getFloatRang().MaxVal, returnTypeCode));
-                                    break; 
+                                    break;
                                 #endregion
                                 #region 整型
                                 case DatabaseDataType.Int:
@@ -197,14 +191,293 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                             }
                             break;
                         case ModelPropeprtyRuleType.Regex:
-                            code.Append(string.Format("if(!CheckHelper.IsRegex(var{0}.{1},{2})){ return {3}; }\n", model.Name, f.Name,f.CheckRule.RegexRule, returnTypeCode));
+                            code.Append(string.Format("if(!CheckHelper.IsRegex(var{0}.{1},{2})){ return {3}; }\n", model.Name, f.Name, f.CheckRule.RegexRule, returnTypeCode));
                             break;
                     }
                 });
             }
             return code.ToString();
         }
-       
+        public FunctionResult<Solution> MakeCodeForDao(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, String databaseName, String savePath)
+        {
+            var result = new FunctionResult<Solution>();
+            result.Data = new Solution()
+            {
+                SolutionPath = savePath
+            };
+            //返回数据模型
+            List<DatabaseTable> list = MariadbDao.GetTables(tables, databaseConnection, databaseName);
+            //生成代码
+            if (list != null)
+            {
+                list.ForEach(t =>
+                {
+                    StringBuilder codeBuilder = new StringBuilder();
+                    if (codeTemplate.Language == CodeLanaguage.CSharp)
+                    {
+                        CreateCSharpDaoCode(t, codeBuilder);
+                    }
+                    if (codeTemplate.Language == CodeLanaguage.Java)
+                    {
+
+                    }
+                });
+            }
+            return result;
+        }
+        #region C#创建Dao
+        /// <summary>
+        /// 创建C#语言的dao层代码
+        /// </summary>
+        /// <param name="model">模型数据</param>
+        /// <param name="codeBuilder">拼装字符容器</param>
+        private void CreateCSharpDaoCode(DatabaseTable model, StringBuilder codeBuilder)
+        {
+            codeBuilder.Append(String.Format("public class {0}Dal:CommonDal{\n", model.Name));
+            codeBuilder.Append(String.Format("private static String con=ConfigHelper.GetCon(\"{0}\");\n", model.Name));
+            codeBuilder.Append(String.Format("internal static int Add({0} info){ string sql = \"{1}\";return Insert<{0}>(con,sql, info);}\n", model.Name, CreateInsertSqlForCSharp(model)));
+            codeBuilder.Append(String.Format("internal static int Update({0} info){ string sql = \"{1}\";return Insert<{0}>(con,sql, info);}\n", model.Name, CreateUpdateSqlForCSharp(model)));
+            codeBuilder.Append(String.Format("internal static bool Delete(List<int> IDs){ string sql = \"delete from  {0} where {0}Id in(@ids)\";return Excute(con,sql, new { ids = IDs.ToArray() }) > 0;}\n", model.Name));
+            codeBuilder.Append(String.Format("internal static {0} Get(int Id){ string sql = \"select * from {0}  where {0}Id=@{0}Id\";return Get<{0}>(con,sql,new{ {0}Id=Id });}\n", model.Name));
+            codeBuilder.Append(String.Format("internal static List<{0}> GetList({0} pamater){ string sql = \"{1}\";return GetList<{0}>(con,sql{2});}\n", model.Name, CreateGetListSqlForCSharp(model), CreatePamaterForCSharp(model)));
+            codeBuilder.Append(String.Format("internal static List<{0}> GetGridPager(GridPagerPamater<{0}> pamater){ string sql = \"{1}\"; return GetGridPager<AppConfigInfo>(sql,pageSize,pageIndex,new{pageSize=pamater.PageSize,pageIndex=pamater.Current{2}}) ;}\n", model.Name, CreateGetGridPagerSqlForCSharp(model), CreatePamaterForCSharp(model)));
+            codeBuilder.Append("}");
+        }
+        private String CreateGetGridPagerSqlForCSharp(DatabaseTable model)
+        {
+            throw new NotImplementedException();
+        }
+        private String CreatePamaterForCSharp(DatabaseTable model)
+        {
+            throw new NotImplementedException();
+        }
+        private String CreateGetListSqlForCSharp(DatabaseTable model)
+        {
+            throw new NotImplementedException();
+        }       
+        private String CreateUpdateSqlForCSharp(DatabaseTable model)
+        {
+            String sql = "update {0} set {1} where {0}Id=@{0}Id";
+            DatabaseFiled[] arr = null;
+            model.Fileds.CopyTo(arr);//防止破坏模型数据
+            List<DatabaseFiled> list = arr.ToList();
+            list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
+            list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段
+            IEnumerable<String> filedNames = list.Select(x => x.Name=(x.Name+"=@"+ x.Name));
+            String fileds = String.Join(",", filedNames);
+            sql = String.Format(sql, model.Name, fileds);//传值变量需要满足Dapper的要求变量名和类属性名一致
+            return sql;
+        }
+        private String CreateInsertSqlForCSharp(DatabaseTable model)
+        {
+            String sql = "insert into {0}({1}) values(@{2})";//由于采用String.Join方法，多出一个@作为",@"分隔符方式的补充
+            DatabaseFiled[] arr = null;
+            model.Fileds.CopyTo(arr);//防止破坏模型数据
+            List<DatabaseFiled> list = arr.ToList();
+            list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
+            list.RemoveAll(a => a.Name == "ModifyTime");//数据库设计规范，每张表必有ModifyTime字段
+            IEnumerable<String> filedNames= list.Select(x => x.Name);
+            String fileds = String.Join(",", filedNames);
+            sql = String.Format(sql,model.Name, fileds, String.Join(",@",filedNames));//传值变量需要满足Dapper的要求变量名和类属性名一致
+            return sql;
+        } 
+        #endregion
+
+        public FunctionResult<Solution> MakeCodeForModel(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, string databaseName, string savePath)
+        {
+            var result = new FunctionResult<Solution>();
+            result.Data = new Solution()
+            {
+                SolutionPath = savePath
+            };
+            //返回数据模型
+            List<DatabaseTable> list = MariadbDao.GetTables(tables, databaseConnection, databaseName);
+            //生成代码
+            if (list != null)
+            {
+
+                list.ForEach(t =>
+                {
+                    StringBuilder codeBuilder = new StringBuilder(String.Format("public class {0}{CODE}", t.Name));//构造类整体结构                  
+                    if (t.Fileds != null)
+                    {
+                        StringBuilder propertiesBulider = new StringBuilder();
+                        t.Fileds.ForEach(p =>
+                        {
+                            //根据语言类型区分生成逻辑
+                            if (codeTemplate.Language == CodeLanaguage.CSharp)
+                            {
+                                propertiesBulider.Append(String.Format("public {0} {1}{set;get;}\n", GetCsharpDataType(p.DataType), p.Name));
+                            }
+                            if (codeTemplate.Language == CodeLanaguage.Java)
+                            {
+                                String dataType = GetJavaDataType(p.DataType);
+                                propertiesBulider.Append(String.Format("private {0} {1};\n", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("public {0} set{1}({0} {1}value){ {1}={1}value; }\n", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("public {0} get{1}(){ return {1}; }\n", dataType, p.Name));
+                            }
+                        });
+                        codeBuilder = codeBuilder.Replace("CODE", propertiesBulider.ToString());
+                    }
+                    BuilderModelFile(codeTemplate, codeBuilder, savePath, t.Name);
+                });
+            }
+            return result;
+        }
+
+        private void BuilderModelFile(CodeTemplate codeTemplate, StringBuilder codeBuilder, String savePath, String fileName)
+        {
+            String codeCotent = codeTemplate.Content.Replace("{$#class#$}", codeBuilder.ToString());
+            switch (codeTemplate.Language)
+            {
+                case CodeLanaguage.CSharp:
+                    File.AppendAllText(String.Format("{0}/{1}.cs", savePath, fileName), codeCotent);
+                    break;
+                case CodeLanaguage.Java:
+                    File.AppendAllText(String.Format("{0}/{1}.java", savePath, fileName), codeCotent);
+                    break;
+            }
+        }
+
+        private string GetCsharpDataType(DatabaseDataType dataType)
+        {
+            String result = "String";
+            switch (dataType)
+            {
+                case DatabaseDataType.BigInt:
+                    result = "long";
+                    break;
+                case DatabaseDataType.Bit:
+                    result = "bool";
+                    break;
+                case DatabaseDataType.Char:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Date:
+                    result = "DateTime";
+                    break;
+                case DatabaseDataType.Datetime:
+                    result = "DateTime";
+                    break;
+                case DatabaseDataType.Decimal:
+                    result = "decimal";
+                    break;
+                case DatabaseDataType.Double:
+                    result = "double";
+                    break;
+                case DatabaseDataType.Float:
+                    result = "float";
+                    break;
+                case DatabaseDataType.Int:
+                    result = "int";
+                    break;
+                case DatabaseDataType.LongText_Mariadb:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Money_MsSql:
+                    result = "decimal";
+                    break;
+                case DatabaseDataType.Nchar_MsSql:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Ntext_MsSql:
+                    result = "String";
+                    break;
+                case DatabaseDataType.NvarChar_MsSql:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Text:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Time:
+                    result = "DateTime";
+                    break;
+                case DatabaseDataType.Timestamp:
+                    result = "DateTime";
+                    break;
+                case DatabaseDataType.TinyInt:
+                    result = "byte";
+                    break;
+                case DatabaseDataType.VarChar:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Year:
+                    result = "DateTime";
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+        private string GetJavaDataType(DatabaseDataType dataType)
+        {
+            String result = "String";
+            switch (dataType)
+            {
+                case DatabaseDataType.BigInt:
+                    result = "BigInteger";
+                    break;
+                case DatabaseDataType.Bit:
+                    result = "Boolean";
+                    break;
+                case DatabaseDataType.Char:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Date:
+                    result = "java.sql.Date";
+                    break;
+                case DatabaseDataType.Datetime:
+                    result = "java.sql.Date";
+                    break;
+                case DatabaseDataType.Decimal:
+                    result = "BigDecimal";
+                    break;
+                case DatabaseDataType.Double:
+                    result = "Double";
+                    break;
+                case DatabaseDataType.Float:
+                    result = "Float";
+                    break;
+                case DatabaseDataType.Int:
+                    result = "Integer";
+                    break;
+                case DatabaseDataType.LongText_Mariadb:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Money_MsSql:
+                    result = "java.math.BigDecimal";
+                    break;
+                case DatabaseDataType.Nchar_MsSql:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Ntext_MsSql:
+                    result = "String";
+                    break;
+                case DatabaseDataType.NvarChar_MsSql:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Text:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Time:
+                    result = "java.sql.Time";
+                    break;
+                case DatabaseDataType.Timestamp:
+                    result = "java.sql.Timestamp";
+                    break;
+                case DatabaseDataType.TinyInt:
+                    result = "Integer";
+                    break;
+                case DatabaseDataType.VarChar:
+                    result = "String";
+                    break;
+                case DatabaseDataType.Year:
+                    result = "java.sql.Date";
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
     }
 }
- 
