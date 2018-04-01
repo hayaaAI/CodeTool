@@ -221,10 +221,13 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                     {
 
                     }
+                    BuilderDaoCodeFile(codeTemplate, codeBuilder, savePath, t.Name);
                 });
             }
             return result;
         }
+
+      
         #region C#创建Dao
         /// <summary>
         /// 创建C#语言的dao层代码
@@ -238,22 +241,8 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             codeBuilder.Append(String.Format("internal static int Add({0} info){ string sql = \"{1}\";return Insert<{0}>(con,sql, info);}\n", model.Name, CreateInsertSqlForCSharp(model)));
             codeBuilder.Append(String.Format("internal static int Update({0} info){ string sql = \"{1}\";return Insert<{0}>(con,sql, info);}\n", model.Name, CreateUpdateSqlForCSharp(model)));
             codeBuilder.Append(String.Format("internal static bool Delete(List<int> IDs){ string sql = \"delete from  {0} where {0}Id in(@ids)\";return Excute(con,sql, new { ids = IDs.ToArray() }) > 0;}\n", model.Name));
-            codeBuilder.Append(String.Format("internal static {0} Get(int Id){ string sql = \"select * from {0}  where {0}Id=@{0}Id\";return Get<{0}>(con,sql,new{ {0}Id=Id });}\n", model.Name));
-            codeBuilder.Append(String.Format("internal static List<{0}> GetList({0} pamater){ string sql = \"{1}\";return GetList<{0}>(con,sql{2});}\n", model.Name, CreateGetListSqlForCSharp(model), CreatePamaterForCSharp(model)));
-            codeBuilder.Append(String.Format("internal static List<{0}> GetGridPager(GridPagerPamater<{0}> pamater){ string sql = \"{1}\"; return GetGridPager<AppConfigInfo>(sql,pageSize,pageIndex,new{pageSize=pamater.PageSize,pageIndex=pamater.Current{2}}) ;}\n", model.Name, CreateGetGridPagerSqlForCSharp(model), CreatePamaterForCSharp(model)));
+            codeBuilder.Append(String.Format("internal static {0} Get(int Id){ string sql = \"select * from {0}  where {0}Id=@{0}Id\";return Get<{0}>(con,sql,new{ {0}Id=Id });}\n", model.Name));           
             codeBuilder.Append("}");
-        }
-        private String CreateGetGridPagerSqlForCSharp(DatabaseTable model)
-        {
-            throw new NotImplementedException();
-        }
-        private String CreatePamaterForCSharp(DatabaseTable model)
-        {
-            throw new NotImplementedException();
-        }
-        private String CreateGetListSqlForCSharp(DatabaseTable model)
-        {
-            throw new NotImplementedException();
         }       
         private String CreateUpdateSqlForCSharp(DatabaseTable model)
         {
@@ -280,7 +269,20 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             String fileds = String.Join(",", filedNames);
             sql = String.Format(sql,model.Name, fileds, String.Join(",@",filedNames));//传值变量需要满足Dapper的要求变量名和类属性名一致
             return sql;
-        } 
+        }
+        private void BuilderDaoCodeFile(CodeTemplate codeTemplate, StringBuilder codeBuilder, string savePath, string fileName)
+        {
+            String codeCotent = codeTemplate.Content.Replace("{$#class#$}", codeBuilder.ToString());
+            switch (codeTemplate.Language)
+            {
+                case CodeLanaguage.CSharp:
+                    File.AppendAllText(String.Format("{0}/{1}dal.cs", savePath, fileName), codeCotent);
+                    break;
+                case CodeLanaguage.Java:
+                    File.AppendAllText(String.Format("{0}/{1}dal.java", savePath, fileName), codeCotent);
+                    break;
+            }
+        }
         #endregion
 
         public FunctionResult<Solution> MakeCodeForModel(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, string databaseName, string savePath)

@@ -28,7 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeTool.FrameworkSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeToll.FrameworkService.MultiStorey", "Hayaa.CodeToll.FrameworkService.MultiStorey\Hayaa.CodeToll.FrameworkService.MultiStorey.csproj", "{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTemplateEngine", "Hayaa.CodeTemplateEngine\Hayaa.CodeTemplateEngine.csproj", "{CEAE163D-C43B-4DCA-B531-056ECB58A714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeTemplateEngine", "Hayaa.CodeTemplateEngine\Hayaa.CodeTemplateEngine.csproj", "{CEAE163D-C43B-4DCA-B531-056ECB58A714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTool", "Hayaa.CodeTool\Hayaa.CodeTool.csproj", "{D24F1F5F-C396-4D70-9ABC-0892D7E5D683}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +66,10 @@ Global
 		{CEAE163D-C43B-4DCA-B531-056ECB58A714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEAE163D-C43B-4DCA-B531-056ECB58A714}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEAE163D-C43B-4DCA-B531-056ECB58A714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24F1F5F-C396-4D70-9ABC-0892D7E5D683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24F1F5F-C396-4D70-9ABC-0892D7E5D683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24F1F5F-C396-4D70-9ABC-0892D7E5D683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24F1F5F-C396-4D70-9ABC-0892D7E5D683}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{FBEA211E-CB2A-41FD-A8FF-D3EC35367352} = {197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}
 		{1CEBDF4A-04AE-4D5A-87AA-96B0267B7BC6} = {197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}
 		{CEAE163D-C43B-4DCA-B531-056ECB58A714} = {197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}
+		{D24F1F5F-C396-4D70-9ABC-0892D7E5D683} = {361B6FA7-E638-4A9E-A2E5-D86ED9895751}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {372A6428-6F11-4D99-B8E9-AA7A062F9FDF}
