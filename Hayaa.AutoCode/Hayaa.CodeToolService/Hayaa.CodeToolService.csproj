@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Model\Paramater\" />
+    <Compile Remove="Model\Paramater\**" />
+    <EmbeddedResource Remove="Model\Paramater\**" />
+    <None Remove="Model\Paramater\**" />
   </ItemGroup>
 
   <ItemGroup>

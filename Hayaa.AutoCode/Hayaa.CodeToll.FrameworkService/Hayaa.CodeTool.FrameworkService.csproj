@@ -7,15 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hayaa.BaseModel" Version="1.0.0.7" />
+    <PackageReference Include="Hayaa.BaseModel" Version="1.0.0.10" />
+    <PackageReference Include="Hayaa.Common" Version="1.0.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Hayaa.CodeToolService\Hayaa.CodeToolService.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\" />
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@ namespace Hayaa.CodeToolService
         /// <summary>
         /// 模板ID
         /// </summary>
-        public int CodeTemplateID { set; get; }
+        public int CodeTemplateId { set; get; }
         /// <summary>
         /// 模板名字
         /// </summary>
@@ -19,6 +19,10 @@ namespace Hayaa.CodeToolService
         /// 模板内容
         /// </summary>
        public String Content { set; get; }
+        /// <summary>
+        /// 包或者命名空间名
+        /// </summary>
+        public String SpaceName { set; get; }
         /// <summary>
         /// 编程语言
         /// </summary>
