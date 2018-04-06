@@ -39,15 +39,6 @@ namespace Hayaa.CodeTool.FrameworkService
         /// <param name="savePath">代码文件保存路径</param>
         /// <returns>生成代码存信息</returns>
         FunctionResult<Solution> MakeCodeForModel(List<String> tables, CodeTemplate codeTemplate, String databaseConnection, String databaseName, String savePath);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="daoCodeTemplate"></param>
-        /// <param name="modeCodeTemplate"></param>
-        /// <param name="modelPath">包括文件名的model存储路径</param>
-        /// <param name="daoPath">包括文件名的dao存储路径</param>
-        /// <returns></returns>
-        BaseFunctionOpenResult MakeCodeBySql(String sql, CodeTemplate daoCodeTemplate, CodeTemplate modeCodeTemplate, String modelPath, String daoPath);
+      
     }
 }

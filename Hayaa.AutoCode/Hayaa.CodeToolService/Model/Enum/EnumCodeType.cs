@@ -9,24 +9,29 @@ namespace Hayaa.CodeToolService
     public enum CodeType
     {
         /// <summary>
+        /// 数据通道类
+        /// </summary>
+        DataAccessModel =1,
+        /// <summary>
         /// 数据通道
         /// </summary>
-        Dao=1,
+        Dao =2,
         /// <summary>
         /// 服务级别
         /// </summary>
-        Service=2,
+        Service=4,      
         /// <summary>
         /// 视图服务级别
         /// </summary>
-        ViewService=4,
+        ViewService=8,
         /// <summary>
         /// 客户端服务级别
         /// </summary>
-        ClientService=8,
+        ClientService=16,
         /// <summary>
         /// 客户端视图
         /// </summary>
-        ClientView=16
+        ClientView=32,
+        
     }
 }

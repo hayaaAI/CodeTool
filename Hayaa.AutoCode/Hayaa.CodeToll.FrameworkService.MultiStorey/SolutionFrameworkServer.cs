@@ -13,8 +13,6 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
 {
     public class SolutionFrameworkServer : SolutionFrameworkService
     {
-
-
         public FunctionResult<Solution> MakeCodeSolution(List<DatabaseTable> model, SolutinTemplate codeTemplate)
         {
             FunctionResult<Solution> result = new FunctionResult<Solution>();
@@ -215,7 +213,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                     StringBuilder codeBuilder = new StringBuilder();
                     if (codeTemplate.Language == CodeLanaguage.CSharp)
                     {
-                        CreateCSharpDaoCode(t, codeBuilder);
+                        CreateCSharpDaoCode(t, codeBuilder, databaseName);
                     }
                     if (codeTemplate.Language == CodeLanaguage.Java)
                     {
@@ -234,24 +232,28 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         /// </summary>
         /// <param name="model">模型数据</param>
         /// <param name="codeBuilder">拼装字符容器</param>
-        private void CreateCSharpDaoCode(DatabaseTable model, StringBuilder codeBuilder)
+        private void CreateCSharpDaoCode(DatabaseTable model, StringBuilder codeBuilder,String databaseName)
         {
-            codeBuilder.Append(String.Format("public class {0}Dal:CommonDal{\n", model.Name));
-            codeBuilder.Append(String.Format("private static String con=ConfigHelper.GetCon(\"{0}\");\n", model.Name));
-            codeBuilder.Append(String.Format("internal static int Add({0} info){ string sql = \"{1}\";return Insert<{0}>(con,sql, info);}\n", model.Name, CreateInsertSqlForCSharp(model)));
-            codeBuilder.Append(String.Format("internal static int Update({0} info){ string sql = \"{1}\";return Insert<{0}>(con,sql, info);}\n", model.Name, CreateUpdateSqlForCSharp(model)));
-            codeBuilder.Append(String.Format("internal static bool Delete(List<int> IDs){ string sql = \"delete from  {0} where {0}Id in(@ids)\";return Excute(con,sql, new { ids = IDs.ToArray() }) > 0;}\n", model.Name));
-            codeBuilder.Append(String.Format("internal static {0} Get(int Id){ string sql = \"select * from {0}  where {0}Id=@{0}Id\";return Get<{0}>(con,sql,new{ {0}Id=Id });}\n", model.Name));           
+            codeBuilder.Append(String.Format("public class {0}Dal:CommonDal{{\n", model.Name));
+            codeBuilder.Append(String.Format("private static String con= ConfigHelper.Instance.GetConnection(\"{0}\");\n", model.Name));
+            codeBuilder.Append(String.Format("internal static int Add({0} info){{\n string sql = \"{1}\";\nreturn Insert<{0}>(con,sql, info);\n}}\n", model.Name, CreateInsertSqlForCSharp(model)));
+            codeBuilder.Append(String.Format("internal static int Update({0} info){{\n string sql = \"{1}\";\nreturn Insert<{0}>(con,sql, info);\n}}\n", model.Name, CreateUpdateSqlForCSharp(model)));
+            codeBuilder.Append(String.Format("internal static bool Delete(List<int> IDs){{\n string sql = \"delete from  {0} where {0}Id in(@ids)\";\nreturn Excute(con,sql, new {{ ids = IDs.ToArray() }}) > 0;\n}}\n", model.Name));
+            codeBuilder.Append(String.Format("internal static {0} Get(int Id){{\n string sql = \"select * from {0}  where {0}Id=@{0}Id\";\nreturn Get<{0}>(con,sql,new{{ {0}Id=Id }});\n}}\n", model.Name));
+             codeBuilder.Append(String.Format("internal static List<{0}> GetList({0}SearchPamater pamater){{\n string sql = \"select * from {0} \"+pamater.CreateWhereSql();\nreturn GetList<{0}>(con,sql,pamater);\n}}\n", model.Name));
+            codeBuilder.Append(String.Format("internal static GridPager<{0}> GetGridPager(GridPagerPamater<{0}SearchPamater> pamater){{\n string sql = \"select SQL_CALC_FOUND_ROWS * from {0} \"+pamater.SearchPamater.CreateWhereSql()+\" limit @Start,*@PageSize;select FOUND_ROWS();\";\n pamater.SearchPamater.Start = (pamater.Current-1)* pamater.PageSize;\npamater.SearchPamater.PageSize = pamater.PageSize;\nreturn GetGridPager<{0}>(con,sql, pamater.PageSize, pamater.Current, pamater.SearchPamater);\n}}\n", model.Name));
             codeBuilder.Append("}");
-        }       
+        }
+
         private String CreateUpdateSqlForCSharp(DatabaseTable model)
         {
             String sql = "update {0} set {1} where {0}Id=@{0}Id";
-            DatabaseFiled[] arr = null;
+            DatabaseFiled[] arr = new DatabaseFiled[model.Fileds.Count];
             model.Fileds.CopyTo(arr);//防止破坏模型数据
             List<DatabaseFiled> list = arr.ToList();
             list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
             list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段
+            list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime，并且字段有默认时间戳
             IEnumerable<String> filedNames = list.Select(x => x.Name=(x.Name+"=@"+ x.Name));
             String fileds = String.Join(",", filedNames);
             sql = String.Format(sql, model.Name, fileds);//传值变量需要满足Dapper的要求变量名和类属性名一致
@@ -260,11 +262,12 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         private String CreateInsertSqlForCSharp(DatabaseTable model)
         {
             String sql = "insert into {0}({1}) values(@{2})";//由于采用String.Join方法，多出一个@作为",@"分隔符方式的补充
-            DatabaseFiled[] arr = null;
+            DatabaseFiled[] arr =new DatabaseFiled[model.Fileds.Count];
             model.Fileds.CopyTo(arr);//防止破坏模型数据
             List<DatabaseFiled> list = arr.ToList();
             list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
-            list.RemoveAll(a => a.Name == "ModifyTime");//数据库设计规范，每张表必有ModifyTime字段
+            list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段并且字段有默认数值
+            list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime
             IEnumerable<String> filedNames= list.Select(x => x.Name);
             String fileds = String.Join(",", filedNames);
             sql = String.Format(sql,model.Name, fileds, String.Join(",@",filedNames));//传值变量需要满足Dapper的要求变量名和类属性名一致
@@ -276,10 +279,10 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             switch (codeTemplate.Language)
             {
                 case CodeLanaguage.CSharp:
-                    File.AppendAllText(String.Format("{0}/{1}dal.cs", savePath, fileName), codeCotent);
+                    File.AppendAllText(String.Format("{0}/{1}Dal.cs", savePath, fileName), codeCotent, Encoding.UTF8);
                     break;
                 case CodeLanaguage.Java:
-                    File.AppendAllText(String.Format("{0}/{1}dal.java", savePath, fileName), codeCotent);
+                    File.AppendAllText(String.Format("{0}/{1}Dal.java", savePath, fileName), codeCotent, Encoding.UTF8);
                     break;
             }
         }
@@ -300,29 +303,77 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
 
                 list.ForEach(t =>
                 {
-                    StringBuilder codeBuilder = new StringBuilder(String.Format("public class {0}{CODE}", t.Name));//构造类整体结构                  
+                    StringBuilder codeBuilder = new StringBuilder(String.Format("public class {0}:BaseData{{CODE}}", t.Name));//构造原型类整体结构
+                    StringBuilder codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater:SearchPamaterMariadbBase {{CODE}}", t.Name));//构造参数类整体结构   
                     if (t.Fileds != null)
                     {
                         StringBuilder propertiesBulider = new StringBuilder();
+                        StringBuilder searchPropertiesBulider = new StringBuilder();                       
                         t.Fileds.ForEach(p =>
                         {
                             //根据语言类型区分生成逻辑
                             if (codeTemplate.Language == CodeLanaguage.CSharp)
                             {
-                                propertiesBulider.Append(String.Format("public {0} {1}{set;get;}\n", GetCsharpDataType(p.DataType), p.Name));
+                                String dataType = GetCsharpDataType(p.DataType,true);
+                                propertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public List<{0}> {1}List{{set;get;}}\n", dataType, p.Name));
+                                if (!IsString(p.DataType))//字符类型不需要二元操作符
+                                {
+                                    searchPropertiesBulider.Append(String.Format("public {0} {1}Max{{set;get;}}\n", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public {0} {1}Min{{set;get;}}\n", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public void Set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}\n", dataType, p.Name));
+                                }
+                                searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;\n", p.Name));//设置操作类型
+                                searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("private String Get{0}SqlForSharp(){{String sql = \"\";switch ({0}POT){{\ncase PamaterOperationType.Between:sql = \"{0} between @{0}Min to @{0}Max\";break;\ncase PamaterOperationType.StringContains:sql = \"{0} like '%@{0}%'\";break;\ncase PamaterOperationType.Equal:sql = \"{0}=@{0}\";break;\ncase PamaterOperationType.GreaterEqual:sql = \"{0}>=@{0}\";break;\ncase PamaterOperationType.GreaterThan:sql = \"{0}>@{0}\";break;\ncase PamaterOperationType.LessEqual:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.LessThan:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.In:sql = \"{0} in(\" + String.Join(\",\", this.{0}List) + \")\";break;\ncase PamaterOperationType.StringIn:sql = \"{0} in('\" + String.Join(\"','\", this.{0}List)+\"')\";break;\n}}\nreturn sql;}}\n", p.Name));
                             }
                             if (codeTemplate.Language == CodeLanaguage.Java)
                             {
                                 String dataType = GetJavaDataType(p.DataType);
                                 propertiesBulider.Append(String.Format("private {0} {1};\n", dataType, p.Name));
-                                propertiesBulider.Append(String.Format("public {0} set{1}({0} {1}value){ {1}={1}value; }\n", dataType, p.Name));
-                                propertiesBulider.Append(String.Format("public {0} get{1}(){ return {1}; }\n", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("public {0} set{1}({0} {1}value){{ {1}={1}value; }}\n", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("public {0} get{1}(){{ return {1}; }}\n", dataType, p.Name));
                             }
                         });
                         codeBuilder = codeBuilder.Replace("CODE", propertiesBulider.ToString());
+                        codeSearchBuilder = codeSearchBuilder.Replace("CODE", searchPropertiesBulider.ToString());
                     }
                     BuilderModelFile(codeTemplate, codeBuilder, savePath, t.Name);
+                    BuilderModelFile(codeTemplate, codeSearchBuilder, savePath, t.Name+ "SearchPamater");
                 });
+            }
+            return result;
+        }
+
+        private bool IsString(DatabaseDataType dataType)
+        {
+            Boolean result = false;
+            switch (dataType)
+            {               
+                case DatabaseDataType.Char:
+                    result =true;
+                    break;              
+                case DatabaseDataType.LongText_Mariadb:
+                    result = true;
+                    break;               
+                case DatabaseDataType.Nchar_MsSql:
+                    result = true;
+                    break;
+                case DatabaseDataType.Ntext_MsSql:
+                    result = true;
+                    break;
+                case DatabaseDataType.NvarChar_MsSql:
+                    result = true;
+                    break;
+                case DatabaseDataType.Text:
+                    result = true;
+                    break;                
+                case DatabaseDataType.VarChar:
+                    result = true;
+                    break;               
+                default:
+                    break;
             }
             return result;
         }
@@ -333,51 +384,51 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             switch (codeTemplate.Language)
             {
                 case CodeLanaguage.CSharp:
-                    File.AppendAllText(String.Format("{0}/{1}.cs", savePath, fileName), codeCotent);
+                    File.AppendAllText(String.Format("{0}/{1}.cs", savePath, fileName), codeCotent, Encoding.UTF8);
                     break;
                 case CodeLanaguage.Java:
-                    File.AppendAllText(String.Format("{0}/{1}.java", savePath, fileName), codeCotent);
+                    File.AppendAllText(String.Format("{0}/{1}.java", savePath, fileName), codeCotent, Encoding.UTF8);
                     break;
             }
         }
 
-        private string GetCsharpDataType(DatabaseDataType dataType)
+        private string GetCsharpDataType(DatabaseDataType dataType,Boolean isNull=false)
         {
             String result = "String";
             switch (dataType)
             {
                 case DatabaseDataType.BigInt:
-                    result = "long";
+                    result = isNull? "long?" : "long";
                     break;
                 case DatabaseDataType.Bit:
-                    result = "bool";
+                    result = isNull ? "bool?" : "bool";
                     break;
                 case DatabaseDataType.Char:
                     result = "String";
                     break;
                 case DatabaseDataType.Date:
-                    result = "DateTime";
+                    result = isNull ? "DateTime?" : "DateTime";
                     break;
                 case DatabaseDataType.Datetime:
-                    result = "DateTime";
+                    result = isNull ? "DateTime?" : "DateTime";
                     break;
                 case DatabaseDataType.Decimal:
-                    result = "decimal";
+                    result = isNull ? "decimal?" : "decimal";
                     break;
                 case DatabaseDataType.Double:
-                    result = "double";
+                    result = isNull ? "double?" : "double";
                     break;
                 case DatabaseDataType.Float:
-                    result = "float";
+                    result = isNull ? "float?" : "float";
                     break;
                 case DatabaseDataType.Int:
-                    result = "int";
+                    result = isNull ? "int?" : "int";
                     break;
                 case DatabaseDataType.LongText_Mariadb:
                     result = "String";
                     break;
                 case DatabaseDataType.Money_MsSql:
-                    result = "decimal";
+                    result = isNull ? "decimal?" : "decimal";
                     break;
                 case DatabaseDataType.Nchar_MsSql:
                     result = "String";
@@ -392,19 +443,19 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                     result = "String";
                     break;
                 case DatabaseDataType.Time:
-                    result = "DateTime";
+                    result = isNull ? "DateTime?" : "DateTime";
                     break;
                 case DatabaseDataType.Timestamp:
-                    result = "DateTime";
+                    result = isNull ? "DateTime?" : "DateTime";
                     break;
                 case DatabaseDataType.TinyInt:
-                    result = "byte";
+                    result = isNull ? "byte?" : "byte";
                     break;
                 case DatabaseDataType.VarChar:
                     result = "String";
                     break;
                 case DatabaseDataType.Year:
-                    result = "DateTime";
+                    result = isNull ? "DateTime?" : "DateTime";
                     break;
                 default:
                     break;
@@ -481,5 +532,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             }
             return result;
         }
+         
+       
     }
 }

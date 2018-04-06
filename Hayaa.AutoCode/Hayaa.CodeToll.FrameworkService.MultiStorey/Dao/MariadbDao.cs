@@ -24,6 +24,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey.Dao
                     if (columnList != null)
                     {
                         DatabaseTable dt = new DatabaseTable();
+                        dt.Name = table;
                         dt.Fileds = new List<DatabaseFiled>();
                         columnList.ForEach(c =>
                         {

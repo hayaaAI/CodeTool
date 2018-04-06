@@ -41,9 +41,6 @@
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -162,34 +159,11 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "Dao代码模板";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(19, 662);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(37, 15);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "字段";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 25);
-            this.textBox1.TabIndex = 15;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(111, 662);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(658, 25);
-            this.textBox2.TabIndex = 16;
-            // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(111, 707);
+            this.richTextBox3.Location = new System.Drawing.Point(111, 648);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(658, 96);
+            this.richTextBox3.Size = new System.Drawing.Size(658, 147);
             this.richTextBox3.TabIndex = 17;
             this.richTextBox3.Text = "";
             // 
@@ -209,9 +183,6 @@
             this.ClientSize = new System.Drawing.Size(828, 857);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.richTextBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.richTextBox2);
@@ -247,9 +218,6 @@
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.RichTextBox richTextBox3;
         private System.Windows.Forms.Label label9;
     }
