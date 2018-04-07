@@ -127,6 +127,9 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             //生成Dao层代码
             CodeTemplate dalTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Dao);
             MakeCodeForDao(tables, modelTemplate, databaseConnection, databaseName, savePath);
+            //生成服务层代码
+            CodeTemplate serviceTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Service);
+            MakeCodeForService(tables, modelTemplate, databaseConnection, databaseName, savePath);
             return result;
         }
 

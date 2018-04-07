@@ -14,7 +14,7 @@ namespace Hayaa.CodeTool.FrameworkService.Dao
        
         internal static List<CodeTemplate> GetListBySolutionTemplateId(int solutionTemplateId)
         {
-            string sql = "select * from CodeTemplate as ct inner join Rel_Solution_CodeTemplate rsct on ct.CodeTemplateId=rsct.CodeTemplateId where SolutionTemplateId=@SolutionTemplateId";
+            string sql = "select ct.* from CodeTemplate as ct inner join Rel_Solution_CodeTemplate rsct on ct.CodeTemplateId=rsct.CodeTemplateId where SolutionTemplateId=@SolutionTemplateId";
             return GetList<CodeTemplate>(con, sql, new { SolutionTemplateId = solutionTemplateId });
         }
        
