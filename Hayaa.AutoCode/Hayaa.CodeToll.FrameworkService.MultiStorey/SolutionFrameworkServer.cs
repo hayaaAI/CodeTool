@@ -16,9 +16,9 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         public FunctionResult<Solution> MakeCodeSolution(List<DatabaseTable> model, SolutionTemplate codeTemplate)
         {
             FunctionResult<Solution> result = new FunctionResult<Solution>();
-            if (codeTemplate.SolutinTemplates != null)
+            if (codeTemplate.SolutionTemplates != null)
             {
-                codeTemplate.SolutinTemplates.ForEach(t =>
+                codeTemplate.SolutionTemplates.ForEach(t =>
                 {
                     //获取返回结果代码段
                     //替换检查与断言标签
@@ -122,10 +122,10 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                 SolutionPath = savePath
             };
             //生成数据库原型类
-            CodeTemplate modelTemplate = codeTemplatee.SolutinTemplates.Find(ct => ct.GenCodeType == CodeType.DataAccessModel);
+            CodeTemplate modelTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.DataAccessModel);
             MakeCodeForModel(tables, modelTemplate, databaseConnection, databaseName, savePath);
             //生成Dao层代码
-            CodeTemplate dalTemplate = codeTemplatee.SolutinTemplates.Find(ct => ct.GenCodeType == CodeType.Dao);
+            CodeTemplate dalTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Dao);
             MakeCodeForDao(tables, modelTemplate, databaseConnection, databaseName, savePath);
             return result;
         }

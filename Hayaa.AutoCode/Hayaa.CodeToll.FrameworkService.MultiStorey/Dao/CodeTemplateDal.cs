@@ -9,7 +9,7 @@ using Hayaa.CodeToolService;
 
 namespace Hayaa.CodeTool.FrameworkService.Dao
 {
-    public class CodeTemplateDal : CommonDal
+    internal partial class CodeTemplateDal : CommonDal
     {
         private static String con = ConfigHelper.Instance.GetConnection(DefineTable.DatabaseName);
         internal static int Add(CodeTemplate info)

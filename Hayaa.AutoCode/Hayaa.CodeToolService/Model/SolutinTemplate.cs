@@ -19,7 +19,7 @@ namespace Hayaa.CodeToolService
         /// <summary>
         /// 解决方案模板
         /// </summary>
-        public List<CodeTemplate> SolutinTemplates { set; get; }
+        public List<CodeTemplate> SolutionTemplates { set; get; }
         /// <summary>
         /// 模板类型检查
         /// 是否有重复类型模板
@@ -31,11 +31,11 @@ namespace Hayaa.CodeToolService
             get
             {
                 Boolean templateTypeCheck = true;
-                if (this.SolutinTemplates != null)
+                if (this.SolutionTemplates != null)
                 {
 
                     Dictionary<CodeType, int> countor = new Dictionary<CodeType, int>();
-                   foreach(var a in this.SolutinTemplates)
+                   foreach(var a in this.SolutionTemplates)
                     {
                         if (countor.ContainsKey(a.GenCodeType)) return false;
                         else countor.Add(a.GenCodeType,1);

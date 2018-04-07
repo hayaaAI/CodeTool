@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Hayaa.BaseModel;
 
 namespace Hayaa.ModelService.Core
@@ -10,7 +11,7 @@ namespace Hayaa.ModelService.Core
             throw new NotImplementedException();
         }
 
-        public BaseFunctionResult DeleteByID(int ID)
+        public FunctionOpenResult<bool> DeleteByID(List<int> idList)
         {
             throw new NotImplementedException();
         }
@@ -20,7 +21,7 @@ namespace Hayaa.ModelService.Core
             throw new NotImplementedException();
         }
 
-        public BaseFunctionResult UpdateByID(BussinessModel info)
+        public FunctionOpenResult<bool> UpdateByID(BussinessModel info)
         {
             throw new NotImplementedException();
         }
