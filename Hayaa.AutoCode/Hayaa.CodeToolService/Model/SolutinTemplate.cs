@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hayaa.BaseModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,8 +8,10 @@ namespace Hayaa.CodeToolService
     /// <summary>
     /// 解决方案模板
     /// </summary>
-    public class SolutinTemplate
+    public class SolutionTemplate:BaseData
     {
+        public int SolutionTemplateId { set; get; }
+        public String Name { set; get; }
         /// <summary>
         /// 展示信息
         /// </summary>

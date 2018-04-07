@@ -193,7 +193,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         /// <param name="codeBuilder">拼装字符容器</param>
         private void CreateCSharpDaoCode(DatabaseTable model, StringBuilder codeBuilder,String databaseName)
         {
-            codeBuilder.Append(String.Format("public class {0}Dal:CommonDal{{\n", model.Name));
+            codeBuilder.Append(String.Format("public partial class {0}Dal:CommonDal{{\n", model.Name));
             codeBuilder.Append(String.Format("private static String con= ConfigHelper.Instance.GetConnection(DefineTable.DatabaseName);\n", model.Name));
             codeBuilder.Append(String.Format("internal static int Add({0} info){{\n string sql = \"{1}\";\nreturn Insert<{0}>(con,sql, info);\n}}\n", model.Name, CreateInsertSqlForCSharp(model)));
             codeBuilder.Append(String.Format("internal static int Update({0} info){{\n string sql = \"{1}\";\nreturn Insert<{0}>(con,sql, info);\n}}\n", model.Name, CreateUpdateSqlForCSharp(model)));
@@ -293,7 +293,19 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                     break;
             }
         }
-
+        private void BuilderServiceFile(CodeTemplate codeTemplate, StringBuilder codeBuilder, string savePath, string fileName)
+        {
+            String codeCotent = codeTemplate.Content.Replace("{$#class#$}", codeBuilder.ToString()).Replace("{$#space#$}", codeTemplate.SpaceName);
+            switch (codeTemplate.Language)
+            {
+                case CodeLanaguage.CSharp:
+                    File.AppendAllText(String.Format("{0}/{1}.cs", savePath, fileName), codeCotent, Encoding.UTF8);
+                    break;
+                case CodeLanaguage.Java:
+                    File.AppendAllText(String.Format("{0}/{1}.java", savePath, fileName), codeCotent, Encoding.UTF8);
+                    break;
+            }
+        }
         private string GetCsharpDataType(DatabaseDataType dataType,Boolean isNull=false)
         {
             String result = "String";
