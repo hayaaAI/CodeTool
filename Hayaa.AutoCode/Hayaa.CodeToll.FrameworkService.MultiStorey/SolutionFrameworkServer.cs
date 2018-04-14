@@ -82,18 +82,19 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                             //根据语言类型区分生成逻辑
                             if (codeTemplate.Language == CodeLanaguage.CSharp)
                             {
-                                String dataType = GetCsharpDataType(p.DataType, true);
+                                String dataType = GetCsharpDataType(p.DataType, false);
+                                String searchDataType = GetCsharpDataType(p.DataType, true);
                                 propertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public List<{0}> {1}List{{set;get;}}\n", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", searchDataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public List<{0}> {1}List{{set;get;}}\n", searchDataType, p.Name));
                                 if (!IsString(p.DataType))//字符类型不需要二元操作符
                                 {
-                                    searchPropertiesBulider.Append(String.Format("public {0} {1}Max{{set;get;}}\n", dataType, p.Name));
-                                    searchPropertiesBulider.Append(String.Format("public {0} {1}Min{{set;get;}}\n", dataType, p.Name));
-                                    searchPropertiesBulider.Append(String.Format("public void Set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}\n", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public {0} {1}Max{{set;get;}}\n", searchDataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public {0} {1}Min{{set;get;}}\n", searchDataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public void Set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}\n", searchDataType, p.Name));
                                 }
                                 searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;\n", p.Name));//设置操作类型
-                                searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", searchDataType, p.Name));
                                 searchPropertiesBulider.Append(String.Format("private String Get{0}SqlForSharp(){{String sql = \"\";switch ({0}POT){{\ncase PamaterOperationType.Between:sql = \"{0} between @{0}Min to @{0}Max\";break;\ncase PamaterOperationType.StringContains:sql = \"{0} like '%@{0}%'\";break;\ncase PamaterOperationType.Equal:sql = \"{0}=@{0}\";break;\ncase PamaterOperationType.GreaterEqual:sql = \"{0}>=@{0}\";break;\ncase PamaterOperationType.GreaterThan:sql = \"{0}>@{0}\";break;\ncase PamaterOperationType.LessEqual:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.LessThan:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.In:sql = \"{0} in(\" + String.Join(\",\", this.{0}List) + \")\";break;\ncase PamaterOperationType.StringIn:sql = \"{0} in('\" + String.Join(\"','\", this.{0}List)+\"')\";break;\n}}\nreturn sql;}}\n", p.Name));
                             }
                             if (codeTemplate.Language == CodeLanaguage.Java)
