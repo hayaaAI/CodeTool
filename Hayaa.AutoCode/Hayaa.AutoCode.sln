@@ -32,7 +32,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.CodeTemplateEngine", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.CodeTool", "Hayaa.CodeTool\Hayaa.CodeTool.csproj", "{D24F1F5F-C396-4D70-9ABC-0892D7E5D683}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject", "XUnitTestProject\XUnitTestProject.csproj", "{46B1DB16-67D6-4543-9116-DE5A7EF6682B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestProject", "XUnitTestProject\XUnitTestProject.csproj", "{46B1DB16-67D6-4543-9116-DE5A7EF6682B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{3E1C3E50-A05D-49B3-88CB-EE82D20EF4C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iteration1", "iteration1", "{B95618A3-BAD8-466E-A4C0-918DAF8D254B}"
+	ProjectSection(SolutionItems) = preProject
+		Sql\Mariadb\iteration1\AutoCode.sql = Sql\Mariadb\iteration1\AutoCode.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +97,7 @@ Global
 		{CEAE163D-C43B-4DCA-B531-056ECB58A714} = {197B1355-8A4E-4CE9-B87C-AC09AD6A53BF}
 		{D24F1F5F-C396-4D70-9ABC-0892D7E5D683} = {361B6FA7-E638-4A9E-A2E5-D86ED9895751}
 		{46B1DB16-67D6-4543-9116-DE5A7EF6682B} = {53FE97EF-1B2A-49E1-9D2D-540E8E943372}
+		{B95618A3-BAD8-466E-A4C0-918DAF8D254B} = {3E1C3E50-A05D-49B3-88CB-EE82D20EF4C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {372A6428-6F11-4D99-B8E9-AA7A062F9FDF}
