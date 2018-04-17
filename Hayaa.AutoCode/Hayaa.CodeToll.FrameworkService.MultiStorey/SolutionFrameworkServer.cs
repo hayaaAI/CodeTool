@@ -86,7 +86,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
                                 String searchDataType = GetCsharpDataType(p.DataType, true);
                                 propertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", dataType, p.Name));
                                 searchPropertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", searchDataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public List<{0}> {1}List{{set;get;}}\n", searchDataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public List<{0}> {1}List{{set;get;}}\n", dataType, p.Name));
                                 if (!IsString(p.DataType))//字符类型不需要二元操作符
                                 {
                                     searchPropertiesBulider.Append(String.Format("public {0} {1}Max{{set;get;}}\n", searchDataType, p.Name));
