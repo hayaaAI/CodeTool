@@ -195,7 +195,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
         {
             codeBuilder.Append(String.Format("internal partial class {0}Dal:CommonDal{{\n", model.Name));
             codeBuilder.Append(String.Format("private static String con= ConfigHelper.Instance.GetConnection(DefineTable.DatabaseName);\n", model.Name));
-            codeBuilder.Append(String.Format("internal static int Add({0} info){{\n string sql = \"{1}\";\nreturn Insert<{0}>(con,sql, info);\n}}\n", model.Name, CreateInsertSqlForCSharp(model)));
+            codeBuilder.Append(String.Format("internal static int Add({0} info,bool isReturn=true){{\n string sql =null;if(isReturn) {sql=\"{1}\";\nreturn InsertWithReturnID<{0}>(con,sql, info);}else {sql=\"{2}\";\nreturn Insert<{0}>(con,sql, info);}\n}}\n", model.Name, CreateInsertSqlForCSharp(model,true), CreateInsertSqlForCSharp(model,false)));
             codeBuilder.Append(String.Format("internal static int Update({0} info){{\n string sql = \"{1}\";\nreturn Update<{0}>(con,sql, info);\n}}\n", model.Name, CreateUpdateSqlForCSharp(model)));
             codeBuilder.Append(String.Format("internal static bool Delete(List<int> IDs){{\n string sql = \"delete from  {0} where {0}Id in @ids\";\nreturn Excute(con,sql, new {{ ids = IDs.ToArray() }}) > 0;\n}}\n", model.Name));
             codeBuilder.Append(String.Format("internal static {0} Get(int Id){{\n string sql = \"select * from {0}  where {0}Id=@{0}Id\";\nreturn Get<{0}>(con,sql,new{{ {0}Id=Id }});\n}}\n", model.Name));
@@ -218,9 +218,9 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             sql = String.Format(sql, model.Name, fileds);//传值变量需要满足Dapper的要求变量名和类属性名一致
             return sql;
         }
-        private String CreateInsertSqlForCSharp(DatabaseTable model)
+        private String CreateInsertSqlForCSharp(DatabaseTable model,bool isReturnId)
         {
-            String sql = "insert into {0}({1}) values(@{2})";//由于采用String.Join方法，多出一个@作为",@"分隔符方式的补充
+            String sql = "insert into {0}({1}) values(@{2});{3}";//由于采用String.Join方法，多出一个@作为",@"分隔符方式的补充
             DatabaseFiled[] arr =new DatabaseFiled[model.Fileds.Count];
             model.Fileds.CopyTo(arr);//防止破坏模型数据
             List<DatabaseFiled> list = arr.ToList();
@@ -229,7 +229,7 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
             list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime
             IEnumerable<String> filedNames= list.Select(x => x.Name);
             String fileds = String.Join(",", filedNames);
-            sql = String.Format(sql,model.Name, fileds, String.Join(",@",filedNames));//传值变量需要满足Dapper的要求变量名和类属性名一致
+            sql = String.Format(sql,model.Name, fileds, String.Join(",@",filedNames),(isReturnId? "select @@IDENTITY;" : ""));//传值变量需要满足Dapper的要求变量名和类属性名一致
             return sql;
         }
         private void BuilderDaoCodeFile(CodeTemplate codeTemplate, StringBuilder codeBuilder, string savePath, string fileName)
