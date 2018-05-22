@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hayaa.ConfigSeed.Standard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ namespace Hayaa.AutoCodeSite
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            AppSeed.Instance.InitConfig();
         }
 
         public IConfiguration Configuration { get; }

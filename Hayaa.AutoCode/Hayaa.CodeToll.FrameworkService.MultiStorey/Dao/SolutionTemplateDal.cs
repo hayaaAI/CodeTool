@@ -38,7 +38,7 @@ namespace Hayaa.CodeTool.FrameworkService.Dao
         }
         internal static GridPager<SolutionTemplate> GetGridPager(GridPagerPamater<SolutionTemplateSearchPamater> pamater)
         {
-            string sql = "select SQL_CALC_FOUND_ROWS * from SolutionTemplate " + pamater.SearchPamater.CreateWhereSql() + " limit @Start,*@PageSize;select FOUND_ROWS();";
+            string sql = "select SQL_CALC_FOUND_ROWS * from SolutionTemplate " + pamater.SearchPamater.CreateWhereSql() + " limit @Start,@PageSize;select FOUND_ROWS();";
             pamater.SearchPamater.Start = (pamater.Current - 1) * pamater.PageSize;
             pamater.SearchPamater.PageSize = pamater.PageSize;
             return GetGridPager<SolutionTemplate>(con, sql, pamater.PageSize, pamater.Current, pamater.SearchPamater);

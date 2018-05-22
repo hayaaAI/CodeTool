@@ -47,9 +47,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controller", "Controller", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{51F5FE49-ABF0-4227-A88B-614B22FDCC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.AutoCodeController", "Hayaa.AutoCode.Controller\Hayaa.AutoCodeController.csproj", "{340CBB67-13E6-4EA1-80C2-075CB7636505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.AutoCodeController", "Hayaa.AutoCode.Controller\Hayaa.AutoCodeController.csproj", "{340CBB67-13E6-4EA1-80C2-075CB7636505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hayaa.AutoCodeSite", "Hayaa.AutoCodeSite\Hayaa.AutoCodeSite.csproj", "{83B186DA-38DE-4BEA-AF7E-93F5F79D8879}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hayaa.AutoCodeSite", "Hayaa.AutoCodeSite\Hayaa.AutoCodeSite.csproj", "{83B186DA-38DE-4BEA-AF7E-93F5F79D8879}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2BF0C4FB-F7B7-4002-A7A0-47713DAEE318}"
 EndProject
