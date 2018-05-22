@@ -7,7 +7,7 @@ using Hayaa.CodeTool.FrameworkService.Dao;
 /// <summary>
 ///代码效率工具生成，此文件不要修改
 /// </summary>
-namespace Hayaa.CodeToll.FrameworkService.MultiStorey.Dao
+namespace Hayaa.CodeTool.FrameworkService.MultiStorey.Dao
 {
     internal partial class CodeTemplateServer 
     {

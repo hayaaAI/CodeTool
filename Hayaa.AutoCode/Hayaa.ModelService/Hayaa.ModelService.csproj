@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hayaa.BaseModel" Version="1.0.0.7" />
+    <PackageReference Include="Hayaa.BaseModel" Version="1.0.0.15" />
   </ItemGroup>
 
 </Project>

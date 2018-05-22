@@ -1,5 +1,5 @@
 ﻿using Hayaa.BaseModel;
-using Hayaa.CodeToll.FrameworkService.MultiStorey.Dao;
+using Hayaa.CodeTool.FrameworkService.MultiStorey.Dao;
 using Hayaa.CodeTool.FrameworkService;
 using Hayaa.CodeToolService;
 using Hayaa.ModelService;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Hayaa.CodeToll.FrameworkService.MultiStorey
+namespace Hayaa.CodeTool.FrameworkService.MultiStorey
 {
     public partial class SolutionFrameworkServer : SolutionFrameworkService
     {
@@ -71,8 +71,18 @@ namespace Hayaa.CodeToll.FrameworkService.MultiStorey
 
                 list.ForEach(t =>
                 {
-                    StringBuilder codeBuilder = new StringBuilder(String.Format("public  class {0}:BaseData{{CODE}}", t.Name));//构造原型类整体结构
-                    StringBuilder codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater:SearchPamaterMariadbBase {{CODE}}", t.Name));//构造参数类整体结构   
+                    StringBuilder codeBuilder = null; //构造原型类整体结构
+                    StringBuilder codeSearchBuilder = null; //构造参数类整体结构   
+                    if (codeTemplate.Language == CodeLanaguage.CSharp)
+                    {
+                        codeBuilder= new StringBuilder(String.Format("public  class {0}:BaseData{{CODE}}", t.Name));
+                        codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater:SearchPamaterMariadbBase {{CODE}}", t.Name));
+                    }
+                    if (codeTemplate.Language == CodeLanaguage.Java)
+                    {
+                        codeBuilder = new StringBuilder(String.Format("public  class {0} extends BaseData{{CODE}}", t.Name));
+                        codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater extends SearchPamaterMariadbBase {{CODE}}", t.Name));
+                    }
                     if (t.Fileds != null)
                     {
                         StringBuilder propertiesBulider = new StringBuilder();

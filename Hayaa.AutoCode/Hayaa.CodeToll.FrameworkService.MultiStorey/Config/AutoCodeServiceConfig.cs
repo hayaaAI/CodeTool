@@ -1,6 +1,6 @@
 ﻿using Hayaa.BaseModel;
 
-namespace Hayaa.CodeToll.FrameworkService.MultiStorey.Config
+namespace Hayaa.CodeTool.FrameworkService.MultiStorey.Config
 {
     internal class AutoCodeServiceConfig : BaseData,ConfigContent
     {

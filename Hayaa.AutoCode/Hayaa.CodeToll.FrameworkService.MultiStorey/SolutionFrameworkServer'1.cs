@@ -1,7 +1,4 @@
-﻿using Hayaa.BaseModel;
-using Hayaa.CodeToll.FrameworkService.MultiStorey.Dao;
-using Hayaa.CodeTool.FrameworkService;
-using Hayaa.CodeToolService;
+﻿using Hayaa.CodeToolService;
 using Hayaa.ModelService;
 using System;
 using System.Collections.Generic;
@@ -9,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Hayaa.CodeToll.FrameworkService.MultiStorey
+namespace Hayaa.CodeTool.FrameworkService.MultiStorey
 {
     public partial class SolutionFrameworkServer 
     {

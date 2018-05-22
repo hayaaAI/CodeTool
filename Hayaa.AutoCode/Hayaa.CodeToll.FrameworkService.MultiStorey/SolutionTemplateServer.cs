@@ -4,7 +4,7 @@ using Hayaa.CodeToolService;
 using Hayaa.CodeTool.FrameworkService.Dao;
 using Hayaa.CodeTool.FrameworkService;
 
-namespace Hayaa.CodeToll.FrameworkService.MultiStorey.Dao
+namespace Hayaa.CodeTool.FrameworkService.MultiStorey
 {
     public partial class SolutionTemplateServer : SolutionTemplateService
     {

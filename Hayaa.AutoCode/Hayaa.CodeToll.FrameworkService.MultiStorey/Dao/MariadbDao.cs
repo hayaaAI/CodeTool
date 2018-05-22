@@ -4,7 +4,7 @@ using System.Text;
 using Hayaa.CodeToolService;
 using Hayaa.DataAccess;
 
-namespace Hayaa.CodeToll.FrameworkService.MultiStorey.Dao
+namespace Hayaa.CodeTool.FrameworkService.MultiStorey.Dao
 {
     /// <summary>
     /// Mariadb数据库数据通道逻辑
