@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hayaa.ModelService
+namespace Hayaa.CodeToolService.Core
 {
     public class Class1
     {

@@ -259,3 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/Hayaa.AutoCode/XUnitTestProject
+/Hayaa.AutoCode/Hayaa.AutoCodeSite/Code/SourceCode
+/Hayaa.AutoCode/Hayaa.AutoCodeSite/Code/Code.zip
+/Hayaa.AutoCode/Hayaa.AutoCodeSite/wwwroot/Code/SourceCode
+/Hayaa.AutoCode/Hayaa.AutoCodeSite/wwwroot/Code/Code.zip

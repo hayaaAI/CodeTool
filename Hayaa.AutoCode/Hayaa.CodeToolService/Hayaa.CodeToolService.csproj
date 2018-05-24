@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\Paramater\**" />
+    <EmbeddedResource Remove="Model\Paramater\**" />
+    <None Remove="Model\Paramater\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hayaa.ModelService\Hayaa.ModelService.csproj" />
+  </ItemGroup>
+
+</Project>

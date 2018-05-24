@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Hayaa.CodeTool.FrameworkService</RootNamespace>
+    <AssemblyName>Hayaa.CodeTool.FrameworkService</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hayaa.BaseModel" Version="1.0.0.15" />
+    <PackageReference Include="Hayaa.Common" Version="1.0.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hayaa.CodeToolService\Hayaa.CodeToolService.csproj" />
+  </ItemGroup>
+
+</Project>
