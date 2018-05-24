@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Code\" />
+    <Compile Remove="Code\**" />
+    <Content Remove="Code\**" />
+    <EmbeddedResource Remove="Code\**" />
+    <None Remove="Code\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="config\" />
   </ItemGroup>

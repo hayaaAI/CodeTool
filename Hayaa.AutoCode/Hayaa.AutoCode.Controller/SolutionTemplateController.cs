@@ -214,9 +214,9 @@ namespace Hayaa.AutoCodeController
         public TransactionResult<Solution> GenCode(GenCodeInfo info)
         {
             TransactionResult<Solution> result = new TransactionResult<Solution>();
-            info.CodeStorePath = _hostingEnvironment.ContentRootPath + "/Code/SourceCode";
+            info.CodeStorePath = _hostingEnvironment.WebRootPath + "/Code/SourceCode";
             try { Directory.Delete(info.CodeStorePath,true);
-                System.IO.File.Delete(_hostingEnvironment.ContentRootPath + "/Code/Code.zip");
+                System.IO.File.Delete(_hostingEnvironment.WebRootPath + "/Code/Code.zip");
             } catch (Exception ex) { }            
             Directory.CreateDirectory(info.CodeStorePath);
             var solutionResult=  solutionTemplateService.GetWithCodeTemplatesBySolutionTemplateId(info.SolutionId);
@@ -229,7 +229,7 @@ namespace Hayaa.AutoCodeController
             var serviceResult = solutionFrameworkService.MakeCodeForMultiStoreySolution(info.Tables, solutionResult.Data,info.DatabaseConnection,info.DatabaseName,info.CodeStorePath);
             if (serviceResult.ActionResult)
             {
-                ZipFile.CreateFromDirectory(info.CodeStorePath, _hostingEnvironment.ContentRootPath + "/Code/Code.zip");
+                ZipFile.CreateFromDirectory(info.CodeStorePath, _hostingEnvironment.WebRootPath + "/Code/Code.zip");
                 serviceResult.Data.SolutionPath = "Code/Code.zip";
                 result.Data = serviceResult.Data;
             }

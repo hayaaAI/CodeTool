@@ -46,8 +46,11 @@ namespace Hayaa.AutoCodeSite
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
+            app.UseFileServer();
             app.UseCors("any");
             app.UseMvc();
+
         }
     }
 }
