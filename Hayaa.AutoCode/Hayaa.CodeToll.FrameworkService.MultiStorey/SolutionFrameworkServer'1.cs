@@ -183,12 +183,12 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
 
         private void CreateJavaDaoCode(DatabaseTable model, StringBuilder codeBuilder, String databaseName)
         {
-            codeBuilder.Append(String.Format("class {0}Dal{{\n", model.Name));
-            codeBuilder.Append("private static CommonDal commonDal=null;\n");
-            codeBuilder.Append(String.Format("public {0}Dal() throws Exception {\n", model.Name));
-            codeBuilder.Append(" MariadbConfig mariadbConfig=ConfigHelper.getInstance().getDBConfig(DefineTable.DatabaseName);DbUtilsConfig config = new DbUtilsConfig();config.setUrl(mariadbConfig.getUrl());config.setDbUserName(mariadbConfig.getDbUserName());config.setDbUserPwd(mariadbConfig.getDbUserPwd());config.setDefaultAutoCommit(mariadbConfig.getDefaultAutoCommit());config.setDriverClass(mariadbConfig.getDriverClass());config.setMaxIdle(mariadbConfig.getMaxIdle());commonDal = new CommonDal(config);}\n");
-            codeBuilder.Append(String.Format("static {0} add({0} info){{String sql = \"{1}\"; return commonDal.insert(sql, info, {0}.class);}}\n", model.Name, CreateInsertSqlForJava(model)));
-            codeBuilder.Append(String.Format("static Boolean Update({0} info){{String sql = \"{1}\"; return commonDal.update(sql, info);}}\n", model.Name, CreateUpdateSqlForJava(model)));
+            codeBuilder.Append(String.Format("class {0}Dal{{", model.Name));
+            codeBuilder.Append("private static CommonDal commonDal=null;");
+            codeBuilder.Append(String.Format("public {0}Dal() throws Exception {{", model.Name));
+            codeBuilder.Append(" MariadbConfig mariadbConfig=ConfigHelper.getInstance().getDBConfig(DefineTable.DatabaseName);DbUtilsConfig config = new DbUtilsConfig();config.setUrl(mariadbConfig.getUrl());config.setDbUserName(mariadbConfig.getDbUserName());config.setDbUserPwd(mariadbConfig.getDbUserPwd());config.setDefaultAutoCommit(mariadbConfig.getDefaultAutoCommit());config.setDriverClass(mariadbConfig.getDriverClass());config.setMaxIdle(mariadbConfig.getMaxIdle());commonDal = new CommonDal(config);}");
+            codeBuilder.Append(String.Format("static {0} add({0} info){{String sql = \"{1}\"; return commonDal.insert(sql, info, {0}.class);}}", model.Name, CreateInsertSqlForJava(model)));
+            codeBuilder.Append(String.Format("static Boolean Update({0} info){{String sql = \"{1}\"; return commonDal.update(sql, info);}}", model.Name, CreateUpdateSqlForJava(model)));
             codeBuilder.Append(String.Format("static Boolean Delete(List<Integer> IDs){{List<String> ids = new ArrayList<>();IDs.forEach(id->{{ids.add(\"?\");}});String sql = \"delete from  {0} where {0}Id in (\" + String.join(\",\", ids) + \")\"; return commonDal.excute(sql, IDs) > 0; }}", model.Name));
             codeBuilder.Append(String.Format("static {0} Get(int Id){{String sql = \"select * from {0}  where {0}Id=?\";return commonDal.get(sql, Id, {0}.class);}}", model.Name));
             codeBuilder.Append(String.Format("static List<{0}> GetList({0}SearchPamater pamater){{String sql = \"select * from {0} \" + pamater.CreateWhereSql();return commonDal.getList(sql, pamater, {0}.class);}}", model.Name));
@@ -279,7 +279,8 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     File.AppendAllText(String.Format("{0}/{1}Dal.cs", savePath, fileName), codeCotent, Encoding.UTF8);
                     break;
                 case CodeLanaguage.Java:
-                    File.AppendAllText(String.Format("{0}/{1}Dal.java", savePath, fileName), codeCotent, Encoding.UTF8);
+                    Encoding utf8NoBom = new UTF8Encoding(false);
+                    File.AppendAllText(String.Format("{0}/{1}Dal.java", savePath, fileName), codeCotent, utf8NoBom);
                     break;
             }
         }
@@ -327,7 +328,8 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     File.AppendAllText(String.Format("{0}/{1}.cs", savePath, fileName), codeCotent, Encoding.UTF8);
                     break;
                 case CodeLanaguage.Java:
-                    File.AppendAllText(String.Format("{0}/{1}.java", savePath, fileName), codeCotent, Encoding.UTF8);
+                    Encoding utf8NoBom = new UTF8Encoding(false);
+                    File.AppendAllText(String.Format("{0}/{1}.java", savePath, fileName), codeCotent, utf8NoBom);
                     break;
             }
         }
@@ -340,7 +342,8 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     File.AppendAllText(String.Format("{0}/{1}Server.cs", savePath, fileName), codeCotent, Encoding.UTF8);
                     break;
                 case CodeLanaguage.Java:
-                    File.AppendAllText(String.Format("{0}/{1}Server.java", savePath, fileName), codeCotent, Encoding.UTF8);
+                    Encoding utf8NoBom = new UTF8Encoding(false);
+                    File.AppendAllText(String.Format("{0}/{1}Server.java", savePath, fileName), codeCotent, utf8NoBom);
                     break;
             }
         }

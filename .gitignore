@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /Hayaa.AutoCode/XUnitTestProject
+/Hayaa.AutoCode/Hayaa.AutoCodeSite/Code/SourceCode
+/Hayaa.AutoCode/Hayaa.AutoCodeSite/Code/Code.zip

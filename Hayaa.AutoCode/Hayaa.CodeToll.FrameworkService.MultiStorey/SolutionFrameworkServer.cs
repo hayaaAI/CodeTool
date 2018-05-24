@@ -97,37 +97,45 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                                 propertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", dataType, p.Name));
                                 searchPropertiesBulider.Append(String.Format("public {0} {1}{{set;get;}}\n", searchDataType, p.Name));
                                 searchPropertiesBulider.Append(String.Format("public List<{0}> {1}List{{set;get;}}\n", dataType, p.Name));
+                                String betweenStr = "";
                                 if (!IsString(p.DataType))//字符类型不需要二元操作符
                                 {
                                     searchPropertiesBulider.Append(String.Format("public {0} {1}Max{{set;get;}}\n", searchDataType, p.Name));
                                     searchPropertiesBulider.Append(String.Format("public {0} {1}Min{{set;get;}}\n", searchDataType, p.Name));
                                     searchPropertiesBulider.Append(String.Format("public void Set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}\n", searchDataType, p.Name));
+                                    betweenStr = "case PamaterOperationType.Between:sql = \"{0} between @{0}Min to @{0}Max\";break;\n";
                                 }
                                 searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;\n", p.Name));//设置操作类型
                                 searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", searchDataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("private String Get{0}SqlForSharp(){{String sql = \"\";switch ({0}POT){{\ncase PamaterOperationType.Between:sql = \"{0} between @{0}Min to @{0}Max\";break;\ncase PamaterOperationType.StringContains:sql = \"{0} like '%@{0}%'\";break;\ncase PamaterOperationType.Equal:sql = \"{0}=@{0}\";break;\ncase PamaterOperationType.GreaterEqual:sql = \"{0}>=@{0}\";break;\ncase PamaterOperationType.GreaterThan:sql = \"{0}>@{0}\";break;\ncase PamaterOperationType.LessEqual:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.LessThan:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.In:sql = \"{0} in(\" + String.Join(\",\", this.{0}List) + \")\";break;\ncase PamaterOperationType.StringIn:sql = \"{0} in('\" + String.Join(\"','\", this.{0}List)+\"')\";break;\n}}\nreturn sql;}}\n", p.Name));
+                                searchPropertiesBulider.Append(String.Format("private String Get{0}SqlForSharp(){{String sql = \"\";switch ({0}POT){{\n"+ betweenStr + "case PamaterOperationType.StringContains:sql = \"{0} like '%@{0}%'\";break;\ncase PamaterOperationType.Equal:sql = \"{0}=@{0}\";break;\ncase PamaterOperationType.GreaterEqual:sql = \"{0}>=@{0}\";break;\ncase PamaterOperationType.GreaterThan:sql = \"{0}>@{0}\";break;\ncase PamaterOperationType.LessEqual:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.LessThan:sql = \"{0}<=@{0}\";break;\ncase PamaterOperationType.In:sql = \"{0} in(\" + String.Join(\",\", this.{0}List) + \")\";break;\ncase PamaterOperationType.StringIn:sql = \"{0} in('\" + String.Join(\"','\", this.{0}List)+\"')\";break;\n}}\nreturn sql;}}\n", p.Name));
                             }
                             if (codeTemplate.Language == CodeLanaguage.Java)
                             {
                                 String dataType = GetJavaDataType(p.DataType);
-                                propertiesBulider.Append(String.Format("private {0} {1};\n", dataType, p.Name));
-                                propertiesBulider.Append(String.Format("public {0} set{1}({0} {1}value){{ {1}={1}value; }}\n", dataType, p.Name));
-                                propertiesBulider.Append(String.Format("public {0} get{1}(){{ return {1}; }}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("private {0} {1};\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public {0} set{1}({0} {1}value){{ {1}={1}value; }}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public {0} get{1}(){{ return {1}; }}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("private List<{0}> {1}List;\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public List<{0}> set{1}List(List<{0}> {1}value){{ this.{1}List={1}value; }}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public List<{0}> get{1}List(){{ return  this.{1}List; }}\n", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("private {0} {1};", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("public void set{1}({0} {1}value){{ this.{1}={1}value; }}", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("public {0} get{1}(){{ return this.{1}; }}", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("private {0} {1};", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public void set{1}({0} {1}value){{ this.{1}={1}value; }}", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public {0} get{1}(){{ return this.{1}; }}", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("private List<{0}> {1}List;", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public void set{1}List(List<{0}> {1}value){{ this.{1}List={1}value; }}", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public List<{0}> get{1}List(){{ return  this.{1}List; }}", dataType, p.Name));
+                                String betweenStr= "";
                                 if (!IsString(p.DataType))//字符类型不需要二元操作符
                                 {
-                                    searchPropertiesBulider.Append(String.Format("private {0} {1}Max;\n", dataType, p.Name));
-                                    searchPropertiesBulider.Append(String.Format("private {0} {1}Min;\n", dataType, p.Name));
-                                    searchPropertiesBulider.Append(String.Format("public void set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}\n", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("private {0} {1}Max;", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public void set{1}Max({0} {1}value){{ this.{1}Max={1}value; }}", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public {0} get{1}Max(){{ return this.{1}Max; }}", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("private {0} {1}Min;", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public void set{1}Min({0} {1}value){{ this.{1}Min={1}value; }}", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public {0} get{1}Min(){{ return this.{1}Min; }}", dataType, p.Name));
+                                    searchPropertiesBulider.Append(String.Format("public void set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}", dataType, p.Name));
+                                    betweenStr = "case Between:sql = \"{0} between :{0}Min to :{0}Max\";break;";
                                 }
-                                searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;\n", p.Name));//设置操作类型
+                                searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;", p.Name));//设置操作类型
                                 searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("private String Get{0}SqlForSharp(){{String sql = \"\";switch ({0}POT){{\ncase PamaterOperationType.Between:sql = \"{0} between \" + this.{0}Min + \" to \" + this.{0}Max;break;\ncase PamaterOperationType.StringContains:sql = \"{0} like '%:{0}%'\";break;\ncase PamaterOperationType.Equal:sql = \"{0}=:{0}\";break;\ncase PamaterOperationType.GreaterEqual:sql = \"{0}>=:{0}\";break;\ncase PamaterOperationType.GreaterThan:sql = \"{0}>:{0}\";break;\ncase PamaterOperationType.LessEqual:sql = \"{0}<=:{0}\";break;\ncase PamaterOperationType.LessThan:sql = \"{0}<=:{0}\";break;\ncase PamaterOperationType.In:sql = \"{0} in(\" + String.join(\",\", this.{0}List) + \")\";break;\ncase PamaterOperationType.StringIn:sql = \"{0} in('\" + String.join(\"','\", this.{0}List)+\"')\";break;\n}}\nreturn sql;}}\n", p.Name));
+                                searchPropertiesBulider.Append(String.Format("private String Get{0}SqlForSharp(){{String sql = \"\";switch ({0}POT){{ "+ betweenStr + "case StringContains:sql = \"{0} like '%:{0}%'\";break;case Equal:sql = \"{0}=:{0}\";break;case GreaterEqual:sql = \"{0}>=:{0}\";break;case GreaterThan:sql = \"{0}>:{0}\";break;case LessEqual:sql = \"{0}<=:{0}\";break;case LessThan:sql = \"{0}<=:{0}\";break;case In:sql = \"{0} in(\" + String.join(\",\", (CharSequence)this.{0}List) + \")\";break;case StringIn:sql = \"{0} in('\" + String.join(\"','\", (CharSequence)this.{0}List)+\"')\";break;}}return sql;}}", p.Name));
                             }
                         });
                         codeBuilder = codeBuilder.Replace("CODE", propertiesBulider.ToString());
@@ -152,10 +160,10 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             MakeCodeForModel(tables, modelTemplate, databaseConnection, databaseName, savePath);
             //生成Dao层代码
             CodeTemplate dalTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Dao);
-            MakeCodeForDao(tables, modelTemplate, databaseConnection, databaseName, savePath);
+            MakeCodeForDao(tables, dalTemplate, databaseConnection, databaseName, savePath);
             //生成服务层代码
             CodeTemplate serviceTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Service);
-            MakeCodeForService(tables, modelTemplate, databaseConnection, databaseName, savePath);
+            MakeCodeForService(tables, serviceTemplate, databaseConnection, databaseName, savePath);
             return result;
         }
 
@@ -186,13 +194,13 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         }
         private static StringBuilder CreateForJava(DatabaseTable t)
         {
-            StringBuilder codeBuilder = new StringBuilder(String.Format("@Service(\"{1}Service\")\npublic class {0}Server implements {0}Service{{\n", t.Name,ParseName(t.Name)));//构造原型类整体结构
-            codeBuilder.Append(String.Format("@Override\npublic FunctionResult<{0}> Create({0} info){{FunctionResult<{0}> r = new FunctionResult<{0}>();info = {0}Dal.add(info);if (info.get{0}Id() > 0){{r.setData(info);}}return r;}}\n", t.Name));
-            codeBuilder.Append(String.Format("@Override\npublic FunctionOpenResult<Boolean> UpdateByID({0} info){{FunctionOpenResult<Boolean> r = new FunctionOpenResult<Boolean>();r.setData({0}Dal.Update(info));return r;}}\n", t.Name));
-            codeBuilder.Append(String.Format("@Override\npublic FunctionOpenResult<Boolean> DeleteByID(List<Integer> list) {{FunctionOpenResult<Boolean> r=new FunctionOpenResult<Boolean>();r.setData(CompanyDal.Delete(list));return r;}}\n", t.Name));
-            codeBuilder.Append(String.Format("@Override\npublic GridPager<{0}> GetPager(GridPagerPamater<{0}SearchPamater> gridPagerPamater) {{GridPager<{0}> r={0}Dal.GetGridPager(gridPagerPamater);return r;}}\n", t.Name));
-            codeBuilder.Append(String.Format("@Override\npublic FunctionResult<{0}> Get(int id) {{FunctionResult<{0}> r=new FunctionResult<{0}>();r.setData({0}Dal.Get(id));return r;}}\n", t.Name));
-            codeBuilder.Append(String.Format("@Override\npublic FunctionListResult<{0}> GetList({0}SearchPamater searchPamater) {{FunctionListResult<{0}> r=new FunctionListResult<{0}>();r.setData({0}Dal.GetList(searchPamater));return r;}}", t.Name));        
+            StringBuilder codeBuilder = new StringBuilder(String.Format("@Service(\"{1}Service\")public class {0}Server implements {0}Service{{ ", t.Name,ParseName(t.Name)));//构造原型类整体结构
+            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Create({0} info){{FunctionResult<{0}> r = new FunctionResult<{0}>();info = {0}Dal.add(info);if (info.get{0}Id() > 0){{r.setData(info);}}return r;}} ", t.Name));
+            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> UpdateByID({0} info){{FunctionOpenResult<Boolean> r = new FunctionOpenResult<Boolean>();r.setData({0}Dal.Update(info));return r;}} ", t.Name));
+            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> DeleteByID(List<Integer> list) {{FunctionOpenResult<Boolean> r=new FunctionOpenResult<Boolean>();r.setData(CompanyDal.Delete(list));return r;}} ", t.Name));
+            codeBuilder.Append(String.Format("@Override public GridPager<{0}> GetPager(GridPagerPamater<{0}SearchPamater> gridPagerPamater) {{GridPager<{0}> r={0}Dal.GetGridPager(gridPagerPamater);return r;}} ", t.Name));
+            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Get(int id) {{FunctionResult<{0}> r=new FunctionResult<{0}>();r.setData({0}Dal.Get(id));return r;}}\n", t.Name));
+            codeBuilder.Append(String.Format("@Override public FunctionListResult<{0}> GetList({0}SearchPamater searchPamater) {{FunctionListResult<{0}> r=new FunctionListResult<{0}>();r.setData({0}Dal.GetList(searchPamater));return r;}}", t.Name));        
             codeBuilder.Append("}");
             return codeBuilder;
         }
