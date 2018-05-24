@@ -14,13 +14,13 @@ namespace Hayaa.CodeTool.FrameworkService.Dao
         private static String con = ConfigHelper.Instance.GetConnection(DefineTable.DatabaseName);
         internal static int Add(CodeTemplate info)
         {
-            string sql = "insert into CodeTemplate(Name,Content,SpaceName,Language,GenCodeType) values(@Name,@Content,@SpaceName,@Language,@GenCodeType)";
-            return Insert<CodeTemplate>(con, sql, info);
+            string sql = "insert into CodeTemplate(Name,Content,SpaceName,Language,GenCodeType) values(@Name,@Content,@SpaceName,@Language,@GenCodeType);select @@IDENTITY;";
+            return InsertWithReturnID<CodeTemplate,int>(con, sql, info);
         }
         internal static int Update(CodeTemplate info)
         {
             string sql = "update CodeTemplate set Name=@Name,Content=@Content,SpaceName=@SpaceName,Language=@Language,GenCodeType=@GenCodeType where CodeTemplateId=@CodeTemplateId";
-            return Insert<CodeTemplate>(con, sql, info);
+            return Update<CodeTemplate>(con, sql, info);
         }
         internal static bool Delete(List<int> IDs)
         {
