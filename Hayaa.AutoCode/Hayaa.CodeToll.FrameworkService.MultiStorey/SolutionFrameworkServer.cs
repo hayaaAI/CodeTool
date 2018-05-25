@@ -208,7 +208,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         private static String ParseName(string name)
         {
             var temp = name.ToLower().Substring(0, 1);
-            name.Remove(0);
+            name.Remove(0,1);
             return temp + name;
         }
 
