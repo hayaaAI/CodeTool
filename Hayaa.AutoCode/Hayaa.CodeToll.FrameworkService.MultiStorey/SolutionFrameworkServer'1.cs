@@ -184,9 +184,8 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         private void CreateJavaDaoCode(DatabaseTable model, StringBuilder codeBuilder, String databaseName)
         {
             codeBuilder.Append(String.Format("class {0}Dal{{", model.Name));
-            codeBuilder.Append("private static CommonDal commonDal=null;");
-            codeBuilder.Append(String.Format("public {0}Dal() throws Exception {{", model.Name));
-            codeBuilder.Append(" MariadbConfig mariadbConfig=ConfigHelper.getInstance().getDBConfig(DefineTable.DatabaseName);DbUtilsConfig config = new DbUtilsConfig();config.setUrl(mariadbConfig.getUrl());config.setDbUserName(mariadbConfig.getDbUserName());config.setDbUserPwd(mariadbConfig.getDbUserPwd());config.setDefaultAutoCommit(mariadbConfig.getDefaultAutoCommit());config.setDriverClass(mariadbConfig.getDriverClass());config.setMaxIdle(mariadbConfig.getMaxIdle());commonDal = new CommonDal(config);}");
+            codeBuilder.Append("private static CommonDal commonDal=null;");           
+            codeBuilder.Append("static { MariadbConfig mariadbConfig=ConfigHelper.getInstance().getDBConfig(DefineTable.DatabaseName);DbUtilsConfig config = new DbUtilsConfig();config.setUrl(mariadbConfig.getUrl());config.setDbUserName(mariadbConfig.getDbUserName());config.setDbUserPwd(mariadbConfig.getDbUserPwd());config.setDefaultAutoCommit(mariadbConfig.getDefaultAutoCommit());config.setDriverClass(mariadbConfig.getDriverClass());config.setMaxIdle(mariadbConfig.getMaxIdle());try{ commonDal = new CommonDal(config); } catch(Exception e) { e.printStackTrace(); } }");
             codeBuilder.Append(String.Format("static {0} add({0} info){{String sql = \"{1}\"; return commonDal.insert(sql, info, {0}.class);}}", model.Name, CreateInsertSqlForJava(model)));
             codeBuilder.Append(String.Format("static Boolean Update({0} info){{String sql = \"{1}\"; return commonDal.update(sql, info);}}", model.Name, CreateUpdateSqlForJava(model)));
             codeBuilder.Append(String.Format("static Boolean Delete(List<Integer> IDs){{List<String> ids = new ArrayList<>();IDs.forEach(id->{{ids.add(\"?\");}});String sql = \"delete from  {0} where {0}Id in (\" + String.join(\",\", ids) + \")\"; return commonDal.excute(sql, IDs) > 0; }}", model.Name));
