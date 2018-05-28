@@ -183,7 +183,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
 
         private void CreateJavaDaoCode(DatabaseTable model, StringBuilder codeBuilder, String databaseName)
         {
-            codeBuilder.Append(String.Format("interface {0}Mapper{{", model.Name));            
+            codeBuilder.Append(String.Format("@Mapper interface {0}Mapper{{", model.Name));            
             codeBuilder.Append(String.Format(" @Insert(\"{1}\") @Options(useGeneratedKeys = true, keyProperty =\"{2}.{0}Id\") void insert(@Param(\"{2}\") {0} {2});", model.Name, CreateInsertSqlForJava(model),ParseName(model.Name)));
             codeBuilder.Append(String.Format("@Update(\"{1}\") Boolean update(@Param(\"{2}\") {0} {2});", model.Name, CreateUpdateSqlForJava(model),ParseName(model.Name)));
             codeBuilder.Append(String.Format("@Delete(\"delete from {0} where {1}Id in ${{ids}}\") Boolean delete(@Param(\"ids\") String ids);", model.Name, ParseName(model.Name)));
