@@ -215,9 +215,13 @@ namespace Hayaa.AutoCodeController
         {
             TransactionResult<Solution> result = new TransactionResult<Solution>();
             info.CodeStorePath = _hostingEnvironment.WebRootPath + "/Code/SourceCode";
-            try { Directory.Delete(info.CodeStorePath,true);
+            try {
+                Directory.Delete(info.CodeStorePath,true);
                 System.IO.File.Delete(_hostingEnvironment.WebRootPath + "/Code/Code.zip");
-            } catch (Exception ex) { }            
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine(info.CodeStorePath);
             Directory.CreateDirectory(info.CodeStorePath);
             var solutionResult=  solutionTemplateService.GetWithCodeTemplatesBySolutionTemplateId(info.SolutionId);
             if (!(solutionResult.ActionResult && solutionResult.HavingData))
