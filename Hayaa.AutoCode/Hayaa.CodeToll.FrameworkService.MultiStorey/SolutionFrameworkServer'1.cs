@@ -183,43 +183,40 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
 
         private void CreateJavaDaoCode(DatabaseTable model, StringBuilder codeBuilder, String databaseName)
         {
-            codeBuilder.Append(String.Format("class {0}Dal{{", model.Name));
-            codeBuilder.Append("private static CommonDal commonDal=null;");           
-            codeBuilder.Append("static { MariadbConfig mariadbConfig=ConfigHelper.getInstance().getDBConfig(DefineTable.DatabaseName);DbUtilsConfig config = new DbUtilsConfig();config.setUrl(mariadbConfig.getUrl());config.setDbUserName(mariadbConfig.getDbUserName());config.setDbUserPwd(mariadbConfig.getDbUserPwd());config.setDefaultAutoCommit(mariadbConfig.getDefaultAutoCommit());config.setDriverClass(mariadbConfig.getDriverClass());config.setMaxIdle(mariadbConfig.getMaxIdle());try{ commonDal = new CommonDal(config); } catch(Exception e) { e.printStackTrace(); } }");
-            codeBuilder.Append(String.Format("static {0} add({0} info){{String sql = \"{1}\"; return commonDal.insert(sql, info, {0}.class);}}", model.Name, CreateInsertSqlForJava(model)));
-            codeBuilder.Append(String.Format("static Boolean Update({0} info){{String sql = \"{1}\"; return commonDal.update(sql, info);}}", model.Name, CreateUpdateSqlForJava(model)));
-            codeBuilder.Append(String.Format("static Boolean Delete(List<Integer> IDs){{List<String> ids = new ArrayList<>();IDs.forEach(id->{{ids.add(\"?\");}});String sql = \"delete from  {0} where {0}Id in (\" + String.join(\",\", ids) + \")\"; return commonDal.excute(sql, IDs) > 0; }}", model.Name));
-            codeBuilder.Append(String.Format("static {0} Get(int Id){{String sql = \"select * from {0}  where {0}Id=?\";return commonDal.get(sql, Id, {0}.class);}}", model.Name));
-            codeBuilder.Append(String.Format("static List<{0}> GetList({0}SearchPamater pamater){{String sql = \"select * from {0} \" + pamater.CreateWhereSql();return commonDal.getList(sql, pamater, {0}.class);}}", model.Name));
-            codeBuilder.Append(String.Format("static GridPager GetGridPager(GridPagerPamater<{0}SearchPamater> pamater){{String sql = \"select SQL_CALC_FOUND_ROWS * from {0} \" + pamater.getSearchPamater().CreateWhereSql()+ \" limit :start,:pageSize;select FOUND_ROWS();\";pamater.getSearchPamater().setStart((pamater.getCurrent() - 1) * pamater.getPageSize());pamater.getSearchPamater().setPageSize(pamater.getPageSize());return commonDal.getGridPager(sql, pamater.getPageSize(), pamater.getCurrent(), pamater, {0}.class);}}", model.Name));
+            codeBuilder.Append(String.Format("interface {0}Mapper{{", model.Name));            
+            codeBuilder.Append(String.Format(" @Insert(\"{1}\") @Options(useGeneratedKeys = true, keyProperty =\"{2}.{0}Id\") void insert(@Param(\"{2}\") {0} {2});", model.Name, CreateInsertSqlForJava(model),ParseName(model.Name)));
+            codeBuilder.Append(String.Format("@Update(\"{1}\") Boolean update(@Param(\"{2}\") {0} {2});", model.Name, CreateUpdateSqlForJava(model),ParseName(model.Name)));
+            codeBuilder.Append(String.Format("@Delete(\"delete from {0} where {1}Id in ${{ids}}\") Boolean delete(@Param(\"ids\") String ids);", model.Name, ParseName(model.Name)));
+            codeBuilder.Append(String.Format("@Select(\"select * from {0} where {0}Id =#{{Id}}\") {0} get(int Id);", model.Name));
+            codeBuilder.Append(String.Format("@Select(\"select * from {0} ${{whereSql}}\") List<{0}> getList(@Param(\"whereSql\") String whereSql);", model.Name));
             codeBuilder.Append("}");
         }
         private String CreateInsertSqlForJava(DatabaseTable model)
         {
-            String sql = "insert into {0}({1}) values(:{2});";//由于采用String.Join方法，多出一个@作为",@"分隔符方式的补充
+            String sql = "insert into {0}({1}) values({2});";//由于采用String.Join方法，多出一个@作为",@"分隔符方式的补充
             DatabaseFiled[] arr = new DatabaseFiled[model.Fileds.Count];
             model.Fileds.CopyTo(arr);//防止破坏模型数据
             List<DatabaseFiled> list = arr.ToList();
             list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
             list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段并且字段有默认数值
             list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime
-            IEnumerable<String> filedNames = list.Select(x => x.Name);
+            IEnumerable<String> filedNames = list.Select(x =>("#{"+ParseName(model.Name)+"."+x.Name+"}"));
             String fileds = String.Join(",", filedNames);
-            sql = String.Format(sql, model.Name, fileds, String.Join(",:", filedNames));//传值变量需要满足jdbc的具名要求变量名和类属性名一致
+            sql = String.Format(sql, model.Name, fileds, String.Join(",", filedNames));//传值变量需要满足mybatis的具名要求变量名和类属性名一致
             return sql;
         }
         private String CreateUpdateSqlForJava(DatabaseTable model)
         {
-            String sql = "update {0} set {1} where {0}Id=:{0}Id";
+            String sql = "update {0} set {1} where {0}Id=#{{{2}.{0}Id}}";
             DatabaseFiled[] arr = new DatabaseFiled[model.Fileds.Count];
             model.Fileds.CopyTo(arr);//防止破坏模型数据
             List<DatabaseFiled> list = arr.ToList();
             list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
             list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段
             list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime，并且字段有默认时间戳
-            IEnumerable<String> filedNames = list.Select(x => x.Name = (x.Name + "=:" + x.Name));
+            IEnumerable<String> filedNames = list.Select(x => x.Name = (x.Name + "=#{"+ParseName(model.Name)+"."+ x.Name+"}"));
             String fileds = String.Join(",", filedNames);
-            sql = String.Format(sql, model.Name, fileds);//传值变量需要满足jdbc的具名要求变量名和类属性名一致
+            sql = String.Format(sql, model.Name, fileds,ParseName(model.Name));//传值变量需要满足mybatis的具名要求变量名和类属性名一致
             return sql;
         }
         #region C#创建Dao
