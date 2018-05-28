@@ -276,7 +276,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     break;
                 case CodeLanaguage.Java:
                     Encoding utf8NoBom = new UTF8Encoding(false);
-                    File.AppendAllText(String.Format("{0}/{1}Dal.java", savePath, fileName), codeCotent, utf8NoBom);
+                    File.AppendAllText(String.Format("{0}/{1}Mapper.java", savePath, fileName), codeCotent, utf8NoBom);
                     break;
             }
         }
