@@ -186,7 +186,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             codeBuilder.Append(String.Format("@Mapper interface {0}Mapper{{", model.Name));            
             codeBuilder.Append(String.Format(" @Insert(\"{1}\") @Options(useGeneratedKeys = true, keyProperty =\"{2}.{0}Id\") void insert(@Param(\"{2}\") {0} {2});", model.Name, CreateInsertSqlForJava(model),ParseName(model.Name)));
             codeBuilder.Append(String.Format("@Update(\"{1}\") Boolean update(@Param(\"{2}\") {0} {2});", model.Name, CreateUpdateSqlForJava(model),ParseName(model.Name)));
-            codeBuilder.Append(String.Format("@Delete(\"delete from {0} where {1}Id in ${{ids}}\") Boolean delete(@Param(\"ids\") String ids);", model.Name, ParseName(model.Name)));
+            codeBuilder.Append(String.Format("@Delete(\"delete from {0} where {1}Id in (${{ids}})\") Boolean delete(@Param(\"ids\") String ids);", model.Name, ParseName(model.Name)));
             codeBuilder.Append(String.Format("@Select(\"select * from {0} where {0}Id =#{{Id}}\") {0} get(int Id);", model.Name));
             codeBuilder.Append(String.Format("@Select(\"select * from {0} ${{whereSql}}\") List<{0}> getList(@Param(\"whereSql\") String whereSql);", model.Name));
             codeBuilder.Append("}");
@@ -429,10 +429,10 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     result = "String";
                     break;
                 case DatabaseDataType.Date:
-                    result = "java.sql.Date";
+                    result = "java.util.Date";
                     break;
                 case DatabaseDataType.Datetime:
-                    result = "java.sql.Date";
+                    result = "java.util.Date";
                     break;
                 case DatabaseDataType.Decimal:
                     result = "BigDecimal";
@@ -465,10 +465,10 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     result = "String";
                     break;
                 case DatabaseDataType.Time:
-                    result = "java.sql.Time";
+                    result = "java.util.Date";
                     break;
                 case DatabaseDataType.Timestamp:
-                    result = "java.sql.Timestamp";
+                    result = "java.util.Date";
                     break;
                 case DatabaseDataType.TinyInt:
                     result = "Integer";
@@ -477,7 +477,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     result = "String";
                     break;
                 case DatabaseDataType.Year:
-                    result = "java.sql.Date";
+                    result = "java.util.Date";
                     break;
                 default:
                     break;
