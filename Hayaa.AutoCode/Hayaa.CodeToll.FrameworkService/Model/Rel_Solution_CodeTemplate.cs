@@ -9,6 +9,6 @@ namespace Hayaa.CodeTool.FrameworkService
         public int? Id { set; get; }
         public int? SolutionTemplateId { set; get; }
         public int? CodeTemplateId { set; get; }
-        public DateTime? CreateTime { set; get; }
+       
     }
 }

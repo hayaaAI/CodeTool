@@ -121,7 +121,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                                 case DatabaseDataType.Text:
                                 case DatabaseDataType.VarChar:
                                 default:
-                                    code.Append(string.Format("if(CheckHelper.IsStringNullorEmpty(var{0}.{1})){ return {2}; }\n", model.Name, f.Name, returnTypeCode));
+                                    code.Append(string.Format("if(CheckHelper.IsStringNullorEmpty(var{0}.{1})){{ return {2}; }}\n", model.Name, f.Name, returnTypeCode));
                                     break;
                             }
                             break;
@@ -130,50 +130,50 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                             {
                                 #region 日期
                                 case DatabaseDataType.Year:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){{ return {4}; }}\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Time:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){{ return {4};}}\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Timestamp:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){{ return {4};}}\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Date:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){{ return {4};}}\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Datetime:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDateTime(var{0}.{1},{2},{3})){{ return {4};}}\n", model.Name, f.Name, f.CheckRule.getDateTimeRang().MinVal, f.CheckRule.getDateTimeRang().MaxVal, returnTypeCode));
                                     break;
                                 #endregion
                                 #region bigdata
                                 case DatabaseDataType.Decimal:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDecimal(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDecimal(var{0}.{1},{2},{3})){{ return {4};}}\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Money_MsSql:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDecimal(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDecimal(var{0}.{1},{2},{3})){{return {4};}}\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Double:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangDouble(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getDoubleRang().MinVal, f.CheckRule.getDoubleRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangDouble(var{0}.{1},{2},{3})){{return {4};}}\n", model.Name, f.Name, f.CheckRule.getDoubleRang().MinVal, f.CheckRule.getDoubleRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.Float:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangFloat(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getFloatRang().MinVal, f.CheckRule.getFloatRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangFloat(var{0}.{1},{2},{3})){{return {4};}}\n", model.Name, f.Name, f.CheckRule.getFloatRang().MinVal, f.CheckRule.getFloatRang().MaxVal, returnTypeCode));
                                     break;
                                 #endregion
                                 #region 整型
                                 case DatabaseDataType.Int:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangInt(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getIntRang().MinVal, f.CheckRule.getIntRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangInt(var{0}.{1},{2},{3})){{return {4};}}\n", model.Name, f.Name, f.CheckRule.getIntRang().MinVal, f.CheckRule.getIntRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.BigInt:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangLong(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getLongRang().MinVal, f.CheckRule.getLongRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangLong(var{0}.{1},{2},{3})){{return {4};}}\n", model.Name, f.Name, f.CheckRule.getLongRang().MinVal, f.CheckRule.getLongRang().MaxVal, returnTypeCode));
                                     break;
                                 case DatabaseDataType.TinyInt:
-                                    code.Append(string.Format("if(!CheckHelper.IsRangByte(var{0}.{1},{2},{3})){ return {4}; }\n", model.Name, f.Name, f.CheckRule.getByteRang().MinVal, f.CheckRule.getByteRang().MaxVal, returnTypeCode));
+                                    code.Append(string.Format("if(!CheckHelper.IsRangByte(var{0}.{1},{2},{3})){{return {4};}}\n", model.Name, f.Name, f.CheckRule.getByteRang().MinVal, f.CheckRule.getByteRang().MaxVal, returnTypeCode));
                                     break;
                                     #endregion
                             }
                             break;
                         case ModelPropeprtyRuleType.Regex:
-                            code.Append(string.Format("if(!CheckHelper.IsRegex(var{0}.{1},{2})){ return {3}; }\n", model.Name, f.Name, f.CheckRule.RegexRule, returnTypeCode));
+                            code.Append(string.Format("if(!CheckHelper.IsRegex(var{0}.{1},{2})){{return {3};}}\n", model.Name, f.Name, f.CheckRule.RegexRule, returnTypeCode));
                             break;
                     }
                 });
@@ -200,9 +200,10 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
             list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段并且字段有默认数值
             list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime
-            IEnumerable<String> filedNames = list.Select(x =>("#{"+ParseName(model.Name)+"."+x.Name+"}"));
+            IEnumerable<String> filedNames = list.Select(x => x.Name);
+            IEnumerable<String> values = list.Select(x =>("#{"+ParseName(model.Name)+"."+x.Name+"}"));
             String fileds = String.Join(",", filedNames);
-            sql = String.Format(sql, model.Name, fileds, String.Join(",", filedNames));//传值变量需要满足mybatis的具名要求变量名和类属性名一致
+            sql = String.Format(sql, model.Name, fileds, String.Join(",", values));//传值变量需要满足mybatis的具名要求变量名和类属性名一致
             return sql;
         }
         private String CreateUpdateSqlForJava(DatabaseTable model)
@@ -229,7 +230,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         {
             codeBuilder.Append(String.Format("internal partial class {0}Dal:CommonDal{{\n", model.Name));
             codeBuilder.Append(String.Format("private static String con= ConfigHelper.Instance.GetConnection(DefineTable.DatabaseName);\n", model.Name));
-            codeBuilder.Append(String.Format("internal static int Add({0} info,bool isReturn=true){{\n string sql =null;if(isReturn) {sql=\"{1}\";\nreturn InsertWithReturnID<{0}>(con,sql, info);}else {sql=\"{2}\";\nreturn Insert<{0}>(con,sql, info);}\n}}\n", model.Name, CreateInsertSqlForCSharp(model, true), CreateInsertSqlForCSharp(model, false)));
+            codeBuilder.Append(String.Format("internal static int Add({0} info,bool isReturn=true){{\n string sql =null;if(isReturn) {{sql=\"{1}\";\nreturn InsertWithReturnID<{0}>(con,sql, info);}}else {{sql=\"{2}\";\nreturn Insert<{0}>(con,sql, info);}}\n}}\n", model.Name, CreateInsertSqlForCSharp(model, true), CreateInsertSqlForCSharp(model, false)));
             codeBuilder.Append(String.Format("internal static int Update({0} info){{\n string sql = \"{1}\";\nreturn Update<{0}>(con,sql, info);\n}}\n", model.Name, CreateUpdateSqlForCSharp(model)));
             codeBuilder.Append(String.Format("internal static bool Delete(List<int> IDs){{\n string sql = \"delete from  {0} where {0}Id in @ids\";\nreturn Excute(con,sql, new {{ ids = IDs.ToArray() }}) > 0;\n}}\n", model.Name));
             codeBuilder.Append(String.Format("internal static {0} Get(int Id){{\n string sql = \"select * from {0}  where {0}Id=@{0}Id\";\nreturn Get<{0}>(con,sql,new{{ {0}Id=Id }});\n}}\n", model.Name));

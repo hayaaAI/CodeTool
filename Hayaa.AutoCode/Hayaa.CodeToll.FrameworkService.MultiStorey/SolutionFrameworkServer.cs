@@ -194,14 +194,15 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         }
         private static StringBuilder CreateForJava(DatabaseTable t)
         {
-            StringBuilder codeBuilder = new StringBuilder(String.Format("@Service(\"{1}Service\")public class {0}Service implements I{0}Service{{ ", t.Name,ParseName(t.Name)));//构造原型类整体结构
-            codeBuilder.Append(String.Format("@Autowired private {0}Mapper {1}Mapper;", t.Name, ParseName(t.Name)));
-            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Create({0} info){{FunctionResult<{0}> r = new FunctionResult<{0}>();{1}Mapper.insert(info);if (info.get{0}Id() > 0){{r.setData(info);}}return r;}} ", t.Name, ParseName(t.Name)));
-            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> UpdateByID({0} info){{FunctionOpenResult<Boolean> r = new FunctionOpenResult<Boolean>();r.setData({1}Mapper.update(info));return r;}} ", t.Name, ParseName(t.Name)));
-            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> DeleteByID(List<Integer> list) {{FunctionOpenResult<Boolean> r=new FunctionOpenResult<Boolean>();String ids=list.toString().replace(\"[\",\"\").replace(\"]\",\"\");r.setData({1}Mapper.delete(ids));return r;}} ", t.Name, ParseName(t.Name)));
-            codeBuilder.Append(String.Format("@Override public GridPager<{0}> GetPager(GridPagerPamater<{0}SearchPamater> gridPagerPamater) {{  PageHelper.orderBy(\"{0}Id desc\");Page pageInfo=PageHelper.startPage(gridPagerPamater.getCurrent(), gridPagerPamater.getPageSize());String whereSql=gridPagerPamater.getSearchPamater().CreateWhereSql();List<{0}>  dalResult={1}Mapper.getList(whereSql);GridPager<{0}> r=new GridPager<>(gridPagerPamater.getCurrent(),gridPagerPamater.getPageSize()); r.setData(dalResult); r.setTotal((int)pageInfo.getTotal());return r;}} ", t.Name, ParseName(t.Name)));
-            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Get(int id) {{FunctionResult<{0}> r=new FunctionResult<{0}>();r.setData({1}Mapper.get(id));return r;}}\n", t.Name, ParseName(t.Name)));
-            codeBuilder.Append(String.Format("@Override public FunctionListResult<{0}> GetList({0}SearchPamater searchPamater) {{FunctionListResult<{0}> r=new FunctionListResult<{0}>();r.setData({1}Mapper.getList(searchPamater.CreateWhereSql()));return r;}}", t.Name, ParseName(t.Name)));        
+            String lname = ParseName(t.Name);
+            StringBuilder codeBuilder = new StringBuilder(String.Format("@Service(\"{1}Service\")public class {0}Service implements I{0}Service{{ ", t.Name, lname));//构造原型类整体结构
+            codeBuilder.Append(String.Format("@Autowired private {0}Mapper {1}Mapper;", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Create({0} info){{FunctionResult<{0}> r = new FunctionResult<{0}>();{1}Mapper.insert(info);if (info.get{0}Id() > 0){{r.setData(info);}}return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> UpdateByID({0} info){{FunctionOpenResult<Boolean> r = new FunctionOpenResult<Boolean>();r.setData({1}Mapper.update(info));return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> DeleteByID(List<Integer> list) {{FunctionOpenResult<Boolean> r=new FunctionOpenResult<Boolean>();String ids=list.toString().replace(\"[\",\"\").replace(\"]\",\"\");r.setData({1}Mapper.delete(ids));return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public GridPager<{0}> GetPager(GridPagerPamater<{0}SearchPamater> gridPagerPamater) {{  PageHelper.orderBy(\"{0}Id desc\");Page pageInfo=PageHelper.startPage(gridPagerPamater.getCurrent(), gridPagerPamater.getPageSize());String whereSql=gridPagerPamater.getSearchPamater().CreateWhereSql();List<{0}>  dalResult={1}Mapper.getList(whereSql);GridPager<{0}> r=new GridPager<>(gridPagerPamater.getCurrent(),gridPagerPamater.getPageSize()); r.setData(dalResult); r.setTotal((int)pageInfo.getTotal());return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Get(int id) {{FunctionResult<{0}> r=new FunctionResult<{0}>();r.setData({1}Mapper.get(id));return r;}}\n", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionListResult<{0}> GetList({0}SearchPamater searchPamater) {{FunctionListResult<{0}> r=new FunctionListResult<{0}>();r.setData({1}Mapper.getList(searchPamater.CreateWhereSql()));return r;}}", t.Name, lname));        
             codeBuilder.Append("}");
             return codeBuilder;
         }
@@ -209,7 +210,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         private static String ParseName(string name)
         {
             var temp = name.ToLower().Substring(0, 1);
-            name.Remove(0,1);
+            name=name.Remove(0,1);
             return temp + name;
         }
 
