@@ -81,7 +81,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     if (codeTemplate.Language == CodeLanaguage.Java)
                     {
                         codeBuilder = new StringBuilder(String.Format("public  class {0} extends BaseData{{CODE}}", t.Name));
-                        codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater extends SearchPamaterMariadbBase implements PagerTotal{{CODE}}", t.Name));
+                        codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater extends SearchPamaterMariadbBase {{CODE}}", t.Name));
                     }
                     if (t.Fileds != null)
                     {
