@@ -188,7 +188,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
 
         private void CreateMybatisXml(CodeTemplate codeTemplate, DatabaseTable t, StringBuilder codeBuilder, string databaseName,String modelSpacename)
         {
-            codeBuilder.Append("<?xml version=\"1.0\" encoding=\"UTF - 8\" ?><!DOCTYPE mapper PUBLIC \" -//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+            codeBuilder.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?><!DOCTYPE mapper PUBLIC \" -//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
             codeBuilder.Append(String.Format("<mapper namespace=\"{0}.{1}Mapper\">", codeTemplate.SpaceName, t.Name));
             codeBuilder.Append(String.Format("<select id=\"getList\" resultType=\"{0}.{1}\">", codeTemplate.SpaceName, t.Name));
             codeBuilder.Append(String.Format("select * from {0}", t.Name));
@@ -203,8 +203,8 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                 else
                 {
                     codeBuilder.Append(String.Format("<if test=\"searchPamater.{0} != null\"> {1} {0} = #{{searchPamater.{0}}}</if>", f.Name, (i > 0 ? "AND" : "")));
-                }
-                codeBuilder.Append(String.Format("<if test=\"searchPamater.{0}Max != null and searchPamater.{0}Min != null\"> {1} {0} BETWEEN #{{searchPamater.{0}Min}} to #{{searchPamater.{0}Max}}</if>", f.Name, (i > 0 ? "AND" : "")));
+                    codeBuilder.Append(String.Format("<if test=\"searchPamater.{0}Max != null and searchPamater.{0}Min != null\"> {1} {0} BETWEEN #{{searchPamater.{0}Min}} to #{{searchPamater.{0}Max}}</if>", f.Name, (i > 0 ? "AND" : "")));
+                }               
             }
             codeBuilder.Append("</where>");
             codeBuilder.Append("</select>");
@@ -244,7 +244,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
             list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段
             list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime，并且字段有默认时间戳
-            IEnumerable<String> filedNames = list.Select(x => x.Name = (x.Name + "=#{"+ParseName(model.Name)+"."+ x.Name+"}"));
+            IEnumerable<String> filedNames = list.Select(x =>(x.Name + "=#{"+ParseName(model.Name)+"."+ x.Name+"}"));
             String fileds = String.Join(",", filedNames);
             sql = String.Format(sql, model.Name, fileds,ParseName(model.Name));//传值变量需要满足mybatis的具名要求变量名和类属性名一致
             return sql;

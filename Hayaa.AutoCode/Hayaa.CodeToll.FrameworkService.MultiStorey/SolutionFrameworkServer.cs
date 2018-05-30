@@ -50,8 +50,8 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     if (codeTemplate.Language == CodeLanaguage.Java)
                     {
                         CreateJavaDaoCode(t, codeBuilder, databaseName);
-                        CreateMybatisXml(codeTemplate,t, codeBuilder, databaseName, modelSpacename);
-                        BuilderMybatisXmlFile(codeBuilder, savePath, t.Name);
+                        CreateMybatisXml(codeTemplate,t, xmlBuilder, databaseName, modelSpacename);
+                        BuilderMybatisXmlFile(xmlBuilder, savePath, t.Name);
                     }
                     BuilderDaoCodeFile(codeTemplate, codeBuilder, savePath, t.Name);
                 });
