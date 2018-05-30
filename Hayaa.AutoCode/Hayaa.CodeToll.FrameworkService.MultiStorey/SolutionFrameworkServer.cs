@@ -131,7 +131,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                                     searchPropertiesBulider.Append(String.Format("public void set{1}Min({0} {1}value){{ this.{1}Min={1}value; }}", dataType, p.Name));
                                     searchPropertiesBulider.Append(String.Format("public {0} get{1}Min(){{ return this.{1}Min; }}", dataType, p.Name));
                                     searchPropertiesBulider.Append(String.Format("public void set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}", dataType, p.Name));
-                                    betweenStr = "case Between:sql = \"{0} between :{0}Min to :{0}Max\";break;";
+                                    betweenStr = "case Between:sql = \"{0} between #{{{0}}}Min to #{{{0}}}Max\";break;";
                                 }
                                 searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;", p.Name));//设置操作类型
                                 searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", dataType, p.Name));
