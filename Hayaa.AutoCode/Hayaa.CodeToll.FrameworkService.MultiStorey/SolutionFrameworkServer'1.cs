@@ -180,7 +180,36 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             }
             return code.ToString();
         }
+        private void BuilderMybatisXmlFile(StringBuilder codeBuilder, string savePath, string modelName)
+        {          
+                    Encoding utf8NoBom = new UTF8Encoding(false);
+                    File.AppendAllText(String.Format("{0}/{1}Mapper.xml", savePath, modelName), codeBuilder.ToString(), utf8NoBom);
+        }
 
+        private void CreateMybatisXml(CodeTemplate codeTemplate, DatabaseTable t, StringBuilder codeBuilder, string databaseName,String modelSpacename)
+        {
+            codeBuilder.Append("<?xml version=\"1.0\" encoding=\"UTF - 8\" ?><!DOCTYPE mapper PUBLIC \" -//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+            codeBuilder.Append(String.Format("<mapper namespace=\"{0}.{1}Mapper\">", codeTemplate.SpaceName, t.Name));
+            codeBuilder.Append(String.Format("<select id=\"getList\" resultType=\"{0}.{1}\">", codeTemplate.SpaceName, t.Name));
+            codeBuilder.Append(String.Format("select * from {0}", t.Name));
+            codeBuilder.Append("<where>");
+            for(var i = 0; i < t.Fileds.Count; i++)
+            {
+                var f = t.Fileds[i];
+                if (IsString(f.DataType))
+                {
+                    codeBuilder.Append(String.Format("<if test=\"searchPamater.{0} != null\"> {1} {0} like \"%\"#{{searchPamater.{0}}}\"%\"</if>", f.Name, (i > 0 ? "AND" : "")));
+                }
+                else
+                {
+                    codeBuilder.Append(String.Format("<if test=\"searchPamater.{0} != null\"> {1} {0} = #{{searchPamater.{0}}}</if>", f.Name, (i > 0 ? "AND" : "")));
+                }
+                codeBuilder.Append(String.Format("<if test=\"searchPamater.{0}Max != null and searchPamater.{0}Min != null\"> {1} {0} BETWEEN #{{searchPamater.{0}Min}} to #{{searchPamater.{0}Max}}</if>", f.Name, (i > 0 ? "AND" : "")));
+            }
+            codeBuilder.Append("</where>");
+            codeBuilder.Append("</select>");
+            codeBuilder.Append("</mapper>");
+        }
         private void CreateJavaDaoCode(DatabaseTable model, StringBuilder codeBuilder, String databaseName)
         {
             codeBuilder.Append(String.Format("@Mapper interface {0}Mapper{{", model.Name));            

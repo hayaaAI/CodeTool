@@ -27,7 +27,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             }
             return result;
         }
-        public FunctionResult<Solution> MakeCodeForDao(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, String databaseName, String savePath)
+        public FunctionResult<Solution> MakeCodeForDao(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, String databaseName, String savePath, String modelSpacename = null)
         {
             var result = new FunctionResult<Solution>();
             result.Data = new Solution()
@@ -42,6 +42,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                 list.ForEach(t =>
                 {
                     StringBuilder codeBuilder = new StringBuilder();
+                    StringBuilder xmlBuilder = new StringBuilder();
                     if (codeTemplate.Language == CodeLanaguage.CSharp)
                     {
                         CreateCSharpDaoCode(t, codeBuilder, databaseName);
@@ -49,12 +50,16 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     if (codeTemplate.Language == CodeLanaguage.Java)
                     {
                         CreateJavaDaoCode(t, codeBuilder, databaseName);
+                        CreateMybatisXml(codeTemplate,t, codeBuilder, databaseName, modelSpacename);
+                        BuilderMybatisXmlFile(codeBuilder, savePath, t.Name);
                     }
                     BuilderDaoCodeFile(codeTemplate, codeBuilder, savePath, t.Name);
                 });
             }
             return result;
         }
+
+      
 
         public FunctionResult<Solution> MakeCodeForModel(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, string databaseName, string savePath)
         {
@@ -81,7 +86,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                     if (codeTemplate.Language == CodeLanaguage.Java)
                     {
                         codeBuilder = new StringBuilder(String.Format("public  class {0} extends BaseData{{CODE}}", t.Name));
-                        codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater extends SearchPamaterMariadbBase {{CODE}}", t.Name));
+                        codeSearchBuilder = new StringBuilder(String.Format("public class {0}SearchPamater {{CODE}}", t.Name));
                     }
                     if (t.Fileds != null)
                     {
@@ -130,12 +135,12 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                                     searchPropertiesBulider.Append(String.Format("private {0} {1}Min;", dataType, p.Name));
                                     searchPropertiesBulider.Append(String.Format("public void set{1}Min({0} {1}value){{ this.{1}Min={1}value; }}", dataType, p.Name));
                                     searchPropertiesBulider.Append(String.Format("public {0} get{1}Min(){{ return this.{1}Min; }}", dataType, p.Name));
-                                    searchPropertiesBulider.Append(String.Format("public void set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}", dataType, p.Name));
-                                    betweenStr = "case Between:sql = \"{0} between #{{{0}}}Min to #{{{0}}}Max\";break;";
+                                 //   searchPropertiesBulider.Append(String.Format("public void set{1}({0} max,{0} min){{ this.{1}Max=max;this.{1}Min=min;this.{1}POT=PamaterOperationType.Between;}}", dataType, p.Name));
+                                   // betweenStr = "case Between:sql = \"{0} between #{{{0}}}Min to #{{{0}}}Max\";break;";
                                 }
-                                searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;", p.Name));//设置操作类型
-                                searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("protected String get{0}Sql(){{String sql = \"\";switch ({0}POT){{ " + betweenStr + "case StringContains:sql = \"{0} like '%#{{{0}}}%'\";break;case Equal:sql = \"{0}=#{{{0}}}\";break;case GreaterEqual:sql = \"{0}>=#{{{0}}}\";break;case GreaterThan:sql = \"{0}>#{{{0}}}\";break;case LessEqual:sql = \"{0}<=#{{{0}}}\";break;case LessThan:sql = \"{0}<=#{{{0}}}\";break;case In: String strArr=this.{0}List.toString().replace(\"[\",\"\").replace(\"]\",\"\");sql = \"{0} in(\" + String.join(\",\",strArr) + \")\";break;case StringIn: String strList=this.{0}List.toString().replace(\"[\",\"\").replace(\"]\",\"\");sql = \"{0} in('\" + String.join(\"','\", strList)+\"')\";break;}}return sql;}}", p.Name));
+                               // searchPropertiesBulider.Append(String.Format("private PamaterOperationType {0}POT;", p.Name));//设置操作类型
+                              //  searchPropertiesBulider.Append(String.Format("public void Set{1}({0} info,PamaterOperationType pot){{ this.{1}=info;this.{1}POT=pot;}}\n", dataType, p.Name));
+                              //  searchPropertiesBulider.Append(String.Format("protected String get{0}Sql(){{String sql = \"\";switch ({0}POT){{ " + betweenStr + "case StringContains:sql = \"{0} like '%#{{{0}}}%'\";break;case Equal:sql = \"{0}=#{{{0}}}\";break;case GreaterEqual:sql = \"{0}>=#{{{0}}}\";break;case GreaterThan:sql = \"{0}>#{{{0}}}\";break;case LessEqual:sql = \"{0}<=#{{{0}}}\";break;case LessThan:sql = \"{0}<=#{{{0}}}\";break;case In: String strArr=this.{0}List.toString().replace(\"[\",\"\").replace(\"]\",\"\");sql = \"{0} in(\" + String.join(\",\",strArr) + \")\";break;case StringIn: String strList=this.{0}List.toString().replace(\"[\",\"\").replace(\"]\",\"\");sql = \"{0} in('\" + String.join(\"','\", strList)+\"')\";break;}}return sql;}}", p.Name));
                             }
                         });
                         codeBuilder = codeBuilder.Replace("CODE", propertiesBulider.ToString());
@@ -160,7 +165,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             MakeCodeForModel(tables, modelTemplate, databaseConnection, databaseName, savePath);
             //生成Dao层代码
             CodeTemplate dalTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Dao);
-            MakeCodeForDao(tables, dalTemplate, databaseConnection, databaseName, savePath);
+            MakeCodeForDao(tables, dalTemplate, databaseConnection, databaseName, savePath, modelTemplate.SpaceName);
             //生成服务层代码
             CodeTemplate serviceTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Service);
             MakeCodeForService(tables, serviceTemplate, databaseConnection, databaseName, savePath);

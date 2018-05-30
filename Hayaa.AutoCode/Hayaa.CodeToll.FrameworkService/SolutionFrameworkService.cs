@@ -41,7 +41,7 @@ namespace Hayaa.CodeTool.FrameworkService
         /// <param name="databaseName">数据库名</param>
         /// <param name="savePath">代码文件保存路径</param>
         /// <returns>生成代码存信息</returns>
-        FunctionResult<Solution> MakeCodeForDao(List<String> tables, CodeTemplate codeTemplate,String databaseConnection,String databaseName,String savePath);
+        FunctionResult<Solution> MakeCodeForDao(List<String> tables, CodeTemplate codeTemplate,String databaseConnection,String databaseName,String savePath,String modelSpacename=null);
         /// <summary>
         /// 生成model代码，保存至指定位置
         /// </summary>
