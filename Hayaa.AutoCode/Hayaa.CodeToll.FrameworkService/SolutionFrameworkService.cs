@@ -23,6 +23,16 @@ namespace Hayaa.CodeTool.FrameworkService
         /// <returns></returns>
         FunctionResult<Solution> MakeCodeForMultiStoreySolution(List<String> tables, SolutionTemplate codeTemplatee, String databaseConnection, String databaseName, String savePath);
         /// <summary>
+        /// 生成ViewService层代码，保存至指定位置
+        /// </summary>
+        /// <param name="tables">需要生成代码的表</param>
+        /// <param name="codeTemplate">使用的代码模板</param>
+        /// <param name="databaseConnection">连接的数据库的连接字符串</param>
+        /// <param name="databaseName">数据库名</param>
+        /// <param name="savePath">代码文件保存路径</param>
+        /// <returns></returns>
+        FunctionResult<Solution> MakeCodeForViewService(List<String> tables, CodeTemplate codeTemplate, String databaseConnection, String databaseName, String savePath);
+        /// <summary>
         /// 生成Service层代码，保存至指定位置
         /// </summary>
         /// <param name="tables">需要生成代码的表</param>

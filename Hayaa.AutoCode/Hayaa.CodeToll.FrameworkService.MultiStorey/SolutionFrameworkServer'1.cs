@@ -95,6 +95,125 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             }
             return code.ToString();
         }
+        private string CreateAssertCodeForJava(DatabaseTable model)
+        {
+            StringBuilder code = new StringBuilder();
+            if (model.Fileds != null)
+            {
+                model.Fileds.ForEach(f =>
+                {
+                    switch (f.CheckRule.RuleType)
+                    {
+                        case ModelPropeprtyRuleType.NullOrEmpty:
+                            switch (f.DataType)
+                            {
+                                case DatabaseDataType.Char:
+                                case DatabaseDataType.LongText_Mariadb:
+                                case DatabaseDataType.Nchar_MsSql:
+                                case DatabaseDataType.Ntext_MsSql:
+                                case DatabaseDataType.NvarChar_MsSql:
+                                case DatabaseDataType.Text:
+                                case DatabaseDataType.VarChar:
+                                default:
+                                    code.Append(string.Format("AssertHelper.AssertStringNullorEmpty(info.get{0}());\n",f.Name));
+                                    break;
+                            }
+                            break;
+                        case ModelPropeprtyRuleType.Rang:
+                            switch (f.DataType)
+                            {
+                                #region 日期
+                                case DatabaseDataType.Year:
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    break;
+                                case DatabaseDataType.Time:
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    break;
+                                case DatabaseDataType.Timestamp:
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    break;
+                                case DatabaseDataType.Date:
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    break;
+                                case DatabaseDataType.Datetime:
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    break;
+                                #endregion
+                                #region bigdata
+                                case DatabaseDataType.Decimal:
+                                   // code.Append(string.Format("AssertHelper.AssertRangDecimal(var{0}.{1},{2},{3});\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal));
+                                    break;
+                                case DatabaseDataType.Money_MsSql:
+                                   // code.Append(string.Format("AssertHelper.AssertRangDecimal(var{0}.{1},{2},{3});\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal));
+                                    break;
+                                case DatabaseDataType.Double:
+                                    code.Append(string.Format("AssertHelper.AssertRangDouble(info.get{0}(),Double.MIN_VALUE,Double.MAX_VALUE);\n", f.Name));
+                                    break;
+                                case DatabaseDataType.Float:
+                                    code.Append(string.Format("AssertHelper.AssertRangFloat(info.get{0}(),Float.MIN_VALUE,Float.MAX_VALUE);\n", f.Name));
+                                    break;
+                                #endregion
+                                #region 整型
+                                case DatabaseDataType.Int:
+                                    code.Append(string.Format("AssertHelper.AssertRangInt(info.get{0}(),Integer.MIN_VALUE,Integer.MAX_VALUE);\n", f.Name));
+                                    break;
+                                case DatabaseDataType.BigInt:
+                                    code.Append(string.Format("AssertHelper.AssertRangLong(info.get{0}(),Integer.MIN_VALUE,Integer.MAX_VALUE);\n", f.Name));
+                                    break;
+                                case DatabaseDataType.TinyInt:
+                                   // code.Append(string.Format("AssertHelper.AssertRangByte(var{0}.{1},{2},{3});\n", model.Name, f.Name, f.CheckRule.getByteRang().MinVal, f.CheckRule.getByteRang().MaxVal));
+                                    break;
+                                    #endregion
+                            }
+                            break;
+                        case ModelPropeprtyRuleType.Regex:
+                           // code.Append(string.Format("AssertHelper.AssertRegex(var{0}.{1},{2});\n", model.Name, f.Name, f.CheckRule.RegexRule));
+                            break;
+                    }
+                });
+            }
+            return code.ToString();
+        }
+        private static StringBuilder CreateForJava(DatabaseTable t)
+        {
+            String lname = ParseName(t.Name);
+            StringBuilder codeBuilder = new StringBuilder(String.Format("@Service(\"{1}Service\")public class {0}Service implements I{0}Service{{ ", t.Name, lname));//构造原型类整体结构
+            codeBuilder.Append(String.Format("@Autowired private {0}Mapper {1}Mapper;", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Create({0} info){{FunctionResult<{0}> r = new FunctionResult<{0}>();{1}Mapper.insert(info);if (info.get{0}Id() > 0){{r.setData(info);}}return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> UpdateByID({0} info){{FunctionOpenResult<Boolean> r = new FunctionOpenResult<Boolean>();r.setData({1}Mapper.update(info));return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionOpenResult<Boolean> DeleteByID(List<Integer> list) {{FunctionOpenResult<Boolean> r=new FunctionOpenResult<Boolean>();String ids=list.toString().replace(\"[\",\"\").replace(\"]\",\"\");r.setData({1}Mapper.delete(ids));return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public GridPager<{0}> GetPager(GridPagerPamater<{0}SearchPamater> gridPagerPamater) {{  PageHelper.orderBy(\"{0}Id desc\");Page pageInfo=PageHelper.startPage(gridPagerPamater.getCurrent(), gridPagerPamater.getPageSize());String whereSql=gridPagerPamater.getSearchPamater().CreateWhereSql();List<{0}>  dalResult={1}Mapper.getList(whereSql);GridPager<{0}> r=new GridPager<>(gridPagerPamater.getCurrent(),gridPagerPamater.getPageSize()); r.setData(dalResult); r.setTotal((int)pageInfo.getTotal());return r;}} ", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionResult<{0}> Get(int id) {{FunctionResult<{0}> r=new FunctionResult<{0}>();r.setData({1}Mapper.get(id));return r;}}\n", t.Name, lname));
+            codeBuilder.Append(String.Format("@Override public FunctionListResult<{0}> GetList({0}SearchPamater searchPamater) {{FunctionListResult<{0}> r=new FunctionListResult<{0}>();r.setData({1}Mapper.getList(searchPamater.CreateWhereSql()));return r;}}", t.Name, lname));
+            codeBuilder.Append("}");
+            return codeBuilder;
+        }
+
+        private static String ParseName(string name)
+        {
+            var temp = name.ToLower().Substring(0, 1);
+            name = name.Remove(0, 1);
+            return temp + name;
+        }
+
+        private static StringBuilder CreateForCSharp(DatabaseTable t)
+        {
+            StringBuilder codeBuilder = new StringBuilder(String.Format("public partial  class {0}Server:{0}Service{{\n", t.Name));//构造原型类整体结构
+                                                                                                                                   //Create
+            codeBuilder.Append(String.Format("public FunctionResult<{0}> Create({0} info){{var r = new FunctionResult<{0}>();int id = {0}Dal.Add(info);if (id > 0){{r.Data = info;r.Data.{0}Id = id;}}\nreturn r;}}", t.Name));
+            //Update
+            codeBuilder.Append(String.Format(" public FunctionOpenResult<bool> UpdateByID({0} info){{var r = new FunctionOpenResult<bool>();r.Data = {0}Dal.Update(info) > 0;return r;}}", t.Name));
+            //Delete
+            codeBuilder.Append(String.Format(" public FunctionOpenResult<bool> DeleteByID(List<int> idList){{var r = new FunctionOpenResult<bool>();r.Data = {0}Dal.Delete(idList);return r;}}", t.Name));
+            //Get
+            codeBuilder.Append(String.Format("public FunctionResult<{0}> Get(int Id){{var r = new FunctionResult<{0}>();r.Data = {0}Dal.Get(Id);return r;}}", t.Name));
+            //GetList
+            codeBuilder.Append(String.Format("public FunctionListResult<{0}> GetList({0}SearchPamater pamater){{var r = new FunctionListResult<{0}>();r.Data = {0}Dal.GetList(pamater);return r;}}", t.Name));
+            //GetPager
+            codeBuilder.Append(String.Format(" public GridPager<{0}> GetPager(GridPagerPamater<{0}SearchPamater> searchParam){{ var r ={0}Dal.GetGridPager(searchParam);return r;}}", t.Name));
+            codeBuilder.Append("}");
+            return codeBuilder;
+        }
         /// <summary>
         /// 生成代码检查片段
         /// </summary>
