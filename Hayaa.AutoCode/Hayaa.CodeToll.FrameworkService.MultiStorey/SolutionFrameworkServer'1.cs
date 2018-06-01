@@ -336,7 +336,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             codeBuilder.Append(String.Format("@Update(\"{1}\") Boolean update(@Param(\"{2}\") {0} {2});", model.Name, CreateUpdateSqlForJava(model),ParseName(model.Name)));
             codeBuilder.Append(String.Format("@Delete(\"delete from {0} where {1}Id in (${{ids}})\") Boolean delete(@Param(\"ids\") String ids);", model.Name, ParseName(model.Name)));
             codeBuilder.Append(String.Format("@Select(\"select * from {0} where {0}Id =#{{Id}}\") {0} get(int Id);", model.Name));
-            codeBuilder.Append(String.Format("@Select(\"select * from {0} ${{whereSql}}\") List<{0}> getList(@Param(\"whereSql\") String whereSql);", model.Name));
+            codeBuilder.Append(String.Format("List<{0}> getList(@Param(\"searchPamater\") {0}SearchPamater searchPamater);", model.Name));
             codeBuilder.Append("}");
         }
         private String CreateInsertSqlForJava(DatabaseTable model)
