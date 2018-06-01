@@ -119,7 +119,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                                 case DatabaseDataType.Text:
                                 case DatabaseDataType.VarChar:
                                 default:
-                                    code.Append(string.Format("AssertHelper.AssertStringNullorEmpty(info.get{0}());\n",f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertStringNullorEmpty(info.get{0}());\n",ParseBigName(f.Name)));
                                     break;
                             }
                             break;
@@ -128,19 +128,19 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                             {
                                 #region 日期
                                 case DatabaseDataType.Year:
-                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", ParseBigName(f.Name)));
                                     break;
                                 case DatabaseDataType.Time:
-                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", ParseBigName(f.Name)));
                                     break;
                                 case DatabaseDataType.Timestamp:
-                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", ParseBigName(f.Name)));
                                     break;
                                 case DatabaseDataType.Date:
-                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", ParseBigName(f.Name)));
                                     break;
                                 case DatabaseDataType.Datetime:
-                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertNull(info.get{0}());\n", ParseBigName(f.Name)));
                                     break;
                                 #endregion
                                 #region bigdata
@@ -151,18 +151,18 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                                    // code.Append(string.Format("AssertHelper.AssertRangDecimal(var{0}.{1},{2},{3});\n", model.Name, f.Name, f.CheckRule.getDecimalRang().MinVal, f.CheckRule.getDecimalRang().MaxVal));
                                     break;
                                 case DatabaseDataType.Double:
-                                    code.Append(string.Format("AssertHelper.AssertRangDouble(info.get{0}(),Double.MIN_VALUE,Double.MAX_VALUE);\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertRangDouble(info.get{0}(),Double.MIN_VALUE,Double.MAX_VALUE);\n", ParseBigName(f.Name)));
                                     break;
                                 case DatabaseDataType.Float:
-                                    code.Append(string.Format("AssertHelper.AssertRangFloat(info.get{0}(),Float.MIN_VALUE,Float.MAX_VALUE);\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertRangFloat(info.get{0}(),Float.MIN_VALUE,Float.MAX_VALUE);\n", ParseBigName(f.Name)));
                                     break;
                                 #endregion
                                 #region 整型
                                 case DatabaseDataType.Int:
-                                    code.Append(string.Format("AssertHelper.AssertRangInt(info.get{0}(),Integer.MIN_VALUE,Integer.MAX_VALUE);\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertRangInt(info.get{0}(),Integer.MIN_VALUE,Integer.MAX_VALUE);\n", ParseBigName(f.Name)));
                                     break;
                                 case DatabaseDataType.BigInt:
-                                    code.Append(string.Format("AssertHelper.AssertRangLong(info.get{0}(),Integer.MIN_VALUE,Integer.MAX_VALUE);\n", f.Name));
+                                    code.Append(string.Format("AssertHelper.AssertRangLong(info.get{0}(),Integer.MIN_VALUE,Integer.MAX_VALUE);\n", ParseBigName(f.Name)));
                                     break;
                                 case DatabaseDataType.TinyInt:
                                    // code.Append(string.Format("AssertHelper.AssertRangByte(var{0}.{1},{2},{3});\n", model.Name, f.Name, f.CheckRule.getByteRang().MinVal, f.CheckRule.getByteRang().MaxVal));
