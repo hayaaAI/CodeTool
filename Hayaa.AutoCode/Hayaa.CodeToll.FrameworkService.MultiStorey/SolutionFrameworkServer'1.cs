@@ -309,7 +309,7 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         {
             codeBuilder.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?><!DOCTYPE mapper PUBLIC \" -//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
             codeBuilder.Append(String.Format("<mapper namespace=\"{0}.{1}Mapper\">", codeTemplate.SpaceName, t.Name));
-            codeBuilder.Append(String.Format("<select id=\"getList\" resultType=\"{0}.{1}\">", codeTemplate.SpaceName, t.Name));
+            codeBuilder.Append(String.Format("<select id=\"getList\" resultType=\"{0}.{1}\">", modelSpacename, t.Name));
             codeBuilder.Append(String.Format("select * from {0}", t.Name));
             codeBuilder.Append("<where>");
             for(var i = 0; i < t.Fileds.Count; i++)
