@@ -102,6 +102,10 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             {
                 model.Fileds.ForEach(f =>
                 {
+                    if (f.Name.Contains("createTime")||f.Name.Contains("updateTime"))
+                    {
+                        return;
+                    }
                     switch (f.CheckRule.RuleType)
                     {
                         case ModelPropeprtyRuleType.NullOrEmpty:
