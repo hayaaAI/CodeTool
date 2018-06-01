@@ -109,11 +109,11 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                             {
                                 String dataType = GetJavaDataType(p.DataType);
                                 propertiesBulider.Append(String.Format("private {0} {1};", dataType, p.Name));
-                                propertiesBulider.Append(String.Format("public void set{1}({0} {1}value){{ this.{1}={1}value; }}", dataType, p.Name));
-                                propertiesBulider.Append(String.Format("public {0} get{1}(){{ return this.{1}; }}", dataType, p.Name));
+                                propertiesBulider.Append(String.Format("public void set{2}({0} {1}value){{ this.{1}={1}value; }}", dataType, p.Name,ParseBigName(p.Name)));
+                                propertiesBulider.Append(String.Format("public {0} get{2}(){{ return this.{1}; }}", dataType, p.Name, ParseBigName(p.Name)));
                                 searchPropertiesBulider.Append(String.Format("private {0} {1};", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public void set{1}({0} {1}value){{ this.{1}={1}value; }}", dataType, p.Name));
-                                searchPropertiesBulider.Append(String.Format("public {0} get{1}(){{ return this.{1}; }}", dataType, p.Name));
+                                searchPropertiesBulider.Append(String.Format("public void set{2}({0} {1}value){{ this.{1}={1}value; }}", dataType, p.Name, ParseBigName(p.Name)));
+                                searchPropertiesBulider.Append(String.Format("public {0} get{2}(){{ return this.{1}; }}", dataType, p.Name, ParseBigName(p.Name)));
                                 searchPropertiesBulider.Append(String.Format("private List<{0}> {1}List;", dataType, p.Name));
                                 searchPropertiesBulider.Append(String.Format("public void set{1}List(List<{0}> {1}value){{ this.{1}List={1}value; }}", dataType, p.Name));
                                 searchPropertiesBulider.Append(String.Format("public List<{0}> get{1}List(){{ return  this.{1}List; }}", dataType, p.Name));
@@ -226,48 +226,6 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             return result;
         }
 
-        private void BuilderViewServiceFile(CodeTemplate codeTemplate, StringBuilder codeBuilder, string savePath, string fileName)
-        {
-            String codeCotent = codeTemplate.Content.Replace("{$#class#$}", codeBuilder.ToString()).Replace("{$#space#$}", codeTemplate.SpaceName);
-            switch (codeTemplate.Language)
-            {
-                case CodeLanaguage.CSharp:
-                    File.AppendAllText(String.Format("{0}/{1}Controller.cs", savePath, fileName), codeCotent, Encoding.UTF8);
-                    break;
-                case CodeLanaguage.Java:
-                    Encoding utf8NoBom = new UTF8Encoding(false);
-                    File.AppendAllText(String.Format("{0}/{1}Controller.java", savePath, fileName), codeCotent, utf8NoBom);
-                    break;
-            }
-        }
-
-        private StringBuilder CreateViewServiceForJava(DatabaseTable t)
-        {
-            StringBuilder code = new StringBuilder("@RestController @EnableAutoConfiguration");
-            code.Append(String.Format("@RequestMapping(value = \"/{0}/\", method = {{RequestMethod.GET, RequestMethod.POST}})", ParseName(t.Name)));
-            code.Append("@CrossOrigin(origins =\"*\",allowCredentials=\"true\")");
-            code.Append(String.Format("public class {0}Controller {{", t.Name));
-            code.Append(String.Format("@Autowired private I{0}Service {1}Service;", t.Name, ParseName(t.Name)));
-            //分页
-            code.Append("@RequestMapping(value = \"pager\")");
-            code.Append(String.Format("public TransactionResult<GridPager<{0}>> GetPager(int page, int size)  throws Exception  {{  AssertHelper.AssertRangInt(page,1,Integer.MAX_VALUE); AssertHelper.AssertRangInt(size,1,Integer.MAX_VALUE);TransactionResult<GridPager<{0}>> result = new TransactionResult<GridPager<{0}>>();GridPagerPamater<{0}SearchPamater> pamater = new GridPagerPamater<>();{0}SearchPamater sp = new {0}SearchPamater();pamater.setSearchPamater(sp);pamater.setCurrent(page);pamater.setPageSize(size);GridPager<{0}> serviceReusult = {1}Service.GetPager(pamater);if (serviceReusult.isActionResult() && serviceReusult.isHavingData()){{result.setData(serviceReusult);}}else{{result.setCode(103);result.setMessage(\"暂无数据\");}}return result;}}", t.Name, ParseName(t.Name)));
-            //get
-            code.Append(" @RequestMapping(value = \"get\")");
-            code.Append(String.Format("public TransactionResult<{0}> Get(int id)  throws Exception  {{ AssertHelper.AssertRangInt(id,1,Integer.MAX_VALUE); TransactionResult<{0}> result = new TransactionResult<{0}>();FunctionResult<{0}> serviceResult = {1}Service.Get(id);if (serviceResult.isActionResult() && serviceResult.isHavingData()){{result.setData(serviceResult.getData());}}else{{result.setCode(103);result.setMessage(\"暂无数据\");}}return result;}}", t.Name, ParseName(t.Name)));
-            //list
-            code.Append("@RequestMapping(value = \"list\")");
-            code.Append(String.Format("public TransactionResult<List<{0}>> GetList()  throws Exception  {2} TransactionResult <List<{0}>> result = new TransactionResult<List<{0}>>();FunctionListResult<{0}> serviceResult = {1}Service.GetList(new {0}SearchPamater());if (serviceResult.isActionResult() && serviceResult.isHavingData()){2}result.setData(serviceResult.getData());{3}else{2}result.setCode(103);result.setMessage(\"暂无数据\");{3}return result;{3}", t.Name, ParseName(t.Name),"{","}"));
-            //add
-            code.Append("@RequestMapping(value = \"add\")");
-            code.Append(String.Format("public TransactionResult<{0}> Add({0} info)  throws Exception {3}{2} TransactionResult<{0}> result = new TransactionResult<{0}>();FunctionResult<{0}> serviceResult = {1}Service.Create(info);if (serviceResult.isActionResult() && serviceResult.isHavingData()){3}result.setData(serviceResult.getData());{4}else{3}result.setCode(103);result.setMessage(\"暂无数据\");{4}return result;{4}", t.Name, ParseName(t.Name), CreateAssertCodeForJava(t), "{", "}"));
-            //edit
-            code.Append("@RequestMapping(value = \"edit\")");
-            code.Append(String.Format("public TransactionResult<Boolean> Edit({0} info)  throws Exception  {3}{2} TransactionResult <Boolean> result = new TransactionResult<Boolean>();FunctionOpenResult <Boolean> serviceResult = {1}Service.UpdateByID(info);if (serviceResult.isActionResult()){3}result.setData(serviceResult.getData());{4}else{3}result.setCode(103);result.setMessage(\"暂无数据\");{4}return result;{4}", t.Name, ParseName(t.Name), CreateAssertCodeForJava(t), "{", "}"));
-            //del
-            code.Append("@RequestMapping(value = \"del\")");
-            code.Append(String.Format("public TransactionResult<Boolean> Delete(int id)  throws Exception  {2}AssertHelper.AssertRangInt(id,1,Integer.MAX_VALUE);TransactionResult <Boolean> result = new TransactionResult<Boolean>(); List<Integer> ids=new ArrayList<>();ids.add(id); FunctionOpenResult<Boolean> serviceResult = {1}Service.DeleteByID(ids);if (serviceResult.isActionResult()){2}result.setData(serviceResult.getData());{3}else{2}result.setCode(103);result.setMessage(\"暂无数据\");{3}return result;{3}", t.Name, ParseName(t.Name), "{", "}"));
-            code.Append("}");
-            return code;
-        }
+       
     }
 }
