@@ -349,9 +349,9 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             DatabaseFiled[] arr = new DatabaseFiled[model.Fileds.Count];
             model.Fileds.CopyTo(arr);//防止破坏模型数据
             List<DatabaseFiled> list = arr.ToList();
-            list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
-            list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段并且字段有默认数值
-            list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime
+            list.RemoveAll(a => a.Name == (ParseName(model.Name) + "Id"));//数据库设计规范，主键为表名+Id
+            list.RemoveAll(a => a.Name == "createTime");//数据库设计规范，每张表必有createTime字段并且字段有默认数值
+            list.RemoveAll(a => a.Name == "updateTime");//数据库设计规范，updateTime
             IEnumerable<String> filedNames = list.Select(x => x.Name);
             IEnumerable<String> values = list.Select(x =>("#{"+ParseName(model.Name)+"."+x.Name+"}"));
             String fileds = String.Join(",", filedNames);
@@ -360,13 +360,13 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
         }
         private String CreateUpdateSqlForJava(DatabaseTable model)
         {
-            String sql = "update {0} set {1} where {0}Id=#{{{2}.{0}Id}}";
+            String sql = "update {0} set {1} where {2}Id=#{{{2}.{0}Id}}";
             DatabaseFiled[] arr = new DatabaseFiled[model.Fileds.Count];
             model.Fileds.CopyTo(arr);//防止破坏模型数据
             List<DatabaseFiled> list = arr.ToList();
             list.RemoveAll(a => a.Name == (model.Name + "Id"));//数据库设计规范，主键为表名+Id
-            list.RemoveAll(a => a.Name == "CreateTime");//数据库设计规范，每张表必有CreateTime字段
-            list.RemoveAll(a => a.Name == "UpdateTime");//数据库设计规范，UpdateTime，并且字段有默认时间戳
+            list.RemoveAll(a => a.Name == "createTime");//数据库设计规范，每张表必有CreateTime字段
+            list.RemoveAll(a => a.Name == "updateTime");//数据库设计规范，UpdateTime，并且字段有默认时间戳
             IEnumerable<String> filedNames = list.Select(x =>(x.Name + "=#{"+ParseName(model.Name)+"."+ x.Name+"}"));
             String fileds = String.Join(",", filedNames);
             sql = String.Format(sql, model.Name, fileds,ParseName(model.Name));//传值变量需要满足mybatis的具名要求变量名和类属性名一致

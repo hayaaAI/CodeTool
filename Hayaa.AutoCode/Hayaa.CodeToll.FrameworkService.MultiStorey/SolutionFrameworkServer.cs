@@ -81,6 +81,10 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
                         StringBuilder searchPropertiesBulider = new StringBuilder();
                         t.Fileds.ForEach(p =>
                         {
+                            if(p.Name.ToLower().Contains("createtime")|| p.Name.ToLower().Contains("updatetime"))
+                            {
+                                return;
+                            }
                             //根据语言类型区分生成逻辑
                             if (codeTemplate.Language == CodeLanaguage.CSharp)
                             {
