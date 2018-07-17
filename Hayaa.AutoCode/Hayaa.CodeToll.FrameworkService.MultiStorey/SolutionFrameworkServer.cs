@@ -36,16 +36,20 @@ namespace Hayaa.CodeTool.FrameworkService.MultiStorey
             };
             //生成数据库原型类
             CodeTemplate modelTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.DataAccessModel);
+            if(modelTemplate!=null)
             MakeCodeForModel(tables, modelTemplate, databaseConnection, databaseName, savePath);
             //生成Dao层代码
             CodeTemplate dalTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Dao);
-            MakeCodeForDao(tables, dalTemplate, databaseConnection, databaseName, savePath, modelTemplate.SpaceName);
+            if (dalTemplate != null)
+                MakeCodeForDao(tables, dalTemplate, databaseConnection, databaseName, savePath, modelTemplate.SpaceName);
             //生成服务层代码
             CodeTemplate serviceTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.Service);
-            MakeCodeForService(tables, serviceTemplate, databaseConnection, databaseName, savePath);
+            if (serviceTemplate != null)
+                MakeCodeForService(tables, serviceTemplate, databaseConnection, databaseName, savePath);
             //生成controller层代码
             CodeTemplate viewServiceTemplate = codeTemplatee.SolutionTemplates.Find(ct => ct.GenCodeType == CodeType.ViewService);
-            MakeCodeForViewService(tables, viewServiceTemplate, databaseConnection, databaseName, savePath);
+            if (viewServiceTemplate != null)
+                MakeCodeForViewService(tables, viewServiceTemplate, databaseConnection, databaseName, savePath);
             return result;
         }
         public FunctionResult<Solution> MakeCodeForModel(List<string> tables, CodeTemplate codeTemplate, string databaseConnection, string databaseName, string savePath)
