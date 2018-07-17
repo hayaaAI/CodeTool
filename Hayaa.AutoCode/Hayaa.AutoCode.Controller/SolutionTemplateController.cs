@@ -11,10 +11,12 @@ using Hayaa.AutoCodeController.Model;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.IO.Compression;
+using Hayaa.WorkerSecurity.Client;
 
 namespace Hayaa.AutoCodeController
 {
     [Route("api/[controller]/[action]")]
+    [UserAuthorityFilter]
     public class SolutionTemplateController: Controller
     {
         private SolutionTemplateService solutionTemplateService = new SolutionTemplateServer();
