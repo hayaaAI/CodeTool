@@ -1,0 +1,38 @@
+﻿{
+  "appConfigId": 1,
+  "appId": 1,
+  "solutionID": "a35eef2e-2635-41f9-b60a-15dda4917875",
+  "solutionName": "Rpc服务发布配置",
+  "configContent": "",
+  "version": 1,
+  "components": [
+    {
+      "ComponentConfigId": 1,
+      "ComponentID": 10011,
+      "Content": "{\"appSettings\":null,\"connectionStrings\":{\"settings\":[{\"name\":\"RemoteConfig\",\"connection\":\"Data Source=192.168.31.252;Initial Catalog=RemoteConfig;Persist Security Info=True;User ID=configdbu;password=configDBuserpd18?1\"}]}}",
+      "Version": 1,
+      "ComponentConfigTitle": "配置组件",
+      "IsDefault": true,
+      "Code": 0,
+      "Message": null,
+      "CreateTime": "0001-01-01T00:00:00Z",
+      "UpdateTime": "0001-01-01T00:00:00Z"
+    },
+    {
+      "componentConfigId": 1,
+      "componentId": 10012,
+      "content": "{\"appSettings\": null,\"connectionStrings\": null,\"serviceConfig\": {\"sessionTimeout\": 0,\"cpuCore\": 0,\"serviceRegUrl\": null,\"servicePubliceUrl\": null,\"keepUrl\": null,\"providerConfiguation\": {\"name\": \"defaultService\",\"group\": \"defaultGroup\",\"port\": 10012,\"messageSize\": 1048576,\"packages\": null,\"assemblyNames\": \"Hayaa.RemoteConfig.ServiceV2.dll,Hayaa.RemoteConfig.Service.Core.dll\"},\"consumerConfiguation\": null}}",
+      "version": 1,
+      "componentConfigTitle": "Rpc服务端配置",
+      "isDefault": true,
+      "code": 0,
+      "message": null,
+      "createTime": "0001-01-01T00:00:00Z",
+      "updateTime": "0001-01-01T00:00:00Z"
+    }
+  ],
+  "code": 0,
+  "message": null,
+  "createTime": "0001-01-01T00:00:00Z",
+  "updateTime": "0001-01-01T00:00:00Z"
+}

@@ -1,0 +1,36 @@
+﻿{
+  "seedServerUrl": "",
+  "localConfigDirectoryPath": "~/config",
+  "virtualPath": true,
+  "securityToken": "123456",
+  "appID": 4,
+  "appInstanceID": 0,
+  "appConfigSolutionID":"6c5e62a0-7d5e-4b3a-80a6-9b8ff8b0d5ad",
+  "version": 1,
+  "remote": false,
+  "RemoteType": 2,
+  "appConfigFileName": "app.json",
+  "remoteConfigRoot": true,
+  "rpcRemoteServiceConfig": {
+    "sessionTimeout": 3000,
+    "cpuCore": 1,
+    "serviceRegUrl": "regurl",
+    "servicePubliceUrl": "puburl",
+    "keepUrl": "keepurl",
+    "providerConfiguation": null,
+    "consumerConfiguation": {
+      "name": "default",
+      "services": [
+        {
+          "name": "default",
+          "group": "default",
+          "interfaceName": "Hayaa.RemoteConfig.Service.IRemoteConfigService",
+          "assemblyName": "Hayaa.RemoteConfig.ServiceV2",
+          "serverHost": "127.0.0.1",
+          "serverPort": 10012
+        }
+      ],
+      "messageSize": 1048576
+    }
+  }
+}
