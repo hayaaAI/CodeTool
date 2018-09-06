@@ -52,7 +52,7 @@ namespace Hayaa.CodeTool.Controller
             }
             return result;
         }
-        [HttpPost]
+        [HttpPost]     
         [EnableCors("any")]
         public TransactionResult<SolutionTemplate> Get(int id)
         {
@@ -88,7 +88,7 @@ namespace Hayaa.CodeTool.Controller
             }
             return result;
         }
-        [HttpPost]
+        [HttpPost]      
         [EnableCors("any")]
         public TransactionResult<Boolean> Edit(SolutionTemplate info)
         {

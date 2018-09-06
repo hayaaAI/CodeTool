@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hayaa.CompanyWebSecurity.Client" Version="1.0.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Security\Hayaa.Security.Service\Client\C#\Hayaa.WebSecurity.Client\Hayaa.CompanyWebSecurity.Client.csproj" />
     <ProjectReference Include="..\Hayaa.CodeTool.Service.Core\Hayaa.CodeTool.Service.Core.csproj" />
     <ProjectReference Include="..\Hayaa.CodeTool.Service\Hayaa.CodeTool.Service.csproj" />
   </ItemGroup>
