@@ -7,7 +7,7 @@ var webstore={
     autocode:"http://"+evn+"code.xieqj.net/"
   },
   urls:null,
-  sessionKey:new date().gettime(),
+  sessionKey:new Date().getTime(),
   authKey:""
 };
 export default webstore;

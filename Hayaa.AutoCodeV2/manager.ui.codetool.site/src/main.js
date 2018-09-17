@@ -12,15 +12,12 @@ import httphelper from './util/httphelper'
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-var appFrame=null;
- httphelper.post(webstore.configUrl, {"sid":"4b897adb-54b9-4203-9d59-286b2570396a","v":1}, function (configData) {
-   webstore.urls=eval(configData);
-   appFrame=new Vue({
-     el: '#app',
-     router,
-     render: h => h(AppFrame)
-   })
+var appFrame=new Vue({
+  el: '#app',
+  router,
+  render: h => h(AppFrame)
 });
+
 
 
 

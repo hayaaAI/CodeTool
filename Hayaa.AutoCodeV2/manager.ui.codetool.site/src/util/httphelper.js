@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import Vue from 'vue'
 import {Notification} from 'element-ui';
-import webstore from './webstore'
+import webstore from '../webstore'
 
 const httphelper = {
     get:function(url, paramater, call, errcall,isnotify) {
@@ -37,7 +37,7 @@ const httphelper = {
         return this.get(url, paramater, call, errcall,isnotify);
     },
     post:function(url, paramater, call, errcall,isnotify) {
-        axios.post(url, paramater,{withCredentials:true})
+        axios.post(url,paramater,{withCredentials:true})
             .then(function (rep) {
                 if (call) {
                     if (rep.data.code == 0) {
@@ -47,6 +47,7 @@ const httphelper = {
                         else {
                             if (rep.data.code == 403) {
                                 Vue.$router.push("/login")
+
                             } else {
                                 if(isnotify)
                                 Notification.warning(rep.data.message)
