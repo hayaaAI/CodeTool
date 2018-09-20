@@ -42,12 +42,7 @@ namespace Hayaa.CodeTool.Service.Core
             return r;
         }
 
-        public FunctionOpenResult<bool> DeleteCodeTemplateByID(List<int> idList)
-        {
-            var r = new FunctionOpenResult<bool>();
-            r.Data = CodeTemplateDal.Delete(idList);
-            return r;
-        }
+      
 
         public FunctionResult<CodeTemplate> GetCodeTemplate(int Id)
         {

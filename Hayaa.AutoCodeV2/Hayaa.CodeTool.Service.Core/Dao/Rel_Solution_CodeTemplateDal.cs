@@ -14,7 +14,7 @@ namespace Hayaa.CodeTool.FrameworkService.Dao
     /// <summary>
     /// 
     /// </summary>
-    public partial class Rel_Solution_CodeTemplateDal : CommonDal
+     partial class Rel_Solution_CodeTemplateDal : CommonDal
     {
         private static String con = ConfigHelper.Instance.GetConnection(DefineTable.DatabaseName);
         internal static int Add(Rel_Solution_CodeTemplate info)

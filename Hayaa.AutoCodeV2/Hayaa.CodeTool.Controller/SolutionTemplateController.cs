@@ -13,6 +13,7 @@ using System.IO.Compression;
 using Hayaa.CodeTool.Service.Core;
 using Hayaa.CodeTool.Service;
 using Hayaa.CompanyWebSecurity.Client;
+using Hayaa.Common;
 
 namespace Hayaa.CodeTool.Controller
 {
@@ -32,7 +33,7 @@ namespace Hayaa.CodeTool.Controller
 
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<GridPager<SolutionTemplate>> GetPager(int page, int size)
+        public TransactionResult<GridPager<SolutionTemplate>> GetPager([FromForm] int page, [FromForm] int size)
         {
             TransactionResult<GridPager<SolutionTemplate>> result = new TransactionResult<GridPager<SolutionTemplate>>();
             var serviceResult = solutionTemplateService.GetPager(new BaseModel.GridPagerPamater<SolutionTemplateSearchPamater>()
@@ -47,14 +48,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]     
         [EnableCors("any")]
-        public TransactionResult<SolutionTemplate> Get(int id)
+        public TransactionResult<SolutionTemplate> Get([FromForm] int id)
         {
             TransactionResult<SolutionTemplate> result = new TransactionResult<SolutionTemplate>();
             var serviceResult = solutionTemplateService.Get(id);
@@ -64,14 +65,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<SolutionTemplate> Add(SolutionTemplate info)
+        public TransactionResult<SolutionTemplate> Add([FromForm] SolutionTemplate info)
         {
             TransactionResult<SolutionTemplate> result = new TransactionResult<SolutionTemplate>();
 
@@ -83,14 +84,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]      
         [EnableCors("any")]
-        public TransactionResult<Boolean> Edit(SolutionTemplate info)
+        public TransactionResult<Boolean> Edit([FromForm] SolutionTemplate info)
         {
             TransactionResult<Boolean> result = new TransactionResult<Boolean>();
             var serviceResult = solutionTemplateService.UpdateByID(info);
@@ -100,14 +101,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<Boolean> Delete(int id)
+        public TransactionResult<Boolean> Delete([FromForm] int id)
         {
             TransactionResult<Boolean> result = new TransactionResult<Boolean>();
             var serviceResult = solutionTemplateService.DeleteByID(new List<int>() { id });
@@ -117,14 +118,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<CodeTemplate> AddCodeTemplate(CodeTemplate info,int solutionTemplateId)
+        public TransactionResult<CodeTemplate> AddCodeTemplate([FromForm] CodeTemplate info, [FromForm] int solutionTemplateId)
         {
             TransactionResult<CodeTemplate> result = new TransactionResult<CodeTemplate>();
 
@@ -136,14 +137,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<Boolean> EditCodeTemplate(CodeTemplate info)
+        public TransactionResult<Boolean> EditCodeTemplate([FromForm] CodeTemplate info)
         {
             TransactionResult<Boolean> result = new TransactionResult<Boolean>();
             var serviceResult = solutionTemplateService.UpdateCodeTemplateByID(info);
@@ -153,14 +154,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<Boolean> DeleteCodeTemplate(int id)
+        public TransactionResult<Boolean> DeleteCodeTemplate([FromForm] int id)
         {
             TransactionResult<Boolean> result = new TransactionResult<Boolean>();
             var serviceResult = solutionTemplateService.DeleteCodeTemplateByID(new List<int>() { id });
@@ -170,14 +171,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<CodeTemplate> GetCodeTemplate( int id)
+        public TransactionResult<CodeTemplate> GetCodeTemplate([FromForm] int id)
         {
             TransactionResult<CodeTemplate> result = new TransactionResult<CodeTemplate>();
 
@@ -189,14 +190,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<List<CodeTemplate>> GetCodeTemplateList(int solutionTemplateId)
+        public TransactionResult<List<CodeTemplate>> GetCodeTemplateList([FromForm] int solutionTemplateId)
         {
             TransactionResult<List<CodeTemplate>> result = new TransactionResult<List<CodeTemplate>>();
 
@@ -208,14 +209,14 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;
         }
         [HttpPost]
         [EnableCors("any")]
-        public TransactionResult<Solution> GenCode(GenCodeInfo info)
+        public TransactionResult<Solution> GenCode([FromForm] GenCodeInfo info)
         {
             TransactionResult<Solution> result = new TransactionResult<Solution>();
             info.CodeStorePath = _hostingEnvironment.WebRootPath + "/Code/SourceCode";
@@ -230,7 +231,7 @@ namespace Hayaa.CodeTool.Controller
             var solutionResult=  solutionTemplateService.GetWithCodeTemplatesBySolutionTemplateId(info.SolutionId);
             if (!(solutionResult.ActionResult && solutionResult.HavingData))
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "无方案模板数据";
                 return result;
             }
@@ -243,7 +244,7 @@ namespace Hayaa.CodeTool.Controller
             }
             else
             {
-                result.Code = 103;
+                result.Code = ErrorCode.NoData;
                 result.Message = "暂无数据";
             }
             return result;

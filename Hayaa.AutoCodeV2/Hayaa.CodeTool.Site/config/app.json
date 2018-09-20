@@ -21,7 +21,7 @@
     {
       "componentConfigId": 1,
       "componentId": 20001,
-      "content": "{  \"appSettings\": null,  \"connectionStrings\": {    \"settings\": [      {        \"name\": \"AutoCode\",        \"connection\": \"Data Source=192.168.31.252;Initial Catalog=AutoCode;Persist Security Info=True;User ID=autocodedbu;password=autocodeDBuserpd18?1\"      }    ]  }}",
+      "content": "{  \"appSettings\": null,  \"connectionStrings\": {    \"settings\": [      {        \"name\": \"AutoCode\",        \"connection\": \"Data Source=192.168.31.252;Initial Catalog=AutoCode;Persist Security Info=True;User ID=autocodedbu;password=autocodeDBuserpd18?1;SslMode=none\"      }    ]  }}",
       "version": 1,
       "componentConfigTitle": "代码工具数据服务",
       "isDefault": true,
