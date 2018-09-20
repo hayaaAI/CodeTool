@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hayaa.Common" Version="1.0.0.12" />
+    <PackageReference Include="Hayaa.CompanyWebSecurity.Client" Version="1.0.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hayaa.CodeTool.Service.Core\Hayaa.CodeTool.Service.Core.csproj" />
+    <ProjectReference Include="..\Hayaa.CodeTool.Service\Hayaa.CodeTool.Service.csproj" />
+  </ItemGroup>
+
+</Project>

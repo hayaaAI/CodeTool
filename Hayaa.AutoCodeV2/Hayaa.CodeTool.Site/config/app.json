@@ -1,0 +1,38 @@
+﻿{
+  "appConfigId": 1,
+  "appId": 1,
+  "solutionID": "a35eef2e-2635-41f9-b60a-15dda4917875",
+  "solutionName": "代码工具服务配置",
+  "configContent": "",
+  "version": 1,
+  "components": [
+    {
+      "componentConfigId": 1,
+      "componentId": 10015,
+      "content": "{  \"appSettings\": null,  \"connectionStrings\": null,  \"cacheConfig\": {    \"redisConfigs\": [      {        \"name\": \"default\",        \"hostName\": \"192.168.31.65\",        \"port\": 10004,        \"serverPwd\": \"\"      }    ]  },  \"sessionLength\": 3000,  \"onlyBaseAuth\": true}",
+      "version": 1,
+      "componentConfigTitle": "企业登陆验证",
+      "isDefault": true,
+      "code": 0,
+      "message": null,
+      "createTime": "0001-01-01T00:00:00Z",
+      "updateTime": "0001-01-01T00:00:00Z"
+    },
+    {
+      "componentConfigId": 1,
+      "componentId": 20001,
+      "content": "{  \"appSettings\": null,  \"connectionStrings\": {    \"settings\": [      {        \"name\": \"AutoCode\",        \"connection\": \"Data Source=192.168.31.252;Initial Catalog=AutoCode;Persist Security Info=True;User ID=autocodedbu;password=autocodeDBuserpd18?1;SslMode=none\"      }    ]  }}",
+      "version": 1,
+      "componentConfigTitle": "代码工具数据服务",
+      "isDefault": true,
+      "code": 0,
+      "message": null,
+      "createTime": "0001-01-01T00:00:00Z",
+      "updateTime": "0001-01-01T00:00:00Z"
+    }
+  ],
+  "code": 0,
+  "message": null,
+  "createTime": "0001-01-01T00:00:00Z",
+  "updateTime": "0001-01-01T00:00:00Z"
+}
