@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Hayaa.BaseModel" Version="1.0.0.16" />
     <PackageReference Include="Hayaa.DataAccess" Version="1.0.0.10" />
-    <PackageReference Include="Hayaa.RemoteConfig.Client" Version="1.0.0.8" />
+    <PackageReference Include="Hayaa.RemoteConfig.Client" Version="1.0.0.10" />
   </ItemGroup>
 
   <ItemGroup>
