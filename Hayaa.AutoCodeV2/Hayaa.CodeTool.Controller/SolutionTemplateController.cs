@@ -42,8 +42,9 @@ namespace Hayaa.CodeTool.Controller
                 PageSize = size,
                 SearchPamater = new SolutionTemplateSearchPamater() {  }
             });
-            if (serviceResult.ActionResult & serviceResult.HavingData)
+            if (serviceResult.ActionResult)
             {
+                if(serviceResult.HavingData)
                 result.Data = serviceResult;
             }
             else
@@ -203,8 +204,9 @@ namespace Hayaa.CodeTool.Controller
 
             var serviceResult = solutionTemplateService.GetWithCodeTemplatesBySolutionTemplateId(solutionTemplateId);
 
-            if (serviceResult.ActionResult & serviceResult.HavingData)
+            if (serviceResult.ActionResult)
             {
+                if(serviceResult.HavingData)
                 result.Data = serviceResult.Data.SolutionTemplates;
             }
             else
