@@ -1,6 +1,5 @@
 import axios from 'axios'
 import qs from 'qs'
-import Vue from 'vue'
 import {Notification} from 'element-ui';
 import webstore from '../webstore'
 
@@ -35,7 +34,7 @@ const httphelper = {
             });
     },
     authedget:function(url, paramater, call, errcall,isnotify) {
-        paramater.authtoken = webstore.authKey;
+        paramater.authtoken = webstore.getAuthKey();
         return this.get(url, paramater, call, errcall,isnotify);
     },
     post:function(url, paramater, call, errcall,isnotify) {
@@ -67,7 +66,7 @@ const httphelper = {
             });
     },
     authedpost:function(url, paramater, call, errcall,isnotify) {
-        paramater.authtoken = webstore.authKey;
+        paramater.authtoken = webstore.getAuthKey();
         return this.post(url, paramater, call, errcall,isnotify);
     },
     postform:function(url, data, call, errcall,isnotify) {
@@ -75,7 +74,7 @@ const httphelper = {
         return this.post(url, data, call, errcall,isnotify);
     },
     authedpostform:function(url, data, call, errcall,isnotify) {
-        data.authtoken =  webstore.authKey;
+        data.authtoken =  webstore.getAuthKey();
         return this.postform(url, data, call, errcall,isnotify);
     }
 }

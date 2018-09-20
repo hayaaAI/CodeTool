@@ -9,7 +9,7 @@
           <el-input v-model="info.loginkey"></el-input>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="info.pwd"></el-input>
+          <el-input v-model="info.pwd" type="password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login" style="width: 200px;">登陆</el-button>
@@ -39,14 +39,17 @@
     methods: {
       login: function () {
         var that = this;
-        httphelper.post(webstore.urls.loginUrl, {
+        webstore.urls.authUrl="http://127.0.0.1:10017/api/UserAuth/CompanyUserLogin";
+        httphelper.postform(webstore.urls.authUrl, {
             "loginkey": that.info.loginkey,
             "pwd": that.info.pwd,
             "sessionKey": webstore.sessionKey
           },
-          function (islogin) {
-            if (islogin)
+          function (loginKey) {
+            if (loginKey) {
+              webstore.setAuthKey(loginKey);
               that.$router.push("/home");
+            }
           })
       }
     }
