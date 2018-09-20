@@ -39,7 +39,6 @@
     methods: {
       login: function () {
         var that = this;
-        webstore.urls.authUrl="http://127.0.0.1:10017/api/UserAuth/CompanyUserLogin";
         httphelper.postform(webstore.urls.authUrl, {
             "loginkey": that.info.loginkey,
             "pwd": that.info.pwd,
