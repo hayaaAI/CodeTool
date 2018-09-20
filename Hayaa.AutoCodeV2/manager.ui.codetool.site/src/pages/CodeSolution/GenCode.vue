@@ -70,7 +70,7 @@
                 that.downUrl=webstore.urls.codeGetFileUrl;
                 this.$refs[formName].validate(function (valid) {
                     if (valid) {
-                        httphelper.authedpostform(webstore.urls.codeGenUrl, that.ruleForm,
+                        httphelper.authedpost(webstore.urls.codeGenUrl, that.ruleForm,
                             function (data) {
                                 that.isGen=true;
                                 that.downUrl=that.downUrl+data.solutionPath;

@@ -4,6 +4,8 @@ import Vue from 'vue'
 import {Notification} from 'element-ui';
 import webstore from '../webstore'
 
+
+
 const httphelper = {
     get:function(url, paramater, call, errcall,isnotify) {
         axios.get(url, paramater)
@@ -14,8 +16,8 @@ const httphelper = {
                     } else {
                         if(errcall) errcall(rep.data);
                         else {
-                            if (rep.data.code == 403) {
-                                Vue.$router.push("/login")
+                            if (rep.data.code == 1001) {
+                              webstore.vueRouter.push("/login")
                             } else {
                                 if(isnotify)
                                 Notification.warning(rep.data.message)
@@ -39,15 +41,15 @@ const httphelper = {
     post:function(url, paramater, call, errcall,isnotify) {
         axios.post(url,paramater,{withCredentials:true})
             .then(function (rep) {
+
                 if (call) {
                     if (rep.data.code == 0) {
                         call(rep.data.data)
                     } else {
                         if(errcall) errcall(rep.data);
                         else {
-                            if (rep.data.code == 403) {
-                                Vue.$router.push("/login")
-
+                            if (rep.data.code == 1001) {
+                              webstore.vueRouter.push("/login")
                             } else {
                                 if(isnotify)
                                 Notification.warning(rep.data.message)
@@ -60,6 +62,7 @@ const httphelper = {
                 }
             })
             .catch(function (rep) {
+              console.log(rep)
                 Notification.error("网络异常")
             });
     },

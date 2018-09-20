@@ -6,12 +6,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 import webstore from './webstore'
-import httphelper from './util/httphelper'
 
 
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+webstore.vueRouter=router;
+
 var appFrame=new Vue({
   el: '#app',
   router,

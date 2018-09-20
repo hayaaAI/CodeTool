@@ -7,7 +7,7 @@
 <script>
   import httphelper from './util/httphelper.js'
   import webstore from './webstore.js'
-  import qs from 'qs'
+
 
   export default {
     name: "AppFrame",
@@ -26,13 +26,12 @@
           "v": 1
         }, function (configData) {
           webstore.urls = JSON.parse(configData);
-          console.log(webstore.urls);
+          //console.log(webstore.urls);
           for (var p in webstore.urls) {
             for (var a in webstore.baseUrl) {
               webstore.urls[p] = webstore.urls[p].replace("#"+a+"#", webstore.baseUrl[a]);
             }
           }
-           console.log(webstore.urls);
           that.$router.push("/home");
         });
 

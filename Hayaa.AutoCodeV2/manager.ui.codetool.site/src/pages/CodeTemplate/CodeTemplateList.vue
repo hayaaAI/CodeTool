@@ -113,6 +113,7 @@
                     function (data) {
                         if(data)
                             that.$notify.success("操作成功");
+                      that.getPager(1);
                     });
             }
         }
