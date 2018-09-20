@@ -44,8 +44,10 @@ namespace Hayaa.CodeTool.Controller
             });
             if (serviceResult.ActionResult)
             {
-                if(serviceResult.HavingData)
-                result.Data = serviceResult;
+                if (serviceResult.HavingData)
+                    result.Data = serviceResult;
+                else
+                    result.Data = new GridPager<SolutionTemplate>() { Data=new List<SolutionTemplate>() };
             }
             else
             {
@@ -206,8 +208,10 @@ namespace Hayaa.CodeTool.Controller
 
             if (serviceResult.ActionResult)
             {
-                if(serviceResult.HavingData)
-                result.Data = serviceResult.Data.SolutionTemplates;
+                if (serviceResult.HavingData)
+                    result.Data = serviceResult.Data.SolutionTemplates;
+                else
+                    result.Data = new List<CodeTemplate>();
             }
             else
             {
