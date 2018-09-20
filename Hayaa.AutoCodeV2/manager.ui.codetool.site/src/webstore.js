@@ -1,4 +1,4 @@
-const evn = "test.";
+const evn = "";
 var webstore = {
   configUrl: "http://" + evn + "remoteconfig.xieqj.net/api/Config/SendJsAppConfig",
   baseUrl: {
