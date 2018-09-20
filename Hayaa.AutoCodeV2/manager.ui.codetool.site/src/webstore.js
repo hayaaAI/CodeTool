@@ -4,7 +4,7 @@ var webstore = {
   baseUrl: {
     remoteconfig: "http://" + evn + "remoteconfig.xieqj.net/",
     security: "http://" + evn + "security.xieqj.net/",
-    autocode: "http://dev.code.xieqj.net:20001/"
+    autocode: "http://" + evn + "code.xieqj.net:20001/"
   },
   urls: null,
   sessionKey: new Date().getTime(),
