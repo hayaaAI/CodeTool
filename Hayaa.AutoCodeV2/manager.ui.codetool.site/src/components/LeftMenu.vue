@@ -10,7 +10,8 @@
                         </template>
                         <el-menu-item-group>
                             <el-menu-item index="1-1"><router-link to="/home/codesolutionlist" class="menuitem">代码方案管理</router-link></el-menu-item>
-                         </el-menu-item-group>
+                          <el-menu-item index="1-2"><router-link to="/home/dataconnectionlist" class="menuitem">数据库连接管理</router-link></el-menu-item>
+                        </el-menu-item-group>
                     </el-submenu>
                 </el-menu>
             </el-col>

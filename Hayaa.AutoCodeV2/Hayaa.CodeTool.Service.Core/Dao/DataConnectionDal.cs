@@ -13,20 +13,21 @@ namespace Hayaa.CodeTool.Service.Dao
         private static String con = ConfigHelper.Instance.GetConnection(DefineTable.DatabaseName);
         internal static int Add(DataConnection info, bool isReturn = true)
         {
-            string sql = null; if (isReturn)
+            string sql = null;
+            if (isReturn)
             {
-                sql = "insert into DataConnection(DatabaseName,DatabaseUser,DatabaseToken,Name,Title,Remark) values(@DatabaseName,@DatabaseUser,@DatabaseToken,@Name,@Title,@Remark);select @@IDENTITY;";
+                sql = "insert into DataConnection(DatabaseHost,DatabaseName,DatabaseUser,DatabaseToken,Name,Title,Remark) values(@DatabaseHost,@DatabaseName,@DatabaseUser,@DatabaseToken,@Name,@Title,@Remark);select @@IDENTITY;";
                 return InsertWithReturnID<DataConnection, int>(con, sql, info);
             }
             else
             {
-                sql = "insert into DataConnection(DatabaseName,DatabaseUser,DatabaseToken,Name,Title,Remark) values(@DatabaseName,@DatabaseUser,@DatabaseToken,@Name,@Title,@Remark);";
+                sql = "insert into DataConnection(DatabaseHost,DatabaseName,DatabaseUser,DatabaseToken,Name,Title,Remark) values(@DatabaseHost,@DatabaseName,@DatabaseUser,@DatabaseToken,@Name,@Title,@Remark);";
                 return Insert<DataConnection>(con, sql, info);
             }
         }
         internal static int Update(DataConnection info)
         {
-            string sql = "update DataConnection set DatabaseName=@DatabaseName,DatabaseUser=@DatabaseUser,DatabaseToken=@DatabaseToken,Name=@Name,Title=@Title,Remark=@Remark where DataConnectionId=@DataConnectionId";
+            string sql = "update DataConnection set DatabaseHost=@DatabaseHost,DatabaseName=@DatabaseName,DatabaseUser=@DatabaseUser,DatabaseToken=@DatabaseToken,Name=@Name,Title=@Title,Remark=@Remark where DataConnectionId=@DataConnectionId";
             return Update<DataConnection>(con, sql, info);
         }
         internal static bool Delete(List<int> IDs)

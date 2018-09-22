@@ -5,7 +5,6 @@ using Hayaa.DataAccess;
 using Hayaa.BaseModel;
 using Hayaa.CodeTool.Service.Model;
 using Hayaa.CodeTool.Service.Dao;
-
 namespace Hayaa.CodeTool.Service.Core
 {
     public partial class DataConnectionServer : IDataConnectionService

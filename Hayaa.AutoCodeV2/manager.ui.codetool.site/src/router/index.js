@@ -9,6 +9,8 @@ import GenCode from '@/pages/CodeSolution/GenCode.vue'
 import CodeSolutionEdit from '@/pages/CodeSolution/CodeSolutionEdit.vue'
 import CodeTemplateList from '@/pages/CodeTemplate/CodeTemplateList.vue'
 import CodeTemplateEdit from '@/pages/CodeTemplate/CodeTemplateEdit.vue'
+import DataConnectionList from '@/pages/DataConnection/DataConnectionList.vue'
+import DataConnectionEdit from '@/pages/DataConnection/DataConnectionEdit.vue'
 
 Vue.use(Router)
 
@@ -26,7 +28,9 @@ export default new Router({
         {path: "codesolutionedit/:id?", component: CodeSolutionEdit},
         {path: "gencode/:id?", component: GenCode},
         {path: "codetemplatelist/:id", component: CodeTemplateList},
-        {path: "codetemplateedit/:sid/:id?", component: CodeTemplateEdit}
+        {path: "codetemplateedit/:sid/:id?", component: CodeTemplateEdit},
+        {path: "dataconnectionlist", component: DataConnectionList},
+        {path: "dataconnectionedit/:id?", component: DataConnectionEdit}
       ]
     }
   ]

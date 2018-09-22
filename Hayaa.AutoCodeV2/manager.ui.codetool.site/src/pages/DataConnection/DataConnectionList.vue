@@ -8,7 +8,7 @@
                     label="ID"
                     width="80">
                 <template slot-scope="scope">
-                    <span>{{ scope.row.solutionTemplateId }}</span>
+                    <span>{{ scope.row.dataConnectionId }}</span>
                 </template>
             </el-table-column>
             <el-table-column
@@ -34,10 +34,8 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="edit(scope.row.solutionTemplateId)">编辑</el-button>
-                    <el-button size="mini" @click="editTemplate(scope.row.solutionTemplateId)">编辑模板</el-button>
-                    <el-button size="mini" @click="gencode(scope.row.solutionTemplateId)">生成代码</el-button>
-                    <el-button size="mini" type="danger" @click="del(scope.row.solutionTemplateId)">删除</el-button>
+                    <el-button size="mini" @click="edit(scope.row.dataConnectionId)">编辑</el-button>
+                    <el-button size="mini" type="danger" @click="del(scope.row.dataConnectionId)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -56,7 +54,7 @@
   import webstore from '@/webstore'
 
     export default {
-        name: "CodeSolutionList",
+        name: "DataConnectionList",
         created: function () {
             this.getPager(1);
         },
@@ -71,7 +69,7 @@
         methods: {
             getPager: function (page) {
                 var that = this;
-                httphelper.authedpostform(webstore.urls.codeSolutionGetListUrl, {"page": page, "size": 10},
+                httphelper.authedpostform(webstore.urls.dataConnectionGetListUrl, {"page": page, "size": 10},
                     function (data) {
                         that.tableData = data.data;
                         that.pagerData.totalPage = data.total / data.pageSize;
@@ -81,21 +79,14 @@
                     })
             },
             add: function () {
-                this.$router.push("/home/codesolutionedit");
+                this.$router.push("/home/dataconnectionedit");
             },
             edit: function (id) {
-                this.$router.push("/home/codesolutionedit/" + id);
-            },
-            gencode: function(id) {
-                var that = this;
-                this.$router.push("/home/gencode/"+id);
-            },
-            editTemplate: function (id) {
-                this.$router.push("/home/codetemplatelist/" + id);
+                this.$router.push("/home/dataconnectionedit/" + id);
             },
             del: function (id) {
                 var that = this;
-                httphelper.authedpostform(webstore.urls.codeSolutionDeleteUrl, {"id": id},
+                httphelper.authedpostform(webstore.urls.dataConnectionDeleteUrl, {"id": id},
                     function (data) {
                         if (data)
                             that.$notify.success("操作成功");
