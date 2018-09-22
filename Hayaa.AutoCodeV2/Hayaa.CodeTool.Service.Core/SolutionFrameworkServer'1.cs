@@ -249,7 +249,7 @@ namespace Hayaa.CodeTool.Service.Core
         }
         private static StringBuilder CreateForCSharp(DatabaseTable t)
         {
-            StringBuilder codeBuilder = new StringBuilder(String.Format("public partial  class {0}Server:{0}Service{{\n", t.Name));//构造原型类整体结构
+            StringBuilder codeBuilder = new StringBuilder(String.Format("public partial  class {0}Server:I{0}Service{{\n", t.Name));//构造原型类整体结构
                                                                                                                                    //Create
             codeBuilder.Append(String.Format("public FunctionResult<{0}> Create({0} info){{var r = new FunctionResult<{0}>();int id = {0}Dal.Add(info);if (id > 0){{r.Data = info;r.Data.{0}Id = id;}}\nreturn r;}}", t.Name));
             //Update
